@@ -17,7 +17,6 @@ const CategoryPage = async ({
     .eq("id", params.categoryId)
     .single();
 
-  console.log(category);
 
   return (
     <>
