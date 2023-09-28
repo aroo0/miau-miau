@@ -6,9 +6,9 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/DropdownMenu";
 import { CategoryColumn } from "./Columns";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
@@ -35,7 +35,7 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/categories/${data.id}`);
+      await axios.delete(`/api/categories/${data.id}`);
       router.refresh();
       toast.success("Category deleted.");
     } catch (error) {
@@ -62,7 +62,7 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <Copy className="mr-2 w-4 h-4" />
           Copy Id
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/categories/${data.id}`)}>
+        <DropdownMenuItem onClick={() => router.push(`/admin/products/categories/${data.id}`)}>
           <Edit className="mr-2 w-4 h-4" />
           Update
         </DropdownMenuItem>

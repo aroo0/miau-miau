@@ -15,6 +15,7 @@ import { Trash } from "lucide-react";
 import { Input } from "@/components/ui/Input";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Textarea } from "@/components/ui/Textarea";
 
 
 
@@ -62,7 +63,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       }
 
       router.refresh();
-      // router.push(`/${params.storeId}/categories`);
+      router.push(`/admin/products/categories`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong.");
@@ -78,7 +79,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
         `/api/categories/${params.categoryId}`
       );
       router.refresh();
-      // router.push(`/${params.storeId}/categories`);
+      router.push(`/admin/products/categories`);
       toast.success("Categories deleted.");
     } catch (error) {
       toast.error(
@@ -99,7 +100,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     />
     <div className="flex items-center justify-between">
       <Headling title={title} description={description} />
-      {true && (
+      {initialData && (
         <Button
           variant={"destructive"}
           size="icon"
@@ -141,7 +142,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Input
+                  <Textarea
                     disabled={loading}
                     placeholder="Category description"
                     {...field}

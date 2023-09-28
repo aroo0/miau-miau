@@ -1,6 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+html, body, :root {
+  height: 100%;
+}
+ 
  
 @layer base {
   :root {
@@ -17,7 +23,7 @@
     --primary-foreground: #fafafa;
 
     --secondary: #1e1e1e;
-    --secondary-foreground: #1e1e1e;
+    --secondary-foreground: #ffffff;
 
     --muted: #f6f6f6;
     --muted-foreground: #737373;
