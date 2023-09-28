@@ -76,17 +76,51 @@ const NavMenu: React.FC<NavMenuProps> = ({}) => {
       {routes.map((route) => {
         if (route.items) {
           return (
-            <Popover>
-              <PopoverTrigger
-                className={twMerge(
-                  "text-sm xl:text-lg  hover:opacity-80  hover:italic transition",
-                  route.active && "italic"
-                )}
-              >
-                {route.name}
-              </PopoverTrigger>
-              <PopoverContent className="mt-2 w-[200px]">
-                <ul className="grid gap-2 px-1 ">
+            <>
+              {/* Desktop Products  */}
+
+              <div className="hidden lg:block">
+                <Popover>
+                  <PopoverTrigger
+                    className={twMerge(
+                      "text-2xl lg:text-lg  hover:opacity-80  hover:italic transition",
+                      route.active && "italic"
+                    )}
+                  >
+                    {route.name}
+                  </PopoverTrigger>
+                  <PopoverContent className="mt-2 w-[200px]">
+                    <ul className="grid gap-2 px-1 ">
+                      {route.items.map((item) => (
+                        <li key={item.name}>
+                          <Link
+                            className={twMerge(
+                              "hover:opacity-80 transition  hover:italic",
+                              route.active && "italic"
+                            )}
+                            href={item.href}
+                          >
+                            {item.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </PopoverContent>
+                </Popover>
+
+                {/* Mobile Products  */}
+              </div>
+              <div className="block lg:hidden border-b lg:border-none w-full pb-4">
+                <Link
+                  className={twMerge(
+                    "text-2xl lg:text-lg   hover:opacity-80 hover:italic transition",
+                    route.active && "italic"
+                  )}
+                  href={route.href}
+                >
+                  {route.name}
+                </Link>
+                <ul className="grid gap-1 pl-4 pt-3">
                   {route.items.map((item) => (
                     <li key={item.name}>
                       <Link
@@ -101,20 +135,22 @@ const NavMenu: React.FC<NavMenuProps> = ({}) => {
                     </li>
                   ))}
                 </ul>
-              </PopoverContent>
-            </Popover>
+              </div>
+            </>
           );
         } else {
           return (
+            <div className="border-b lg:border-none w-full pb-4 lg:pb-0">
             <Link
               className={twMerge(
-                "text-sm xl:text-lg  hover:opacity-80 hover:italic transition ",
+                "text-2xl lg:text-lg  hover:opacity-80 hover:italic transition ",
                 route.active && "italic"
               )}
               href={route.href}
             >
               {route.name}
             </Link>
+            </div>
           );
         }
       })}

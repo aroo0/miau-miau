@@ -10,9 +10,11 @@ interface MobileNavDialogProps {
   onClose: () => void;
   onConfirm?: () => void;
   loading?: boolean;
+  children: React.ReactNode
 }
 
 const MobileNavDialog: React.FC<MobileNavDialogProps> = ({
+  children,
   isOpen,
   onClose,
   onConfirm,
@@ -29,7 +31,7 @@ const MobileNavDialog: React.FC<MobileNavDialogProps> = ({
   }
 
   return <BlurDialog isOpen={isOpen} onClose={onClose}>
-    <div>Hello!</div>
+    {children}
   </BlurDialog>;
 };
 
