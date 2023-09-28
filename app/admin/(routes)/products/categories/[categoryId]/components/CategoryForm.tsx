@@ -13,6 +13,8 @@ import Headling from "@/components/ui/Headling";
 import { Separator } from "@/components/ui/Separator";
 import { Trash } from "lucide-react";
 import { Input } from "@/components/ui/Input";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 
 
@@ -47,20 +49,52 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     },
   });
 
-  const onSubmit = async (values: CategoryFormValues) =>  {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
-  }
+  const onSubmit = async (data: CategoryFormValues) => {
+    try {
+      setLoading(true);
+      if (initialData) {
+        await axios.patch(
+          `/api/categories/${params.categoryId}`,
+          data
+        );
+      } else {
+        await axios.post(`/api/categories`, data);
+      }
 
+      router.refresh();
+      // router.push(`/${params.storeId}/categories`);
+      toast.success(toastMessage);
+    } catch (error) {
+      toast.error("Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-
+  const onDelete = async () => {
+    try {
+      setLoading(true);
+      await axios.delete(
+        `/api/categories/${params.categoryId}`
+      );
+      router.refresh();
+      // router.push(`/${params.storeId}/categories`);
+      toast.success("Categories deleted.");
+    } catch (error) {
+      toast.error(
+        "Something went wrong."
+      );
+    } finally {
+      setLoading(false);
+      setOpen(false);
+    }
+  };
 
   return (  <>
     <AlertModal
       isOpen={open}
       onClose={() => setOpen(false)}
-      onConfirm={() => {}}
+      onConfirm={() => onDelete()}
       loading={loading}
     />
     <div className="flex items-center justify-between">

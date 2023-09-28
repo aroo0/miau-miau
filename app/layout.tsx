@@ -2,6 +2,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import "./globals.css";
 
 import { Libre_Baskerville } from "next/font/google";
+import ToasterProvider from "@/providers/ToasterProvider";
 
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={libreBaskerville.className}>
+        <ToasterProvider/>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -2,6 +2,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import AdminNavBar from "./components/AdminNavBar";
+import { checkIfUserIsAdmin } from "@/lib/authUtils";
 
 export const dynamic = "force-dynamic";
 
@@ -13,16 +14,9 @@ export default async function AdminLayout({
   const supabase = createServerComponentClient<Database>({
     cookies,
   });
+  const isAdmin = await checkIfUserIsAdmin(supabase);
 
-  const { data: activeSession } = await supabase.auth.getSession();
-
-  if (!activeSession) {
-    return redirect("/");
-  }
-
-  const { data: user } = await supabase.from("user").select("*").single();
-
-  if (user?.role !== "admin") {
+  if (!isAdmin) {
     return redirect("/");
   }
 
@@ -31,6 +25,6 @@ export default async function AdminLayout({
       <AdminNavBar />
 
       <div className="px-7">{children}</div>
-      </>
+    </>
   );
 }
