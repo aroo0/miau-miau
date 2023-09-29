@@ -24,21 +24,21 @@ export async function POST(req: Request) {
       return new NextResponse("Description is required", { status: 400 });
     }
 
-    const { data: category, error: supabaseError } = await supabase
-      .from("product_category")
+    const { data: scentCluster, error: supabaseError } = await supabase
+      .from("product_scent_cluster")
       .insert([{ name: name, description: description }])
       .select()
       .single();
 
     if (supabaseError) {
       // Handle Supabase-specific error
-      console.error("[CATEGORY_POST_SUPABASE_ERROR]", supabaseError);
+      console.error("[SCENT_CLUSTERS_POST_SUPABASE_ERROR]", supabaseError);
       return new NextResponse("Supabase error", { status: 500 });
     }
 
-    return NextResponse.json(category);
+    return NextResponse.json(scentCluster);
   } catch (error) {
-    console.log("[CATEGORIES_POST]", error);
+    console.log("[SCENT_CLUSTERS_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
@@ -48,17 +48,17 @@ export async function GET(req: Request) {
     const supabase = createRouteHandlerClient<Database>({ cookies });
 
     const { data: categories, error: supabaseError } = await supabase
-      .from("product_category")
+      .from("product_scent_cluster")
       .select("*");
 
     if (supabaseError) {
-      console.error("[CATEGORY_GET_SUPABASE_ERROR]", supabaseError);
+      console.error("[SCENT_CLUSTERS_GET_SUPABASE_ERROR]", supabaseError);
       return new NextResponse("Supabase error", { status: 500 });
     }
 
     return NextResponse.json(categories);
   } catch (error) {
-    console.log("[CATEGORIES_GET]", error);
+    console.log("[SCENT_CLUSTERS_GET]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
