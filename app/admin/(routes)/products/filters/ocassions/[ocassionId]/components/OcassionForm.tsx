@@ -1,6 +1,6 @@
 "use client";
 
-import { Brand } from "@/app/global";
+import { Ocassion } from "@/app/global";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import * as z from "zod";
@@ -29,25 +29,25 @@ const formSchema = z.object({
   description: z.string().min(1),
 });
 
-type BrandFormValues = z.infer<typeof formSchema>;
+type OcassionFormValues = z.infer<typeof formSchema>;
 
-interface BrandFormProps {
-  initialData: Brand | null;
+interface OcassionFormProps {
+  initialData: Ocassion | null;
 }
 
-const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
+const  OcassionForm: React.FC<OcassionFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Edit brand" : "Create brand";
-  const description = initialData ? "Edit brand" : "Add a new brand";
-  const toastMessage = initialData ? "Brand updated." : "Brand created.";
+  const title = initialData ? "Edit ocassion" : "Create ocassion";
+  const description = initialData ? "Edit ocassion" : "Add a new ocassion";
+  const toastMessage = initialData ? "Ocassion updated." : "Ocassion created.";
   const action = initialData ? "Save changes" : "Create";
 
-  const form = useForm<BrandFormValues>({
+  const form = useForm<OcassionFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: "",
@@ -55,17 +55,17 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
     },
   });
 
-  const onSubmit = async (data: BrandFormValues) => {
+  const onSubmit = async (data:  OcassionFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/brands/${params.brandId}`, data);
+        await axios.patch(`/api/ocassions/${params.ocassionId}`, data);
       } else {
-        await axios.post(`/api/brands`, data);
+        await axios.post(`/api/ocassions`, data);
       }
 
       router.refresh();
-      router.push(`/admin/products/brands`);
+      router.push(`/admin/products/filters/ocassions`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong.");
@@ -77,12 +77,12 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/brands/${params.categoryId}`);
+      await axios.delete(`/api/ocassions/${params.categoryId}`);
       router.refresh();
-      router.push(`/admin/products/brands`);
-      toast.success("Brand deleted.");
+      router.push(`/admin/products/filters/ocassions`);
+      toast.success("Ocassion deleted.");
     } catch (error) {
-      toast.error("Make sure you removed all products that use this brand.");
+      toast.error("Make sure you removed all products that use this ocassion.");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -126,7 +126,7 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Brand name"
+                      placeholder="Ocassion name"
                       {...field}
                     />
                   </FormControl>
@@ -143,7 +143,7 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
                   <FormControl>
                     <Textarea
                       disabled={loading}
-                      placeholder="Brand description"
+                      placeholder="Ocassion description"
                       {...field}
                     />
                   </FormControl>
@@ -168,4 +168,4 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
   );
 };
 
-export default BrandForm;
+export default  OcassionForm;

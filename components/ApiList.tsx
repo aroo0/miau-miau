@@ -16,9 +16,10 @@ const ApiList: React.FC<ApiListProps> = ({
    const params = useParams()
    const origin = useOrigin()
 
-   const baseUrl = `${origin}/api/products`
+   const baseUrl = `${origin}/api`
   return (
-    <>
+   <>
+
        <ApiAlert title="GET" variant="public" description={`${baseUrl}/${entityName}`}/>
        <ApiAlert title="GET" variant="public" description={`${baseUrl}/${entityName}/{${entityIdName}}`}/>
        <ApiAlert title="POST" variant="admin" description={`${baseUrl}/${entityName}`}/>

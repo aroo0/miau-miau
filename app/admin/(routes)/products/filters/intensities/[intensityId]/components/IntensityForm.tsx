@@ -1,6 +1,6 @@
 "use client";
 
-import { Brand } from "@/app/global";
+import { Intensity } from "@/app/global";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import * as z from "zod";
@@ -27,45 +27,47 @@ import { Textarea } from "@/components/ui/Textarea";
 const formSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
+  rating: z.coerce.number().min(1).max(10)
 });
 
-type BrandFormValues = z.infer<typeof formSchema>;
+type ItensityFormValues = z.infer<typeof formSchema>;
 
-interface BrandFormProps {
-  initialData: Brand | null;
+interface IntensityFormProps {
+  initialData: Intensity | null;
 }
 
-const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
+const ItensityForm: React.FC<IntensityFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Edit brand" : "Create brand";
-  const description = initialData ? "Edit brand" : "Add a new brand";
-  const toastMessage = initialData ? "Brand updated." : "Brand created.";
+  const title = initialData ? "Edit intensity" : "Create intensity";
+  const description = initialData ? "Edit intensity" : "Add a new intensity";
+  const toastMessage = initialData ? "Intensity updated." : "Intensity created.";
   const action = initialData ? "Save changes" : "Create";
 
-  const form = useForm<BrandFormValues>({
+  const form = useForm<ItensityFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: "",
       description: "",
+      rating: 1
     },
   });
 
-  const onSubmit = async (data: BrandFormValues) => {
+  const onSubmit = async (data: ItensityFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/brands/${params.brandId}`, data);
+        await axios.patch(`/api/intensities/${params.categoryId}`, data);
       } else {
-        await axios.post(`/api/brands`, data);
+        await axios.post(`/api/intensities`, data);
       }
 
       router.refresh();
-      router.push(`/admin/products/brands`);
+      router.push(`/admin/products/filters/intensities`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong.");
@@ -77,12 +79,12 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/brands/${params.categoryId}`);
+      await axios.delete(`/api/intensities/${params.categoryId}`);
       router.refresh();
-      router.push(`/admin/products/brands`);
-      toast.success("Brand deleted.");
+      router.push(`/admin/products/filters/intensities`);
+      toast.success("Intesity deleted.");
     } catch (error) {
-      toast.error("Make sure you removed all products that use this brand.");
+      toast.error("Make sure you removed all products that use this intensity.");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -126,7 +128,25 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Brand name"
+                      placeholder="Intesity name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+              <FormField
+              control={form.control}
+              name="rating"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Rating</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      placeholder="1"
                       {...field}
                     />
                   </FormControl>
@@ -143,7 +163,7 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
                   <FormControl>
                     <Textarea
                       disabled={loading}
-                      placeholder="Brand description"
+                      placeholder="Intensity description"
                       {...field}
                     />
                   </FormControl>
@@ -151,6 +171,7 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
+        
           </div>
 
           <Button
@@ -168,4 +189,4 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
   );
 };
 
-export default BrandForm;
+export default ItensityForm;

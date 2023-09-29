@@ -3,7 +3,7 @@ interface HeadlingProps {
   description: string;
 }
 
-const Headling: React.FC<HeadlingProps> = ({ title, description }) => {
+const Heading: React.FC<HeadlingProps> = ({ title, description }) => {
   return (
     <div className="flex-col py-4">
       <h1 className="uppercase font-bold text-lg sm:text-2xl tracking-widest">{title}</h1>
@@ -12,4 +12,4 @@ const Headling: React.FC<HeadlingProps> = ({ title, description }) => {
   );
 };
 
-export default Headling;
+export default Heading;

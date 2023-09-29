@@ -1,6 +1,6 @@
 "use client";
 
-import { Brand } from "@/app/global";
+import { ScentCluster } from "@/app/global";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import * as z from "zod";
@@ -29,25 +29,29 @@ const formSchema = z.object({
   description: z.string().min(1),
 });
 
-type BrandFormValues = z.infer<typeof formSchema>;
+type ScentClusterFormValues = z.infer<typeof formSchema>;
 
-interface BrandFormProps {
-  initialData: Brand | null;
+interface ScentClusterFormProps {
+  initialData: ScentCluster | null;
 }
 
-const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
+const ScentClusterForm: React.FC<ScentClusterFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Edit brand" : "Create brand";
-  const description = initialData ? "Edit brand" : "Add a new brand";
-  const toastMessage = initialData ? "Brand updated." : "Brand created.";
+  const title = initialData ? "Edit scent cluster" : "Create scent cluster";
+  const description = initialData
+    ? "Edit scent cluster"
+    : "Add a new scent cluster";
+  const toastMessage = initialData
+    ? "Scent cluster updated."
+    : "Scent cluster created.";
   const action = initialData ? "Save changes" : "Create";
 
-  const form = useForm<BrandFormValues>({
+  const form = useForm<ScentClusterFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: "",
@@ -55,17 +59,17 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
     },
   });
 
-  const onSubmit = async (data: BrandFormValues) => {
+  const onSubmit = async (data: ScentClusterFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/brands/${params.brandId}`, data);
+        await axios.patch(`/api/scent-clusters/${params.scentClusterId}`, data);
       } else {
-        await axios.post(`/api/brands`, data);
+        await axios.post(`/api/scent-clusters`, data);
       }
 
       router.refresh();
-      router.push(`/admin/products/brands`);
+      router.push(`/admin/products/filters/scent-clusters`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong.");
@@ -77,12 +81,14 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/brands/${params.categoryId}`);
+      await axios.delete(`/api/scent-clusters/${params.scentClusterId}`);
       router.refresh();
-      router.push(`/admin/products/brands`);
-      toast.success("Brand deleted.");
+      router.push(`/admin/products/filters/scent-clusters`);
+      toast.success("Scent cluster deleted.");
     } catch (error) {
-      toast.error("Make sure you removed all products that use this brand.");
+      toast.error(
+        "Make sure you removed all products that use this scent cluster."
+      );
     } finally {
       setLoading(false);
       setOpen(false);
@@ -126,7 +132,7 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Brand name"
+                      placeholder="Scent cluster name"
                       {...field}
                     />
                   </FormControl>
@@ -143,7 +149,7 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
                   <FormControl>
                     <Textarea
                       disabled={loading}
-                      placeholder="Brand description"
+                      placeholder="Scent cluster description"
                       {...field}
                     />
                   </FormControl>
@@ -168,4 +174,4 @@ const BrandForm: React.FC<BrandFormProps> = ({ initialData }) => {
   );
 };
 
-export default BrandForm;
+export default ScentClusterForm;

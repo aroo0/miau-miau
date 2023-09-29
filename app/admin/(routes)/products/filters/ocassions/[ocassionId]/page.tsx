@@ -1,27 +1,27 @@
 import Headling from "@/components/ui/Heading";
 import React from "react";
-import CategoryForm from "./components/CategoryForm";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import OcassionForm from "./components/OcassionForm";
 
-const CategoryPage = async ({
+const OcassionPage = async ({
   params,
 }: {
-  params: { categoryId: string; storeId: string };
+  params: { ocassionId: string};
 }) => {
   const supabase = createServerComponentClient({ cookies });
 
-  const { data: category, error: supabaseError } = await supabase
-    .from("product_category")
+  const { data: ocassion, error: supabaseError } = await supabase
+    .from("product_ocassion")
     .select("*")
-    .eq("id", params.categoryId)
+    .eq("id", params.ocassionId)
     .single();
 
   return (
     <>
-      <CategoryForm initialData={category} />
+      <OcassionForm initialData={ocassion} />
     </>
   );
 };
 
-export default CategoryPage;
+export default OcassionPage;
