@@ -64,7 +64,6 @@ export async function PATCH(
       return new NextResponse("Intensity id is required", { status: 400 });
     }
 
-    console.log(params.intensityId)
     const { data: intensity, error: supabaseError } = await supabase
       .from("product_intensity")
       .update({ name: name, description: description, rating: rating })

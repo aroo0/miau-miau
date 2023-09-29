@@ -24,21 +24,21 @@ export async function POST(req: Request) {
       return new NextResponse("Description is required", { status: 400 });
     }
 
-    const { data: category, error: supabaseError } = await supabase
-      .from("product_category")
+    const { data: ocassion, error: supabaseError } = await supabase
+      .from("product_ocassion")
       .insert([{ name: name, description: description }])
       .select()
       .single();
 
     if (supabaseError) {
       // Handle Supabase-specific error
-      console.error("[CATEGORY_POST_SUPABASE_ERROR]", supabaseError);
+      console.error("[OCASSIONS_POST_SUPABASE_ERROR]", supabaseError);
       return new NextResponse("Supabase error", { status: 500 });
     }
 
-    return NextResponse.json(category);
+    return NextResponse.json(ocassion);
   } catch (error) {
-    console.log("[CATEGORIES_POST]", error);
+    console.log("[OCASION_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
@@ -47,18 +47,18 @@ export async function GET(req: Request) {
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
 
-    const { data: categories, error: supabaseError } = await supabase
-      .from("product_category")
+    const { data: ocassions, error: supabaseError } = await supabase
+      .from("product_ocassion")
       .select("*");
 
     if (supabaseError) {
-      console.error("[CATEGORY_GET_SUPABASE_ERROR]", supabaseError);
+      console.error("[OCASSIONS_GET_SUPABASE_ERROR]", supabaseError);
       return new NextResponse("Supabase error", { status: 500 });
     }
 
-    return NextResponse.json(categories);
+    return NextResponse.json(ocassions);
   } catch (error) {
-    console.log("[CATEGORIES_GET]", error);
+    console.log("[OCASSIONS_GET]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }

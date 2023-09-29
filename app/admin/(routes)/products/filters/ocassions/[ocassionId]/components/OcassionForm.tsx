@@ -77,7 +77,7 @@ const  OcassionForm: React.FC<OcassionFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/ocassions/${params.categoryId}`);
+      await axios.delete(`/api/ocassions/${params.ocassionId}`);
       router.refresh();
       router.push(`/admin/products/filters`);
       toast.success("Ocassion deleted.");

@@ -5,37 +5,37 @@ import { checkIfUserIsAdmin } from "@/lib/authUtils";
 
 export async function GET(
   req: Request,
-  { params }: { params: { categoryId: string } }
+  { params }: { params: { ocassionId: string } }
 ) {
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
 
-    const { data: category, error: supabaseError } = await supabase
-      .from("product_category")
+    const { data: ocassion, error: supabaseError } = await supabase
+      .from("product_ocassion")
       .select("*")
-      .eq("id", params.categoryId)
+      .eq("id", params.ocassionId)
       .single();
 
     if (supabaseError) {
       // Handle Supabase-specific error
-      console.error("[CATEGORY_GET_SUPABASE_ERROR]", supabaseError);
+      console.error("[OCASSION_GET_SUPABASE_ERROR]", supabaseError);
       return new NextResponse("Supabase error", { status: 500 });
     }
 
-    if (!params.categoryId) {
-      return new NextResponse("Category id is required", { status: 400 });
+    if (!params.ocassionId) {
+      return new NextResponse("Ocassion id is required", { status: 400 });
     }
 
-    return NextResponse.json(category);
+    return NextResponse.json(ocassion);
   } catch (error) {
-    console.log("[CATEGORY_GET]", error);
+    console.log("[OCASSION_GET]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { categoryId: string } }
+  { params }: { params: { ocassionId: string } }
 ) {
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -56,32 +56,32 @@ export async function PATCH(
       return new NextResponse("Description is required", { status: 400 });
     }
 
-    if (!params.categoryId) {
-      return new NextResponse("Category id id is required", { status: 400 });
+    if (!params.ocassionId) {
+      return new NextResponse("Ocassion id id is required", { status: 400 });
     }
-    const { data: category, error: supabaseError } = await supabase
-      .from("product_category")
+    const { data: ocassion, error: supabaseError } = await supabase
+      .from("product_ocassion")
       .update({ name: name, description: description })
-      .eq("id", params.categoryId)
+      .eq("id", params.ocassionId)
       .select()
       .single();
 
     if (supabaseError) {
       // Handle Supabase-specific error
-      console.error("[CATEGORY_POST_SUPABASE_ERROR]", supabaseError);
+      console.error("[OCASSION_POST_SUPABASE_ERROR]", supabaseError);
       return new NextResponse("Supabase error", { status: 500 });
     }
 
-    return NextResponse.json(category);
+    return NextResponse.json(ocassion);
   } catch (error) {
-    console.log("[CATEGORY_PATCH]", error);
+    console.log("[OCASSION_PATCH]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { categoryId: string } }
+  { params }: { params: { ocassionId: string } }
 ) {
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -92,23 +92,23 @@ export async function DELETE(
       return new NextResponse("Unauthenticated", { status: 401 });
     }
 
-    if (!params.categoryId) {
-      return new NextResponse("Category id id is required", { status: 400 });
+    if (!params.ocassionId) {
+      return new NextResponse("Ocassion id id is required", { status: 400 });
     }
-    const { data: category, error: supabaseError } = await supabase
-      .from("product_category")
+    const { data: ocassion, error: supabaseError } = await supabase
+      .from("product_ocassion")
       .delete()
-      .eq("id", params.categoryId);
+      .eq("id", params.ocassionId);
 
     if (supabaseError) {
       // Handle Supabase-specific error
-      console.error("[CATEGORY_POST_SUPABASE_ERROR]", supabaseError);
+      console.error("[OCASSION_POST_SUPABASE_ERROR]", supabaseError);
       return new NextResponse("Supabase error", { status: 500 });
     }
 
-    return NextResponse.json(category);
+    return NextResponse.json(ocassion);
   } catch (error) {
-    console.log("[CATEGORY_DELETE]", error);
+    console.log("[OCASSION_DELETE]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
