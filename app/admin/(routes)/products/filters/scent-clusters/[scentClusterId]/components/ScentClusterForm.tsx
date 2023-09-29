@@ -69,7 +69,7 @@ const ScentClusterForm: React.FC<ScentClusterFormProps> = ({ initialData }) => {
       }
 
       router.refresh();
-      router.push(`/admin/products/filters/scent-clusters`);
+      router.push(`/admin/products/filters`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong.");
@@ -83,7 +83,7 @@ const ScentClusterForm: React.FC<ScentClusterFormProps> = ({ initialData }) => {
       setLoading(true);
       await axios.delete(`/api/scent-clusters/${params.scentClusterId}`);
       router.refresh();
-      router.push(`/admin/products/filters/scent-clusters`);
+      router.push(`/admin/products/filters`);
       toast.success("Scent cluster deleted.");
     } catch (error) {
       toast.error(

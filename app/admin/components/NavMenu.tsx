@@ -76,7 +76,7 @@ const NavMenu: React.FC<NavMenuProps> = ({}) => {
       {routes.map((route) => {
         if (route.items) {
           return (
-            <>
+            <div key={route.name}>
               {/* Desktop Products  */}
 
               <div className="hidden lg:block">
@@ -136,20 +136,23 @@ const NavMenu: React.FC<NavMenuProps> = ({}) => {
                   ))}
                 </ul>
               </div>
-            </>
+            </div>
           );
         } else {
           return (
-            <div className="border-b lg:border-none w-full pb-4 lg:pb-0">
-            <Link
-              className={twMerge(
-                "text-2xl lg:text-lg  hover:opacity-80 hover:italic transition ",
-                route.active && "italic"
-              )}
-              href={route.href}
+            <div
+              className="border-b lg:border-none w-full pb-4 lg:pb-0"
+              key={route.name}
             >
-              {route.name}
-            </Link>
+              <Link
+                className={twMerge(
+                  "text-2xl lg:text-lg  hover:opacity-80 hover:italic transition ",
+                  route.active && "italic"
+                )}
+                href={route.href}
+              >
+                {route.name}
+              </Link>
             </div>
           );
         }

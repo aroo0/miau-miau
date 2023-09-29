@@ -65,7 +65,7 @@ const  OcassionForm: React.FC<OcassionFormProps> = ({ initialData }) => {
       }
 
       router.refresh();
-      router.push(`/admin/products/filters/ocassions`);
+      router.push(`/admin/products/filters`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong.");
@@ -79,7 +79,7 @@ const  OcassionForm: React.FC<OcassionFormProps> = ({ initialData }) => {
       setLoading(true);
       await axios.delete(`/api/ocassions/${params.categoryId}`);
       router.refresh();
-      router.push(`/admin/products/filters/ocassions`);
+      router.push(`/admin/products/filters`);
       toast.success("Ocassion deleted.");
     } catch (error) {
       toast.error("Make sure you removed all products that use this ocassion.");

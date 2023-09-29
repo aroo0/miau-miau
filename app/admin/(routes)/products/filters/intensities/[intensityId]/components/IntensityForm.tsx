@@ -61,13 +61,13 @@ const ItensityForm: React.FC<IntensityFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/intensities/${params.categoryId}`, data);
+        await axios.patch(`/api/intensities/${params.intensityId}`, data);
       } else {
         await axios.post(`/api/intensities`, data);
       }
 
       router.refresh();
-      router.push(`/admin/products/filters/intensities`);
+      router.push(`/admin/products/filters/`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong.");
@@ -79,9 +79,9 @@ const ItensityForm: React.FC<IntensityFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/intensities/${params.categoryId}`);
+      await axios.delete(`/api/intensities/${params.intensityId}`);
       router.refresh();
-      router.push(`/admin/products/filters/intensities`);
+      router.push(`/admin/products/filters`);
       toast.success("Intesity deleted.");
     } catch (error) {
       toast.error("Make sure you removed all products that use this intensity.");
