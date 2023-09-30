@@ -16,9 +16,12 @@ export interface Database {
           created_at: string
           created_by: string
           description: string
+          details: string | null
           id: string
           intensity_id: string
-          inventory_id: string
+          inventory_id: string | null
+          is_archived: boolean
+          is_featured: boolean | null
           name: string
           occasion_id: string
           price: number
@@ -30,9 +33,12 @@ export interface Database {
           created_at?: string
           created_by: string
           description: string
+          details?: string | null
           id?: string
           intensity_id: string
-          inventory_id: string
+          inventory_id?: string | null
+          is_archived?: boolean
+          is_featured?: boolean | null
           name: string
           occasion_id: string
           price: number
@@ -44,9 +50,12 @@ export interface Database {
           created_at?: string
           created_by?: string
           description?: string
+          details?: string | null
           id?: string
           intensity_id?: string
-          inventory_id?: string
+          inventory_id?: string | null
+          is_archived?: boolean
+          is_featured?: boolean | null
           name?: string
           occasion_id?: string
           price?: number
@@ -139,6 +148,31 @@ export interface Database {
         }
         Relationships: []
       }
+      product_image: {
+        Row: {
+          id: number
+          product_id: string
+          url: string
+        }
+        Insert: {
+          id?: number
+          product_id: string
+          url: string
+        }
+        Update: {
+          id?: number
+          product_id?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_image_product_id_fkey"
+            columns: ["product_id"]
+            referencedRelation: "product"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       product_intensity: {
         Row: {
           created_at: string
@@ -171,7 +205,7 @@ export interface Database {
         }
         Insert: {
           created_at?: string
-          id?: string
+          id: string
           quantity?: number
         }
         Update: {
@@ -265,7 +299,12 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: {
+        Args: {
+          user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

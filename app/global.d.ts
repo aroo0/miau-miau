@@ -7,6 +7,8 @@ export type Ocassion = DB["public"]["Tables"]["product_ocassion"]["Row"];
 export type Intensity = DB["public"]["Tables"]["product_intensity"]["Row"];
 export type Product = DB["public"]["Tables"]["product"]["Row"];
 export type ProductInventory = DB["public"]["Tables"]["product_inventory"]["Row"];
+export type Image = DB["public"]["Tables"]["product_image"]["Row"];
+
 
 
 

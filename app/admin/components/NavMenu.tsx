@@ -38,9 +38,9 @@ const NavMenu: React.FC<NavMenuProps> = ({}) => {
           active: "/admin/products/new" === pathname,
         },
         {
-          href: "/admin/products",
+          href: "/admin/products/all",
           name: "Products",
-          active: "/admin/products" === pathname,
+          active: "/admin/products/all" === pathname,
         },
         {
           href: "/admin/products/brands",
