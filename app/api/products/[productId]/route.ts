@@ -52,7 +52,7 @@ export async function PATCH(
       brandId,
       scentClusterId,
       intensityId,
-      ocassionId,
+      occasionId,
       details,
       quantity,
       isFeatured,
@@ -87,13 +87,12 @@ export async function PATCH(
     if (!details) {
       return new NextResponse("Details is required", { status: 400 });
     }
-    if (!ocassionId) {
-      return new NextResponse("OCassion is required", { status: 400 });
+    if (!occasionId) {
+      return new NextResponse("Ocassion is required", { status: 400 });
     }
     if (!quantity) {
       return new NextResponse("Quantity is required", { status: 400 });
     }
-
 
     if (!params.productId) {
       return new NextResponse("Product id is required", { status: 400 });
@@ -108,7 +107,7 @@ export async function PATCH(
         brand_id: brandId, 
         scent_cluster_id: scentClusterId,
         intensity_id: intensityId,
-        occasion_id: ocassionId,
+        occasion_id: occasionId,
         details: details,
         is_featured: isFeatured ? isFeatured : false,
         is_archived: isArchived ? isArchived : false,

@@ -2,6 +2,8 @@ import React from "react";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import ProductForm from "./components/ProductForm";
+import camelcaseKeys from 'camelcase-keys';
+
 
 const ProductPage = async ({ params }: { params: { productId: string } }) => {
   const supabase = createServerComponentClient({ cookies });
@@ -11,6 +13,8 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
     .select("*, product_image(*), product_inventory(id, quantity)")
     .eq("id", params.productId)
     .single();
+
+    const camelCaseProduct = camelcaseKeys(product);
 
   const { data: brands, error: brandError } = await supabase
     .from("product_brand")
@@ -33,7 +37,6 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
     .select("*");
 
   if (
-    productError ||
     brandError ||
     categoryError ||
     intensityError ||
@@ -43,12 +46,19 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
     return null;
   }
 
-  console.log(product)
+  console.log(camelCaseProduct);
 
 
   return (
     <>
-      <ProductForm initialData={product} brands={brands} categories={categories} intensities={intensities} ocassions={ocassions} scentClusters={scentClusters} />
+      <ProductForm
+        initialData={camelCaseProduct}
+        brands={brands}
+        categories={categories}
+        intensities={intensities}
+        ocassions={ocassions}
+        scentClusters={scentClusters}
+      />
     </>
   );
 };

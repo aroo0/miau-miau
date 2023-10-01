@@ -40,28 +40,53 @@ import {
   SelectValue,
 } from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
+import ImageUpload from "@/components/ImageUpload";
+import {
+  createClientComponentClient,
+} from "@supabase/auth-helpers-nextjs";
+import uniqid from "uniqid";
+import { imageConfigDefault } from "next/dist/shared/lib/image-config";
+
 
 const formSchema = z.object({
-  name: z.string().min(1),
-  description: z.string().min(1),
-  price: z.coerce.number().min(1),
-  categoryId: z.string().min(1),
+  // name: z.string().min(1),
+  // description: z.string().min(1),
+  // price: z.coerce.number().min(1),
+  // categoryId: z.string().min(1),
   // brandId: z.string().min(1),
   // scentClusterId: z.string().min(1),
   // intensityId: z.string().min(1),
-  // ocassionId: z.string().min(1),
+  // occasionId: z.string().min(1),
   // details: z.string().optional(),
-  // images: z.object({ url: z.string() }).array(),
+  productImage: z.object({ url: z.string() }).array(),
   // quantity: z.coerce.number().min(0),
-  // isFeatured: z.boolean().default(false).optional(),
-  // isArchived: z.boolean().default(false).optional(),
+  // isFeatured: z.boolean().optional(),
+  // isArchived: z.boolean().optional(),
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
 
-interface ExtendedProduct extends Product {
-  product_image: Image[];
-  product_inventory: { id: string; quantity: number };
+type CamelCaseProduct = {
+  brandId: string;
+  categoryId: string;
+  createdAt: string;
+  createdBy: string;
+  description: string;
+  details: string | null;
+  id: string;
+  intensityId: string;
+  inventoryId: string;
+  isArchived: boolean;
+  isFeatured: boolean;
+  name: string;
+  occasionId: string;
+  price: number;
+  scentClusterId: string;
+};
+
+interface ExtendedProduct extends CamelCaseProduct {
+  productImage: Image[];
+  productInventory: { id: string; quantity: number };
 }
 
 interface ProductFormProps {
@@ -86,7 +111,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(initialData);
 
   const title = initialData ? "Edit product" : "Create product";
   const description = initialData ? "Edit product" : "Add a new product";
@@ -95,49 +119,52 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData
-      ? {
-          ...initialData,
-          // price: parseFloat(String(initialData?.price)),
-          // quantity: initialData?.product_inventory.quantity,
-          // details: initialData?.details ? initialData?.details : "",
-        }
-      : {
-          name: "",
-          description: "",
-          price: 0,
-          categoryId: "",
-          // brandId: "",
-          // scentClusterId: "",
-          // intensityId: "",
-          // ocassionId: "",
-          // details: "",
-          // images: [],
-          // quantity: 0,
-          // isFeatured: false,
-          // isArchived: false,
-        },
+    // defaultValues: initialData
+    //   ? {
+    //       ...initialData,
+    //       price: parseFloat(String(initialData?.price)),
+    //       quantity: initialData?.productInventory.quantity,
+    //       details: initialData?.details ? initialData?.details : "",
+    //     }
+    //   : {
+    defaultValues: {
+      // name: "",
+      // description: "",
+      // price: 0,
+      // categoryId: "",
+      // brandId: "",
+      // scentClusterId: "",
+      // intensityId: "",
+      // occasionId: "",
+      // details: "",
+      productImage: [],
+      // quantity: 0,
+      // isFeatured: false,
+      // isArchived: false,
+    },
   });
 
-  const onSubmit = async (data: ProductFormValues) => {
-    console.log("trying");
-    try {
-      setLoading(true);
-      if (initialData) {
-        await axios.patch(`/api/products/${params.productId}`, data);
-      } else {
-        await axios.post(`/api/products`, data);
-      }
+  const supabase = createClientComponentClient();
 
-      router.refresh();
-      router.push(`/admin/products/all`);
-      toast.success(toastMessage);
-    } catch (error) {
-      toast.error("Something went wrong.");
-    } finally {
-      setLoading(false);
+  const onSubmit = async (data: ProductFormValues) => {
+    console.log
+    // try {
+    //   setLoading(true);
+    //   if (initialData) {
+    //     await axios.patch(`/api/products/${params.productId}`, data);
+    //   } else {
+    //     await axios.post(`/api/products`, data);
+    //   }
+
+    //   router.refresh();
+    //   router.push(`/admin/products/all`);
+    //   toast.success(toastMessage);
+    // } catch (error) {
+    //   toast.error("Something went wrong.");
+    // } finally {
+    //   setLoading(false);
     }
-  };
+
 
   const onDelete = async () => {
     try {
@@ -181,7 +208,31 @@ const ProductForm: React.FC<ProductFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 mt-6 pb-10"
         >
-          <div className="grid md:grid-cols-3 gap-8">
+          <FormField
+            control={form.control}
+            name="productImage"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Images</FormLabel>
+                <FormControl>
+                <ImageUpload
+                    value={field.value.map((image) => image.url)}
+                    disabled={loading}
+                    onChange={(url) =>
+                      field.onChange([...field.value, { url }])
+                    }
+                    onRemove={(url) =>
+                      field.onChange([
+                        ...field.value.filter((current) => current.url !== url),
+                      ])
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* <div className="grid md:grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="name"
@@ -218,7 +269,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
-            {/* <FormField
+            <FormField
               control={form.control}
               name="quantity"
               render={({ field }) => (
@@ -235,7 +286,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
+            />
 
             <FormField
               control={form.control}
@@ -246,20 +297,23 @@ const ProductForm: React.FC<ProductFormProps> = ({
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
-                    value={field.value}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue
-                          defaultValue={field.value}
+                          // defaultValue={field.value}
                           placeholder="Select a category"
+                          defaultValue={field.value}
                         />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
+                        <SelectItem
+                          key={category.id}
+                          value={category.id.toString()}
+                        >
                           {category.name}
                         </SelectItem>
                       ))}
@@ -270,7 +324,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
-            {/* <FormField
+            <FormField
               control={form.control}
               name="brandId"
               render={({ field }) => (
@@ -336,9 +390,26 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
+                 <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      disabled={loading}
+                      placeholder="Product description"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
-              name="ocassionId"
+              name="occasionId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Ocassion</FormLabel>
@@ -403,23 +474,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      disabled={loading}
-                      placeholder="Product description"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+       
             <FormField
               control={form.control}
               name="details"
@@ -478,8 +533,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
                   </FormItem>
                 )}
               />
-            </div> */}
-          </div>
+            </div>
+          </div> */}
 
           <Button
             className="ml-auto"
