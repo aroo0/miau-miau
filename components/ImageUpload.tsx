@@ -6,43 +6,39 @@ import { Input } from "./ui/Input";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import uniqid from "uniqid";
 import toast from "react-hot-toast";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 interface ImageUploadProps {
   value: string[];
   disabled: boolean;
-  onChange: (url: string) => void;
-  onRemove: (url: string) => void;
+  onChange: (url: Record<"url", string>[]) => void;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
   disabled,
   onChange,
-  onRemove,
   value,
 }) => {
+  const [urls, setUrls] = useState<Record<"url", string>[]>([]); // Initialize with an empty array
+
   const supabase = createClientComponentClient();
 
   const uploadImage = async (imageFile: File) => {
     const uniqueID = uniqid();
     console.log(imageFile);
 
-    // const { data: photo, error } = await supabase.storage
-    //   .from("product_images")
-    //   .upload(`${uniqueID}_${imageFile.name}`, imageFile, {
-    //     cacheControl: "3600",
-    //     upsert: false,
-    //   });
-    // if (error) {
-    //   return toast.error("Something went wrong.");
-    // } else {
-      onChange('223')
-    
+    const { data: photo, error } = await supabase.storage
+      .from("product_images")
+      .upload(`${uniqueID}_${imageFile.name}`, imageFile, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+    if (error) {
+      return toast.error("Something went wrong.");
+    }
 
-
-
-    console.log(value);
+    return `${uniqueID}_${imageFile.name}`;
   };
 
   const deleteImage = async (url: string) => {
@@ -50,25 +46,31 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       .from("product_images")
       .remove([url]);
     if (error) {
-      toast.error("Something went wrong.");
-    } else {
-      onRemove(url);
+      return toast.error("Something went wrong.");
     }
+    setUrls((prev) => prev.filter((current) => current.url !== url));
   };
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    acceptedFiles.map((file) => {
-      uploadImage(file);
-    });
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    const uploadedUrls = await Promise.all(
+      acceptedFiles.map(async (file) => {
+        const url = await uploadImage(file);
+        setUrls((prevUrls) => [...prevUrls, { url }]);
+      })
+    );
   }, []);
+
+  useEffect(() => {
+    onChange(urls);
+  }, [urls]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
     <>
       <div className="mb-4 flex items-center gap-4">
-        {value.map((url) => (
+        {value.map((url, index) => (
           <div
-            key={url}
+            key={index}
             className="relative w-[200px] h-[200px] rounded-md overflow-hidden"
           >
             <div className="z-10 absolute top-2 right-2">
@@ -91,7 +93,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         ))}
       </div>
       <div>
-        {/* <div className="pb-1">Select images</div> */}
         <div
           {...getRootProps()}
           className="border-dashed border p-6 text-center cursor-pointer "
@@ -101,9 +102,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             disabled={disabled}
             type="file"
             accept="image/*"
-            id="image"
-            // onChange={uploadImage}
-            multiple
             {...getInputProps()}
           />
           {isDragActive ? (

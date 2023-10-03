@@ -6,7 +6,6 @@ import {
   Image,
   Intensity,
   Ocassion,
-  Product,
   ScentCluster,
 } from "@/app/global";
 import { useParams, useRouter } from "next/navigation";
@@ -41,27 +40,22 @@ import {
 } from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
 import ImageUpload from "@/components/ImageUpload";
-import {
-  createClientComponentClient,
-} from "@supabase/auth-helpers-nextjs";
-import uniqid from "uniqid";
-import { imageConfigDefault } from "next/dist/shared/lib/image-config";
-
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const formSchema = z.object({
-  // name: z.string().min(1),
-  // description: z.string().min(1),
-  // price: z.coerce.number().min(1),
-  // categoryId: z.string().min(1),
-  // brandId: z.string().min(1),
-  // scentClusterId: z.string().min(1),
-  // intensityId: z.string().min(1),
-  // occasionId: z.string().min(1),
-  // details: z.string().optional(),
+  name: z.string().min(1),
+  description: z.string().min(1),
+  price: z.coerce.number().min(1),
+  categoryId: z.string().min(1),
+  brandId: z.string().min(1),
+  scentClusterId: z.string().min(1),
+  intensityId: z.string().min(1),
+  occasionId: z.string().min(1),
+  details: z.string().optional(),
   productImage: z.object({ url: z.string() }).array(),
-  // quantity: z.coerce.number().min(0),
-  // isFeatured: z.boolean().optional(),
-  // isArchived: z.boolean().optional(),
+  quantity: z.coerce.number().min(0),
+  isFeatured: z.boolean().optional(),
+  isArchived: z.boolean().optional(),
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -119,52 +113,50 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),
-    // defaultValues: initialData
-    //   ? {
-    //       ...initialData,
-    //       price: parseFloat(String(initialData?.price)),
-    //       quantity: initialData?.productInventory.quantity,
-    //       details: initialData?.details ? initialData?.details : "",
-    //     }
-    //   : {
-    defaultValues: {
-      // name: "",
-      // description: "",
-      // price: 0,
-      // categoryId: "",
-      // brandId: "",
-      // scentClusterId: "",
-      // intensityId: "",
-      // occasionId: "",
-      // details: "",
-      productImage: [],
-      // quantity: 0,
-      // isFeatured: false,
-      // isArchived: false,
-    },
+    defaultValues: initialData
+      ? {
+          ...initialData,
+          price: parseFloat(String(initialData?.price)),
+          quantity: initialData?.productInventory.quantity,
+          details: initialData?.details ? initialData?.details : "",
+        }
+      : {
+          name: "",
+          description: "",
+          price: 0,
+          categoryId: "",
+          brandId: "",
+          scentClusterId: "",
+          intensityId: "",
+          occasionId: "",
+          details: "",
+          productImage: [],
+          quantity: 0,
+          isFeatured: false,
+          isArchived: false,
+        },
   });
 
   const supabase = createClientComponentClient();
 
   const onSubmit = async (data: ProductFormValues) => {
-    console.log
-    // try {
-    //   setLoading(true);
-    //   if (initialData) {
-    //     await axios.patch(`/api/products/${params.productId}`, data);
-    //   } else {
-    //     await axios.post(`/api/products`, data);
-    //   }
+    try {
+      setLoading(true);
+      if (initialData) {
+        await axios.patch(`/api/products/${params.productId}`, data);
+      } else {
+        await axios.post(`/api/products`, data);
+      }
 
-    //   router.refresh();
-    //   router.push(`/admin/products/all`);
-    //   toast.success(toastMessage);
-    // } catch (error) {
-    //   toast.error("Something went wrong.");
-    // } finally {
-    //   setLoading(false);
+      router.refresh();
+      router.push(`/admin/products/all`);
+      toast.success(toastMessage);
+    } catch (error) {
+      toast.error("Something went wrong.");
+    } finally {
+      setLoading(false);
     }
-
+  };
 
   const onDelete = async () => {
     try {
@@ -215,24 +207,19 @@ const ProductForm: React.FC<ProductFormProps> = ({
               <FormItem>
                 <FormLabel>Images</FormLabel>
                 <FormControl>
-                <ImageUpload
+                  <ImageUpload
                     value={field.value.map((image) => image.url)}
                     disabled={loading}
-                    onChange={(url) =>
-                      field.onChange([...field.value, { url }])
-                    }
-                    onRemove={(url) =>
-                      field.onChange([
-                        ...field.value.filter((current) => current.url !== url),
-                      ])
-                    }
+                    onChange={(urls) => {
+                      field.onChange(urls);
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {/* <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="name"
@@ -390,7 +377,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
-                 <FormField
+            <FormField
               control={form.control}
               name="description"
               render={({ field }) => (
@@ -474,7 +461,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
               )}
             />
 
-       
             <FormField
               control={form.control}
               name="details"
@@ -534,7 +520,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 )}
               />
             </div>
-          </div> */}
+          </div>
 
           <Button
             className="ml-auto"
