@@ -19,7 +19,6 @@ export interface Database {
           details: string | null
           id: string
           intensity_id: string
-          inventory_id: string | null
           is_archived: boolean
           is_featured: boolean | null
           name: string
@@ -36,7 +35,6 @@ export interface Database {
           details?: string | null
           id?: string
           intensity_id: string
-          inventory_id?: string | null
           is_archived?: boolean
           is_featured?: boolean | null
           name: string
@@ -53,7 +51,6 @@ export interface Database {
           details?: string | null
           id?: string
           intensity_id?: string
-          inventory_id?: string | null
           is_archived?: boolean
           is_featured?: boolean | null
           name?: string
@@ -84,12 +81,6 @@ export interface Database {
             foreignKeyName: "product_intensity_id_fkey"
             columns: ["intensity_id"]
             referencedRelation: "product_intensity"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "product_inventory_id_fkey"
-            columns: ["inventory_id"]
-            referencedRelation: "product_inventory"
             referencedColumns: ["id"]
           },
           {
@@ -201,16 +192,19 @@ export interface Database {
         Row: {
           created_at: string
           id: string
+          product_id: string | null
           quantity: number
         }
         Insert: {
           created_at?: string
-          id: string
+          id?: string
+          product_id?: string | null
           quantity?: number
         }
         Update: {
           created_at?: string
           id?: string
+          product_id?: string | null
           quantity?: number
         }
         Relationships: []

@@ -57,7 +57,7 @@ export async function PATCH(
       quantity,
       isFeatured,
       isArchived,
-      images,
+      productImage,
     } = body;
 
     if (!isAdmin) {
@@ -94,31 +94,70 @@ export async function PATCH(
       return new NextResponse("Quantity is required", { status: 400 });
     }
 
+    if (productImage.length === 0) {
+      return new NextResponse("At least one image is required", {
+        status: 400,
+      });
+    }
+
     if (!params.productId) {
       return new NextResponse("Product id is required", { status: 400 });
     }
-    const { data: product, error: supabaseError } = await supabase
+
+    //  updated images
+
+    for (const image of productImage) {
+      const { data: img, error: supabaseImageError } = await supabase
+        .from("product_image")
+        .insert({ product_id: params.productId, url: image.url });
+
+      if (supabaseImageError) {
+        // Handle Supabase-specific error
+        console.error(
+          "[PRODUCT_PATCH_IMAGE_SUPABASE_ERROR]",
+          supabaseImageError
+        );
+        return new NextResponse("Supabase error", { status: 500 });
+      }
+    }
+
+    //  update product
+
+    const { data: product, error: supabaseProductError } = await supabase
       .from("product")
       .update({
         name: name,
         description: description,
         price: price,
         category_id: categoryId,
-        brand_id: brandId, 
+        brand_id: brandId,
         scent_cluster_id: scentClusterId,
         intensity_id: intensityId,
         occasion_id: occasionId,
         details: details,
-        is_featured: isFeatured ? isFeatured : false,
-        is_archived: isArchived ? isArchived : false,
+        is_featured: isFeatured,
+        is_archived: isArchived,
       })
       .eq("id", params.productId)
       .select()
       .single();
 
-    if (supabaseError) {
+    if (supabaseProductError) {
       // Handle Supabase-specific error
-      console.error("[PRODUCT_POST_SUPABASE_ERROR]", supabaseError);
+      console.error("[PRODUCT_PATCH_SUPABASE_ERROR]", supabaseProductError);
+      return new NextResponse("Supabase error", { status: 500 });
+    }
+
+    // update product inventory
+
+    const { error: supabaseInventoryError } = await supabase
+      .from("product_inventory")
+      .update({ product_id: product.id, quantity: quantity })
+      .eq("product_id", params.productId);
+
+    if (supabaseInventoryError) {
+      // Handle Supabase-specific error
+      console.error("[PRODUCT_PATCH_SUPABASE_ERROR]", supabaseInventoryError);
       return new NextResponse("Supabase error", { status: 500 });
     }
 
@@ -145,6 +184,34 @@ export async function DELETE(
     if (!params.productId) {
       return new NextResponse("Product id is required", { status: 400 });
     }
+
+    // delete inventory
+
+    const { error: supabaseInventoryError } = await supabase
+      .from("product_inventory")
+      .delete()
+      .eq("product_id", params.productId);
+
+    if (supabaseInventoryError) {
+      // Handle Supabase-specific error
+      console.error("[PRODUCT_DELETE_SUPABASE_ERROR]", supabaseInventoryError);
+      return new NextResponse("Supabase error", { status: 500 });
+    }
+
+    //  delete images
+
+    const { error: suapbaseImageError } = await supabase
+      .from("product_image")
+      .delete()
+      .eq("product_id", params.productId);
+
+    if (suapbaseImageError) {
+      // Handle Supabase-specific error
+      console.error("[PRODUCT_DELETE_SUPABASE_ERROR]", suapbaseImageError);
+      return new NextResponse("Supabase error", { status: 500 });
+    }
+
+    //  delete product
     const { data: product, error: supabaseError } = await supabase
       .from("product")
       .delete()

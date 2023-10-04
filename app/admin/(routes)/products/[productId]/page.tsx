@@ -2,19 +2,18 @@ import React from "react";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import ProductForm from "./components/ProductForm";
-import camelcaseKeys from 'camelcase-keys';
-
+import camelcaseKeys from "camelcase-keys";
 
 const ProductPage = async ({ params }: { params: { productId: string } }) => {
   const supabase = createServerComponentClient({ cookies });
 
   const { data: product, error: productError } = await supabase
     .from("product")
-    .select("*, product_image(*), product_inventory(id, quantity)")
+    .select("*, product_image(*), product_inventory(product_id, quantity)")
     .eq("id", params.productId)
     .single();
 
-    const camelCaseProduct = camelcaseKeys(product);
+  const camelCaseProduct = productError ? null : camelcaseKeys(product);
 
   const { data: brands, error: brandError } = await supabase
     .from("product_brand")
@@ -47,7 +46,6 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
   }
 
   console.log(camelCaseProduct);
-
 
   return (
     <>

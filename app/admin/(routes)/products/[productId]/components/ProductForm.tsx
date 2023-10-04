@@ -52,7 +52,7 @@ const formSchema = z.object({
   intensityId: z.string().min(1),
   occasionId: z.string().min(1),
   details: z.string().optional(),
-  productImage: z.object({ url: z.string() }).array(),
+  productImage: z.object({ url: z.string() }).array().nonempty(),
   quantity: z.coerce.number().min(0),
   isFeatured: z.boolean().optional(),
   isArchived: z.boolean().optional(),
@@ -80,7 +80,7 @@ type CamelCaseProduct = {
 
 interface ExtendedProduct extends CamelCaseProduct {
   productImage: Image[];
-  productInventory: { id: string; quantity: number };
+  productInventory: { id: string; quantity: number }[];
 }
 
 interface ProductFormProps {
@@ -110,6 +110,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const description = initialData ? "Edit product" : "Add a new product";
   const toastMessage = initialData ? "Product updated." : "Product created.";
   const action = initialData ? "Save changes" : "Create";
+  console.log(initialData)
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),
@@ -117,7 +118,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       ? {
           ...initialData,
           price: parseFloat(String(initialData?.price)),
-          quantity: initialData?.productInventory.quantity,
+          quantity: initialData?.productInventory[0].quantity,
           details: initialData?.details ? initialData?.details : "",
         }
       : {
@@ -140,6 +141,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const supabase = createClientComponentClient();
 
   const onSubmit = async (data: ProductFormValues) => {
+    console.log(data)
     try {
       setLoading(true);
       if (initialData) {
@@ -208,7 +210,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 <FormLabel>Images</FormLabel>
                 <FormControl>
                   <ImageUpload
-                    value={field.value.map((image) => image.url)}
+                    value={field.value}
                     disabled={loading}
                     onChange={(urls) => {
                       field.onChange(urls);

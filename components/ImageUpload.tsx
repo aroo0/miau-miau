@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 interface ImageUploadProps {
-  value: string[];
+  value: Record<"url", string>[];
   disabled: boolean;
   onChange: (url: Record<"url", string>[]) => void;
 }
@@ -42,12 +42,23 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   };
 
   const deleteImage = async (url: string) => {
-    const { error } = await supabase.storage
+    const {error:  storageError } = await supabase.storage
       .from("product_images")
       .remove([url]);
-    if (error) {
+
+    if (storageError) {
       return toast.error("Something went wrong.");
     }
+
+    const { error: productTableError } = await supabase
+      .from("product_image")
+      .delete()
+      .eq("url", url);
+
+    if (productTableError) {
+      return toast.error("Something went wrong.");
+    }
+
     setUrls((prev) => prev.filter((current) => current.url !== url));
   };
 
@@ -65,9 +76,14 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   }, [urls]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  useEffect(() => {
+    setUrls(value);
+  }, []);
+
   return (
     <>
       <div className="mb-4 flex items-center gap-4">
+
         {value.map((url, index) => (
           <div
             key={index}
@@ -76,18 +92,19 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             <div className="z-10 absolute top-2 right-2">
               <Button
                 type="button"
-                onClick={() => deleteImage(url)}
+                onClick={() => deleteImage(url.url)}
                 variant={"destructive"}
                 size="icon"
               >
                 <Trash className="w-4 h-4" />
               </Button>
             </div>
+
             <Image
               fill
               className="object-cover"
               alt="image"
-              src={`${process.env.NEXT_PUBLIC_PRODUCT_IMAGE_STORAGE}/${url}`}
+              src={`${process.env.NEXT_PUBLIC_PRODUCT_IMAGE_STORAGE}/${url.url}`}
             />
           </div>
         ))}
