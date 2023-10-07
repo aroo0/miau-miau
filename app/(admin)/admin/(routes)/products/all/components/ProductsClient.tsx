@@ -24,7 +24,7 @@ const ProductsClient: React.FC<ProductsClientProps> = ({ data }) => {
           title={`Categories (${data.length})`}
           description="Manage categories for your store"
         />
-        <Button onClick={() => router.push(`/admin/products/categories/new`)}>
+        <Button onClick={() => router.push(`/admin/products/new`)}>
           <Plus className="mr-2 w-4 h-4" />
           Add New
         </Button>

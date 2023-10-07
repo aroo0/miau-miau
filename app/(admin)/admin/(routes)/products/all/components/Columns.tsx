@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import CellAction from "./CellAction";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/Button";
+import { formatPrice } from "@/lib/utils";
 
 
 export type ProductColumn = {
@@ -52,10 +53,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
     },
     cell: ({ row }) => {
       const price = parseFloat(row.getValue("price"))
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "EUR",
-      }).format(price)
+      const formatted = formatPrice(price)
  
       return formatted
     },

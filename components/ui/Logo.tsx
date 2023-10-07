@@ -2,7 +2,7 @@ import React from 'react'
 
 const Logo = () => {
   return (
-    <div className='font-bold text-sm sm:text-base lg:text-lg tracking-[8px] uppercase z-[100]'>Miau Miau</div>
+    <div className='font-bold text-sm sm:text-base lg:text-lg tracking-[5px] uppercase z-[100]'>Miau Miau</div>
   )
 }
 

@@ -20,7 +20,7 @@ export interface Database {
           id: string
           intensity_id: string
           is_archived: boolean
-          is_featured: boolean | null
+          is_featured: boolean
           name: string
           occasion_id: string
           price: number
@@ -36,7 +36,7 @@ export interface Database {
           id?: string
           intensity_id: string
           is_archived?: boolean
-          is_featured?: boolean | null
+          is_featured: boolean
           name: string
           occasion_id: string
           price: number
@@ -52,7 +52,7 @@ export interface Database {
           id?: string
           intensity_id?: string
           is_archived?: boolean
-          is_featured?: boolean | null
+          is_featured?: boolean
           name?: string
           occasion_id?: string
           price?: number
@@ -192,22 +192,29 @@ export interface Database {
         Row: {
           created_at: string
           id: string
-          product_id: string | null
+          product_id: string
           quantity: number
         }
         Insert: {
           created_at?: string
           id?: string
-          product_id?: string | null
+          product_id: string
           quantity?: number
         }
         Update: {
           created_at?: string
           id?: string
-          product_id?: string | null
+          product_id?: string
           quantity?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "product_inventory_product_id_fkey"
+            columns: ["product_id"]
+            referencedRelation: "product"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       product_ocassion: {
         Row: {

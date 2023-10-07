@@ -74,7 +74,7 @@ export async function POST(req: Request) {
       });
     }
 
-    //  Add product 
+    //  Add product
 
     const { data: product, error: supabaseProductError } = await supabase
       .from("product")
@@ -101,7 +101,7 @@ export async function POST(req: Request) {
       return new NextResponse("Supabase error", { status: 500 });
     }
 
-    //  Add product inventory 
+    //  Add product inventory
 
     const { error: supabaseInventoryError } = await supabase
       .from("product_inventory")
@@ -139,18 +139,63 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
+    // const { searchParams } = new URL(req.url);
+
+    // const categoryId = searchParams.get("category_id") || undefined;
+    // const ocassionId = searchParams.get("ocassion_id") || undefined;
+    // const brandId = searchParams.get("brand_id") || undefined;
+    // const scentClusterId = searchParams.get("scentCluster_id") || undefined;
+    // const intensityId = searchParams.get("intensity_id") || undefined;
+    // const isFeatured = searchParams.get("is_featured") || undefined;
+
     const supabase = createRouteHandlerClient<Database>({ cookies });
 
-    const { data: product, error: supabaseError } = await supabase
+    let query = supabase
       .from("product")
-      .select("*");
+      .select(
+        `
+      *, 
+      product_inventory(product_id, quantity),
+      product_category(name),
+      product_brand(name),
+      product_intensity(name),
+      product_ocassion(name),
+      product_scent_cluster(name)
+      `
+      )
+      .neq("is_archived", true);
+
+    // if (categoryId) {
+    //   query = query.eq("category_id", categoryId);
+    // }
+
+    // if (ocassionId) {
+    //   query = query.eq("occasion_id", ocassionId);
+    // }
+
+    // if (scentClusterId) {
+    //   query = query.eq("scent_cluster_id", scentClusterId);
+    // }
+
+    // if (intensityId) {
+    //   query = query.eq("intensity_id", intensityId);
+    // }
+    // if (isFeatured) {
+    //   query = query.eq("is_featured", isFeatured);
+    // }
+
+    // if (brandId) {
+    //   query = query.eq("brand_id", brandId);
+    // }
+
+    const { data: products, error: supabaseError } = await query;
 
     if (supabaseError) {
       console.error("[PRODUCTS_GET_SUPABASE_ERROR]", supabaseError);
       return new NextResponse("Supabase error", { status: 500 });
     }
 
-    return NextResponse.json(product);
+    return NextResponse.json(products);
   } catch (error) {
     console.log("[PRODUCTS_GET]", error);
     return new NextResponse("Internal error", { status: 500 });

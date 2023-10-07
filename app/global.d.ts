@@ -9,6 +9,29 @@ export type Product = DB["public"]["Tables"]["product"]["Row"];
 export type ProductInventory = DB["public"]["Tables"]["product_inventory"]["Row"];
 export type Image = DB["public"]["Tables"]["product_image"]["Row"];
 
+export type CamelCaseProduct = {
+  brandId: string;
+  categoryId: string;
+  createdAt: string;
+  createdBy: string;
+  description: string;
+  details: string | null;
+  id: string;
+  intensityId: string;
+  isArchived: boolean;
+  isFeatured: boolean;
+  name: string;
+  occasionId: string;
+  price: number;
+  scentClusterId: string;
+};
+export interface ExtendedProduct extends CamelCaseProduct {
+  productImage: {url: string}[];
+  productInventory: { id: string; quantity: number }[];
+  productBrand: {name: string} | null
+}
+
+
 
 
 

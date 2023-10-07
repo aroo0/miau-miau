@@ -3,6 +3,7 @@ import "./globals.css";
 
 import { Libre_Baskerville } from "next/font/google";
 import ToasterProvider from "@/providers/ToasterProvider";
+import QueryProvider from "@/providers/QueryProvider";
 
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
@@ -22,15 +23,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={libreBaskerville.className}>
-        <ToasterProvider/>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <main>{children}</main>
-        </ThemeProvider>
+        <QueryProvider>
+          <ToasterProvider />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main className="h-full">{children}</main>
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   );

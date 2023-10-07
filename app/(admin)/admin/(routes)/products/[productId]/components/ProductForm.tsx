@@ -3,6 +3,7 @@
 import {
   Brand,
   Category,
+  ExtendedProduct,
   Image,
   Intensity,
   Ocassion,
@@ -60,28 +61,6 @@ const formSchema = z.object({
 
 type ProductFormValues = z.infer<typeof formSchema>;
 
-type CamelCaseProduct = {
-  brandId: string;
-  categoryId: string;
-  createdAt: string;
-  createdBy: string;
-  description: string;
-  details: string | null;
-  id: string;
-  intensityId: string;
-  inventoryId: string;
-  isArchived: boolean;
-  isFeatured: boolean;
-  name: string;
-  occasionId: string;
-  price: number;
-  scentClusterId: string;
-};
-
-interface ExtendedProduct extends CamelCaseProduct {
-  productImage: Image[];
-  productInventory: { id: string; quantity: number }[];
-}
 
 interface ProductFormProps {
   initialData: ExtendedProduct | null;
