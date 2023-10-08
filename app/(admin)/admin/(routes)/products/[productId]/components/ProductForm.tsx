@@ -89,7 +89,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const description = initialData ? "Edit product" : "Add a new product";
   const toastMessage = initialData ? "Product updated." : "Product created.";
   const action = initialData ? "Save changes" : "Create";
-  console.log(initialData);
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),
@@ -121,7 +120,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const supabase = createClientComponentClient();
 
   const onSubmit = async (data: ProductFormValues) => {
-    console.log(data);
     try {
       setLoading(true);
       if (initialData) {

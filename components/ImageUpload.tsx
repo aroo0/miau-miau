@@ -21,12 +21,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   value,
 }) => {
   const [urls, setUrls] = useState<Record<"url", string>[]>([]); // Initialize with an empty array
+  const [shouldCallOnChangeFlag, setShouldCallOnChangeFlag] = useState(false);
 
   const supabase = createClientComponentClient();
 
   const uploadImage = async (imageFile: File) => {
     const uniqueID = uniqid();
-    console.log(imageFile);
 
     const { data: photo, error } = await supabase.storage
       .from("product_images")
@@ -35,6 +35,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         upsert: false,
       });
     if (error) {
+      console.log(error)
       return toast.error("Something went wrong.");
     }
 
@@ -42,7 +43,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   };
 
   const deleteImage = async (url: string) => {
-    const {error:  storageError } = await supabase.storage
+    const { error: storageError } = await supabase.storage
       .from("product_images")
       .remove([url]);
 
@@ -72,18 +73,21 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   }, []);
 
   useEffect(() => {
-    onChange(urls);
+    if (shouldCallOnChangeFlag) {
+      onChange(urls);
+    }
+    setShouldCallOnChangeFlag(true); // Enable calling onChange after initial setUrls
   }, [urls]);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   useEffect(() => {
     setUrls(value);
   }, []);
 
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
   return (
     <>
       <div className="mb-4 flex items-center gap-4">
-
         {value.map((url, index) => (
           <div
             key={index}

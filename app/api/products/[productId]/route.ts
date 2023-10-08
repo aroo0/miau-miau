@@ -113,7 +113,7 @@ export async function PATCH(
     for (const image of productImage) {
       const { data: img, error: supabaseImageError } = await supabase
         .from("product_image")
-        .insert({ product_id: params.productId, url: image.url });
+        .upsert({ product_id: params.productId, url: image.url }, {onConflict: 'url', ignoreDuplicates: true});
 
       if (supabaseImageError) {
         // Handle Supabase-specific error

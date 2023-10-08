@@ -13,7 +13,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
       <article className="flex-col flex items-center gap-6 text-sm group">
         <div className="w-full h-full xl:h-[450px] flex items-center justify-center lg:group-hover:scale-110 transition duration-500 ease-in-out">
           <Image
-            src={`${process.env.NEXT_PUBLIC_PRODUCT_IMAGE_STORAGE}/${data.productImage[0].url}`}
+            src={data.productImage[0] ? `${process.env.NEXT_PUBLIC_PRODUCT_IMAGE_STORAGE}/${data.productImage[0].url}` : '/2302260046DSC_3879-1024x1024.jpg' }
             alt={data.name}
             width={400}
             height={500}
