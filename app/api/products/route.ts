@@ -18,6 +18,7 @@ export async function POST(req: Request) {
       name,
       description,
       price,
+      volume,
       categoryId,
       brandId,
       scentClusterId,
@@ -48,6 +49,9 @@ export async function POST(req: Request) {
     }
     if (!brandId) {
       return new NextResponse("Brand is required", { status: 400 });
+    }
+    if (!volume) {
+      return new NextResponse("Volume is required", { status: 400 });
     }
     if (!categoryId) {
       return new NextResponse("Category is required", { status: 400 });
@@ -82,6 +86,7 @@ export async function POST(req: Request) {
         name: name,
         description: description,
         price: price,
+        volume: volume,
         category_id: categoryId,
         brand_id: brandId,
         scent_cluster_id: scentClusterId,
@@ -139,14 +144,6 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    // const { searchParams } = new URL(req.url);
-
-    // const categoryId = searchParams.get("category_id") || undefined;
-    // const ocassionId = searchParams.get("ocassion_id") || undefined;
-    // const brandId = searchParams.get("brand_id") || undefined;
-    // const scentClusterId = searchParams.get("scentCluster_id") || undefined;
-    // const intensityId = searchParams.get("intensity_id") || undefined;
-    // const isFeatured = searchParams.get("is_featured") || undefined;
 
     const supabase = createRouteHandlerClient<Database>({ cookies });
 
@@ -164,29 +161,6 @@ export async function GET(req: Request) {
       `
       )
       .neq("is_archived", true);
-
-    // if (categoryId) {
-    //   query = query.eq("category_id", categoryId);
-    // }
-
-    // if (ocassionId) {
-    //   query = query.eq("occasion_id", ocassionId);
-    // }
-
-    // if (scentClusterId) {
-    //   query = query.eq("scent_cluster_id", scentClusterId);
-    // }
-
-    // if (intensityId) {
-    //   query = query.eq("intensity_id", intensityId);
-    // }
-    // if (isFeatured) {
-    //   query = query.eq("is_featured", isFeatured);
-    // }
-
-    // if (brandId) {
-    //   query = query.eq("brand_id", brandId);
-    // }
 
     const { data: products, error: supabaseError } = await query;
 

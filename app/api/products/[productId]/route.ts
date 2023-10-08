@@ -48,6 +48,7 @@ export async function PATCH(
       name,
       description,
       price,
+      volume,
       categoryId,
       brandId,
       scentClusterId,
@@ -68,6 +69,9 @@ export async function PATCH(
     }
     if (!description) {
       return new NextResponse("Description is required", { status: 400 });
+    }
+    if (!volume) {
+      return new NextResponse("Volume is required", { status: 400 });
     }
     if (!price) {
       return new NextResponse("Price is required", { status: 400 });
@@ -129,6 +133,7 @@ export async function PATCH(
         name: name,
         description: description,
         price: price,
+        volume: volume,
         category_id: categoryId,
         brand_id: brandId,
         scent_cluster_id: scentClusterId,

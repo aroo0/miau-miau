@@ -8,7 +8,7 @@ import NoResults from "./NoResults";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
-import { getProducts } from "@/app/actions/getProduct";
+import { getProducts } from "@/app/actions/getProducts";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 interface ProductListProps {
@@ -31,13 +31,7 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
 
   const supabase = createClientComponentClient();
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    isFetchingNextPage,
-
-  } = useInfiniteQuery({
+  const { data, error, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: [`query`],
     queryFn: async ({ pageParam = 6 }) => {
       console.log(pageParam);
@@ -71,7 +65,7 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
   return (
     <>
       {allData.length === 0 && <NoResults />}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20 mx-4">
         {allData.map((item, index) => {
           if (index === initData.length - 1) {
             return (

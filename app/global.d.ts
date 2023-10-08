@@ -24,13 +24,15 @@ export type CamelCaseProduct = {
   occasionId: string;
   price: number;
   scentClusterId: string;
+  volume: string;
 };
 export interface ExtendedProduct extends CamelCaseProduct {
   productImage: {url: string}[];
   productInventory: { id: string; quantity: number }[];
-  productBrand: {name: string} | null
-}
+  productBrand: {name: string} | null;
+  productScentCluster:  {name: string}
 
+}
 
 
 

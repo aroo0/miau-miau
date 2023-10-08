@@ -55,12 +55,12 @@ const formSchema = z.object({
   details: z.string().optional(),
   productImage: z.object({ url: z.string() }).array().nonempty(),
   quantity: z.coerce.number().min(0),
+  volume: z.string().min(1),
   isFeatured: z.boolean().optional(),
   isArchived: z.boolean().optional(),
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
-
 
 interface ProductFormProps {
   initialData: ExtendedProduct | null;
@@ -89,7 +89,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const description = initialData ? "Edit product" : "Add a new product";
   const toastMessage = initialData ? "Product updated." : "Product created.";
   const action = initialData ? "Save changes" : "Create";
-  console.log(initialData)
+  console.log(initialData);
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),
@@ -110,6 +110,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
           intensityId: "",
           occasionId: "",
           details: "",
+          volume: "",
           productImage: [],
           quantity: 0,
           isFeatured: false,
@@ -120,7 +121,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const supabase = createClientComponentClient();
 
   const onSubmit = async (data: ProductFormValues) => {
-    console.log(data)
+    console.log(data);
     try {
       setLoading(true);
       if (initialData) {
@@ -248,6 +249,23 @@ const ProductForm: React.FC<ProductFormProps> = ({
                       type="number"
                       disabled={loading}
                       placeholder="1"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="volume"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantity</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Volume"
                       {...field}
                     />
                   </FormControl>

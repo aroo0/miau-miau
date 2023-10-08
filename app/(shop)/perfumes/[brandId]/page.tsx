@@ -1,4 +1,4 @@
-import { getProducts } from "@/app/actions/getProduct";
+import { getProducts } from "@/app/actions/getProducts";
 import { Product } from "@/app/global";
 import NoResults from "@/components/NoResults";
 import ProductCard from "@/components/ProductCard";
@@ -38,7 +38,7 @@ const PerfumesPage: React.FC<PerfumesPageProps> = async ({
     intensityId,
     ocassionId,
     scentClusterId,
-    from: 0
+    from: 0,
   });
 
   const { data: categoryData, error: categoryError } = await supabase

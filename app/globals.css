@@ -26,7 +26,7 @@ html, body, :root {
     --secondary-foreground: #ffffff;
 
     --muted: #f6f6f6;
-    --muted-foreground: #737373;
+    --muted-foreground: #4c4c4c;
 
     --accent: #f6f6f6;
     --accent-foreground: #1e1e1e;
@@ -43,7 +43,7 @@ html, body, :root {
 
   .dark {
     --background: #050505;
-    --foreground: #fafafa;
+    --foreground: #e6e6e6;
 
     --card: #050505;
     --card-foreground: #fafafa;

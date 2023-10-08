@@ -2,79 +2,42 @@ import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { ExtendedProduct } from "../global";
 import camelcaseKeys from "camelcase-keys";
 
-interface Query {
+interface Params {
   supabase: SupabaseClient;
-  brandId?: string;
-  intensityId?: string;
-  ocassionId?: string;
-  scentClusterId?: string;
-  isFeatured?: boolean;
-  from: number;
+  perfumeId: string;
 }
-export async function getProducts({
+export async function getProduct({
   supabase,
-  brandId,
-  intensityId,
-  ocassionId,
-  scentClusterId,
-  isFeatured,
-  from,
-}: Query): Promise<ExtendedProduct[] | []> {
+  perfumeId,
+}: Params): Promise<ExtendedProduct | null> {
   try {
-    const brand = brandId === "all" ? null : brandId;
-
-    let query = supabase
+    const { data: product, error: supabaseError } = await supabase
       .from("product")
       .select(
         `
       *, 
       product_inventory(id, product_id, quantity),
       product_category(name),
-      product_brand(name),
+      product_brand(name, description),
       product_intensity(name),
       product_ocassion(name),
       product_scent_cluster(name),
       product_image(url)
       `
       )
-      .neq("is_archived", true);
-
-    if (ocassionId) {
-      query = query.eq("occasion_id", ocassionId);
-    }
-
-    if (scentClusterId) {
-      query = query.eq("scent_cluster_id", scentClusterId);
-    }
-
-    if (intensityId) {
-      query = query.eq("intensity_id", intensityId);
-    }
-    if (isFeatured) {
-      query = query.eq("is_featured", isFeatured);
-    }
-
-    if (brand) {
-      query = query.eq("brand_id", brand);
-    }
-
-    const to = from + 5;
-
-    const { data: products, error: supabaseError } = await query
-    .order("created_at", { ascending: false })
-      .range(from, to);
+      .eq("id", perfumeId)
+      .single();
 
     if (supabaseError) {
       console.log(supabaseError);
-      return [];
+      return null;
     }
 
-    const camelCaseProduct = camelcaseKeys(products);
-
+    const camelCaseProduct = camelcaseKeys(product);
 
     return camelCaseProduct;
   } catch (error) {
     console.log(error);
-    return [];
+    return null;
   }
 }

@@ -26,7 +26,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({}) => {
   return (
     <>
       {/* Desktop Nav */}
-      <div className="hidden lg:flex w-full py-1 gap-x-4 items-center px-7 justify-between">
+      <div className="hidden lg:flex w-full py-1 gap-x-4 items-center px-7 justify-between fixed z-[20]">
         <Logo />
         <div className="flex gap-x-10 px-8 py-4">
           <ShopMenu />

@@ -74,6 +74,21 @@ export const columns: ColumnDef<ProductColumn>[] = [
     },
   },
   {
+    accessorKey: "volume",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="opacity"
+          size='header'
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Volume
+          <ArrowUpDown className="ml-2 h-4 w-4" strokeWidth="1.4" />
+        </Button>
+      )
+    },
+  },
+  {
     accessorKey: "description",
     header: "Description",
   },

@@ -31,6 +31,7 @@ const CategoriesPage = async () => {
     id: item.id,
     name: item.name,
     price: item.price,
+    volume: item.volume,
     quantity: item.product_inventory[0].quantity,
     description: item.description,
     category: item.product_category!.name,

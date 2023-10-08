@@ -24,7 +24,7 @@ export default async function AdminLayout({
     <>
       <ShopNavBar />
 
-      <div className="px-4 lg:px-8">{children}</div>
+      <div className="lg:px-8">{children}</div>
     </>
   );
 }
