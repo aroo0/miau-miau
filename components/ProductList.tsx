@@ -65,7 +65,7 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
   return (
     <>
       {allData.length === 0 && <NoResults />}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20 mx-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
         {allData.map((item, index) => {
           if (index === allData.length - 1) {
             return (

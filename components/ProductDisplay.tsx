@@ -25,7 +25,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 pb-20">
-      <div className="hidden lg:flex col-span-3 flex-col items-center gap-20 lg:my-16 px-4 ">
+      <div className="hidden lg:flex col-span-3 flex-col items-center gap-20 lg:my-16 px-4 pt-8 ">
         {product.productImage.map((image, index) => (
           <Image
             src={`${process.env.NEXT_PUBLIC_PRODUCT_IMAGE_STORAGE}/${image.url}`}

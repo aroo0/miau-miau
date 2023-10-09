@@ -1,11 +1,13 @@
 "use client";
 
+import { ModalPageVariant } from "@/app/global";
 import { Button } from "@/components/ui/Button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
+import useMenuModal from "@/hooks/useMenuModal";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
@@ -17,26 +19,31 @@ interface Route {
   name: string;
   active: boolean;
   items?: Route[];
+  page?: ModalPageVariant;
 }
 
 const ShopMenu: React.FC<ShopMenuProps> = ({}) => {
   const pathname = usePathname();
+  const { isOpen, onOpen, onClose, page } = useMenuModal();
 
   const routes: Route[] = [
     {
       href: "/perfumes",
       name: "Perfumes",
       active: "/perfumes" === pathname,
+      page: "perfumes",
     },
     {
       href: "/about",
       name: "About",
       active: "/about" === pathname,
+      page: "about",
     },
     {
       href: "/newsletter",
       name: "Newsletter",
       active: "/newsletter" === pathname,
+      page: "newsletter",
     },
   ];
 
@@ -48,12 +55,13 @@ const ShopMenu: React.FC<ShopMenuProps> = ({}) => {
           key={route.name}
         >
           <Button
-          variant='menu'
-          size="header"
+            variant="menu"
+            size="mainNav"
             className={twMerge(
-              "text-lg lg:text-2xl  hover:italic transition uppercase tracking-[0.3rem]",
               route.active && "italic"
             )}
+            onClick={() => onOpen(route.page)}
+
           >
             {route.name}
           </Button>

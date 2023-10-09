@@ -1,32 +1,28 @@
 "use client";
 import Logo from "@/components/ui/Logo";
 import { ModeToggle } from "@/components/ui/ModeToggle";
-import NavMenu from "./ShopNavMenu";
-import MobileNavDialog from "@/components/modals/MobileNavDialog";
 import { useState } from "react";
-import {
-  ArrowBigLeftDash,
-  Heart,
-  Menu,
-  Search,
-  ShoppingBag,
-  X,
-} from "lucide-react";
+import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import ShopMenu from "./ShopNavMenu";
+import { BlurDialog } from "@/components/ui/BlurDialog";
+import PerfumesFilters from "@/components/PerfumesFilters";
+import useMenuModal from "@/hooks/useMenuModal";
+import { Brand, Intensity, Ocassion, ScentCluster } from "@/app/global";
 
-interface ShopNavBarProps {}
+interface ShopNavBarProps {
+  brands: Brand[];
+  intensities: Intensity[];
+  ocassions: Ocassion[];
+  scentClusters: ScentCluster[];
+}
 
-type ModalPageVariant = "menu" | "perfumes" | "about" | "search" | "cart";
-
-const ShopNavBar: React.FC<ShopNavBarProps> = ({}) => {
-  const [open, setOpen] = useState(false);
-  const [modalPage, setModalPage] = useState<ModalPageVariant>("menu");
-
+const ShopNavBar: React.FC<ShopNavBarProps> = ({brands, intensities, ocassions, scentClusters}) => {
+  const { isOpen, onOpen, onClose, page } = useMenuModal();
   return (
     <>
       {/* Desktop Nav */}
-      <div className="hidden lg:flex w-full py-1 gap-x-4 items-center px-7 justify-between fixed z-[20]">
+      <div className="hidden lg:flex w-full py-1 gap-x-4 items-center px-7 justify-between fixed z-[100]">
         <Logo />
         <div className="flex gap-x-10 px-8 py-4">
           <ShopMenu />
@@ -64,7 +60,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({}) => {
           >
             Search
           </Button>
-          
+
           <ModeToggle />
         </div>
       </div>
@@ -100,20 +96,28 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({}) => {
           <Button
             variant="opacity"
             size="smallIcon"
-            onClick={() => setOpen(true)}
+            onClick={() => onOpen("menu")}
           >
-            {open ? (
+            {isOpen && page === "menu" ? (
               <X size={24} strokeWidth={1.6} />
             ) : (
               <Menu size={24} strokeWidth={1.4} />
             )}
           </Button>
         </div>
-        <MobileNavDialog isOpen={open} onClose={() => setOpen(false)}>
+        <BlurDialog isOpen={isOpen} onClose={onClose}>
           <div className="flex flex-col items-start  gap-4 pl-4  pr-8 py-4 rounded-full">
-            <ShopMenu />
+            {page === "menu" && <ShopMenu />}
+            {page === "perfumes" && (
+              <PerfumesFilters
+                brands={brands}
+                intensities={intensities}
+                ocassions={ocassions}
+                scentClusters={scentClusters}
+              />
+            )}
           </div>
-        </MobileNavDialog>
+        </BlurDialog>
       </div>
     </>
   );

@@ -2,10 +2,10 @@
 import Logo from "@/components/ui/Logo";
 import { ModeToggle } from "@/components/ui/ModeToggle";
 import NavMenu from "./NavMenu";
-import MobileNavDialog from "@/components/modals/MobileNavDialog";
 import { useState } from "react";
 import { ArrowBigLeftDash, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { BlurDialog } from "@/components/ui/BlurDialog";
 
 interface AdminNavBarProps {}
 
@@ -38,7 +38,11 @@ const AdminNavBar: React.FC<AdminNavBarProps> = ({}) => {
             <ArrowBigLeftDash strokeWidth={1.2} size={24} />
           </Button>
           <ModeToggle />
-          <Button variant="opacity" size="smallIcon" onClick={() => setOpen(true)}>
+          <Button
+            variant="opacity"
+            size="smallIcon"
+            onClick={() => setOpen(true)}
+          >
             {open ? (
               <X size={24} strokeWidth={1.6} />
             ) : (
@@ -46,11 +50,11 @@ const AdminNavBar: React.FC<AdminNavBarProps> = ({}) => {
             )}
           </Button>
         </div>
-        <MobileNavDialog isOpen={open} onClose={() => setOpen(false)}>
+        <BlurDialog isOpen={open} onClose={() => setOpen(false)}>
           <div className="flex flex-col items-start  gap-4 pl-4  pr-8 py-4 rounded-full ">
             <NavMenu />
           </div>
-        </MobileNavDialog>
+        </BlurDialog>
       </div>
     </>
   );

@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogContentPlainBlur,
 } from "@/components/ui/Dialog";
+import { useEffect, useState } from "react";
 
 interface BlurDialogProps {
   isOpen: boolean;
@@ -22,6 +23,17 @@ export const BlurDialog: React.FC<BlurDialogProps> = ({
       onClose();
     }
   };
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
 
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>

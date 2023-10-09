@@ -9,6 +9,9 @@ export type Product = DB["public"]["Tables"]["product"]["Row"];
 export type ProductInventory = DB["public"]["Tables"]["product_inventory"]["Row"];
 export type Image = DB["public"]["Tables"]["product_image"]["Row"];
 
+export type ModalPageVariant = "menu" | "perfumes" | "about" | "search" | "cart" | "newsletter" | undefined;
+
+
 export type CamelCaseProduct = {
   brandId: string;
   categoryId: string;

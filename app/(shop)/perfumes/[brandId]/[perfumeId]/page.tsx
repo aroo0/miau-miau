@@ -29,7 +29,6 @@ const PerfumePage: React.FC<PerfumePageProps> = async ({
    return null;
  }
 
- console.log(product)
 
 
   return (

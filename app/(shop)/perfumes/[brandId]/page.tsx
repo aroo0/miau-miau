@@ -59,7 +59,7 @@ const PerfumesPage: React.FC<PerfumesPageProps> = async ({
         <h1 className="text-9xl text-center">
           Perfumes
           <br />
-          <span className="italic">{brandData ? brandData : "All"}</span>
+          <span className="italic">{brandData ? brandData.name : "All"}</span>
         </h1>
         <p className="text-sm">
           {brandData ? brandData.description : categoryData.description}
