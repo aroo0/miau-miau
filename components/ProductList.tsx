@@ -10,18 +10,30 @@ import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 import { getProducts } from "@/app/actions/getProducts";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { usePathname } from "next/navigation";
+import { Button } from "./ui/Button";
+import { SlidersHorizontal } from "lucide-react";
+import useMenuModal from "@/hooks/useMenuModal";
 
 interface ProductListProps {
   initData: ExtendedProduct[];
   queryParams: {
     brandId: string;
-    intensityId: string;
-    ocassionId: string;
-    scentClusterId: string;
+    intensityId: string | string[];
+    ocassionId: string | string[];
+    scentClusterId: string | string[];
+    order: string;
   };
 }
 
+export const revalidate = 0;
+export const dynamic = 'force-dynamic'
+
+
+
 const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
+  const { onOpen } = useMenuModal();
+
   const lastItem = useRef<HTMLElement>(null);
 
   const { ref, entry } = useIntersection({
@@ -31,10 +43,12 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
 
   const supabase = createClientComponentClient();
 
+  const href = typeof window !== "undefined" ? window.location.href : "";
+  console.log(href);
+
   const { data, error, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: [`query`],
+    queryKey: [`${href} query`],
     queryFn: async ({ pageParam = 6 }) => {
-      console.log(pageParam);
       const data = await getProducts({
         supabase,
         brandId: queryParams.brandId,
@@ -42,6 +56,7 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
         ocassionId: queryParams.ocassionId,
         scentClusterId: queryParams.scentClusterId,
         from: pageParam,
+        order:  queryParams.order
       });
       return data;
     },
@@ -82,6 +97,14 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
           }
         })}
       </div>
+      <Button
+        className="fixed bottom-5 left-5 flex items-center justify-center"
+        variant="outline"
+        onClick={() => onOpen("filter")}
+      >
+        <span>Filters</span>{" "}
+        <SlidersHorizontal size={13} className="ml-3 mb-[2px]" />
+      </Button>
     </>
   );
 };

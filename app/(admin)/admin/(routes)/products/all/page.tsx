@@ -20,7 +20,6 @@ const CategoriesPage = async () => {
       product_scent_cluster(name)
       `);
 
-  console.log(products);
 
   if (productError) {
     console.log(productError)

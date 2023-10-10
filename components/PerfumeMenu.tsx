@@ -5,26 +5,32 @@ import { Button } from "./ui/Button";
 import { Router } from "lucide-react";
 import useMenuModal from "@/hooks/useMenuModal";
 import { useRouter } from "next/navigation";
+import Filter from "./Filter";
 
 interface PerfumesFiltersProps {
   brands: Brand[];
   intensities: Intensity[];
   ocassions: Ocassion[];
   scentClusters: ScentCluster[];
+  sourceVariant: "Navigation" | "FilterTab";
+
 }
 
-const PerfumesFilters: React.FC<PerfumesFiltersProps> = ({
+const PerfumeMenu: React.FC<PerfumesFiltersProps> = ({
   brands,
   intensities,
   ocassions,
   scentClusters,
+  sourceVariant
+  
 }) => {
   const { onClose } = useMenuModal();
   const router = useRouter();
 
   return (
-    <Container>
-      <div className="flex gap-10 my-10 w-full justify-center">
+    <div className="w-full h-full" onClick={onClose}>
+    <Container >
+      <div className="flex gap-10 py-16 w-full justify-center">
         <Button
           variant="menu"
           size="mainNav"
@@ -46,16 +52,16 @@ const PerfumesFilters: React.FC<PerfumesFiltersProps> = ({
           Bestsellers
         </Button>
       </div>
-      <div className="grid grid-cols-3 gap-10">
+      <div className="grid grid-cols-3 gap-10 " onClick={onClose} >
         <div className="">
           <div className="border-b text-lg lg:text-2xl  transition uppercase tracking-[0.3rem] pb-2">
             Brand
           </div>
-          <ul>
+          <ul className="pt-4">
             {brands.map((brand) => (
               <li key={brand.name}>
                 <Button
-                  variant="menu"
+                  variant="filter"
                   size="mainNav"
                   onClick={() => {
                     onClose();
@@ -73,18 +79,28 @@ const PerfumesFilters: React.FC<PerfumesFiltersProps> = ({
           <div className="border-b text-lg lg:text-2xl  transition uppercase tracking-[0.3rem] pb-2">
             Scent Cluster
           </div>
+          <ul className="pt-4">
+            <Filter valueKey="scentClusterId" data={scentClusters} sourceVariant={sourceVariant}/>
+          </ul>
         </div>
         <div className="">
           <div className=" border-b text-lg lg:text-2xl  transition uppercase tracking-[0.3rem] pb-2">
             Ocassion
           </div>
+          <ul className="pt-4">
+            <Filter valueKey="ocassionId" data={ocassions}  sourceVariant={sourceVariant}/>
+          </ul>
         </div>
         <div className="col-span-3 text-lg lg:text-2xl  transition uppercase tracking-[0.3rem] pb-2">
           <div className="border-b pb-2">Intensity</div>
+          <ul className="pt-4 flex w-full justify-between px-1">
+            <Filter valueKey="intensityId" data={intensities} sourceVariant={sourceVariant}/>
+          </ul>
         </div>
       </div>
     </Container>
+    </div>
   );
 };
 
-export default PerfumesFilters;
+export default PerfumeMenu;

@@ -6,9 +6,10 @@ import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import ShopMenu from "./ShopNavMenu";
 import { BlurDialog } from "@/components/ui/BlurDialog";
-import PerfumesFilters from "@/components/PerfumesFilters";
 import useMenuModal from "@/hooks/useMenuModal";
-import { Brand, Intensity, Ocassion, ScentCluster } from "@/app/global";
+import { Brand, Intensity, ModalPageVariant, Ocassion, ScentCluster } from "@/app/global";
+import PerfumeMenu from "@/components/PerfumeMenu";
+import PerfumesFilters from "@/components/PerfumeFilters";
 
 interface ShopNavBarProps {
   brands: Brand[];
@@ -17,12 +18,18 @@ interface ShopNavBarProps {
   scentClusters: ScentCluster[];
 }
 
-const ShopNavBar: React.FC<ShopNavBarProps> = ({brands, intensities, ocassions, scentClusters}) => {
-  const { isOpen, onOpen, onClose, page } = useMenuModal();
+const ShopNavBar: React.FC<ShopNavBarProps> = ({
+  brands,
+  intensities,
+  ocassions,
+  scentClusters,
+}) => {
+  const { isModalOpen: isOpen, onOpen, onClose, currentPage } = useMenuModal();
+
   return (
     <>
       {/* Desktop Nav */}
-      <div className="hidden lg:flex w-full py-1 gap-x-4 items-center px-7 justify-between fixed z-[100]">
+      <div className="hidden lg:flex w-full py-1 gap-x-4 items-center px-7 justify-between fixed z-[120] pointer-events-auto">
         <Logo />
         <div className="flex gap-x-10 px-8 py-4">
           <ShopMenu />
@@ -98,7 +105,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({brands, intensities, ocassions, 
             size="smallIcon"
             onClick={() => onOpen("menu")}
           >
-            {isOpen && page === "menu" ? (
+            {isOpen && currentPage === "menu" ? (
               <X size={24} strokeWidth={1.6} />
             ) : (
               <Menu size={24} strokeWidth={1.4} />
@@ -107,13 +114,23 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({brands, intensities, ocassions, 
         </div>
         <BlurDialog isOpen={isOpen} onClose={onClose}>
           <div className="flex flex-col items-start  gap-4 pl-4  pr-8 py-4 rounded-full">
-            {page === "menu" && <ShopMenu />}
-            {page === "perfumes" && (
+            {currentPage === "menu" && <ShopMenu />}
+            {currentPage === "perfumes" && (
+              <PerfumeMenu
+                brands={brands}
+                intensities={intensities}
+                ocassions={ocassions}
+                scentClusters={scentClusters}
+                sourceVariant="Navigation"
+              />
+            )}
+            {currentPage === "filter" && (
               <PerfumesFilters
                 brands={brands}
                 intensities={intensities}
                 ocassions={ocassions}
                 scentClusters={scentClusters}
+                sourceVariant="FilterTab"
               />
             )}
           </div>
@@ -124,3 +141,4 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({brands, intensities, ocassions, 
 };
 
 export default ShopNavBar;
+ 

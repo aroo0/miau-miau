@@ -24,7 +24,9 @@ interface Route {
 
 const ShopMenu: React.FC<ShopMenuProps> = ({}) => {
   const pathname = usePathname();
-  const { isOpen, onOpen, onClose, page } = useMenuModal();
+  const { isModalOpen, onOpen, onClose, currentPage } = useMenuModal();
+
+
 
   const routes: Route[] = [
     {

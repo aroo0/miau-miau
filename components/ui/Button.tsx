@@ -19,7 +19,9 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         opacity: "hover:opacity-80 transition",
-        menu: "hover:italic uppercase text-xs tracking-widest mt-.5 "
+        menu: "hover:italic uppercase text-xs tracking-widest mt-.5 ",
+        filter: 'transition hover:italic'
+
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -28,7 +30,9 @@ const buttonVariants = cva(
         icon: "h-10 w-10 aspect-square",
         smallIcon: "h-6 w-6 aspect-square	",
         header: "h-auto w-auto ",
-        mainNav: 'text-lg lg:text-2xl  transition uppercase tracking-[0.3rem]'
+        mainNav: 'text-lg lg:text-2xl',
+
+      
         
       },
     },

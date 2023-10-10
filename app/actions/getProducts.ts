@@ -5,11 +5,12 @@ import camelcaseKeys from "camelcase-keys";
 interface Query {
   supabase: SupabaseClient;
   brandId?: string;
-  intensityId?: string;
-  ocassionId?: string;
-  scentClusterId?: string;
+  intensityId?: string | string[];
+  ocassionId?: string | string[];
+  scentClusterId?: string | string[];
   isFeatured?: boolean;
   from: number;
+  order?: string
 }
 export async function getProducts({
   supabase,
@@ -19,6 +20,7 @@ export async function getProducts({
   scentClusterId,
   isFeatured,
   from,
+  order='date-ascending',
 }: Query): Promise<ExtendedProduct[] | []> {
   try {
     const brand = brandId === "all" ? null : brandId;
@@ -40,15 +42,26 @@ export async function getProducts({
       .neq("is_archived", true);
 
     if (ocassionId) {
-      query = query.eq("occasion_id", ocassionId);
+      query = query.in(
+        "occasion_id",
+        typeof ocassionId === "string" ? [ocassionId] : [...ocassionId]
+      );
     }
 
     if (scentClusterId) {
-      query = query.eq("scent_cluster_id", scentClusterId);
+      query = query.in(
+        "scent_cluster_id",
+        typeof scentClusterId === "string"
+          ? [scentClusterId]
+          : [...scentClusterId]
+      );
     }
 
     if (intensityId) {
-      query = query.eq("intensity_id", intensityId);
+      query = query.in(
+        "intensity_id",
+        typeof intensityId === "string" ? [intensityId] : [...intensityId]
+      );
     }
     if (isFeatured) {
       query = query.eq("is_featured", isFeatured);
@@ -60,8 +73,14 @@ export async function getProducts({
 
     const to = from + 5;
 
+    const orderObj = {
+      column: order.split("-")[0] === 'date' ? 'created_at' : 'price',
+      ascending: order.split("-")[1] === 'ascending'
+    }
+    console.log(orderObj)
+
     const { data: products, error: supabaseError } = await query
-    .order("created_at", { ascending: false })
+      .order(orderObj.column, { ascending: orderObj.ascending })
       .range(from, to);
 
     if (supabaseError) {
@@ -70,7 +89,6 @@ export async function getProducts({
     }
 
     const camelCaseProduct = camelcaseKeys(products);
-
 
     return camelCaseProduct;
   } catch (error) {

@@ -1,7 +1,6 @@
 import { getProducts } from "@/app/actions/getProducts";
 import { Product } from "@/app/global";
-import NoResults from "@/components/NoResults";
-import ProductCard from "@/components/ProductCard";
+import PerfumesFilters from "@/components/PerfumeMenu";
 import ProductList from "@/components/ProductList";
 import Container from "@/components/ui/Container";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
@@ -12,25 +11,33 @@ interface PerfumesPageProps {
     brandId: string;
   };
   searchParams: {
-    intensityId: string;
-    ocassionId: string;
-    scentClusterId: string;
+    intensityId: string | string[];
+    ocassionId: string | string[];
+    scentClusterId: string | string[];
+    order: string
   };
 }
+export const revalidate = 0;
+export const dynamic = 'force-dynamic'
 
-export const revalidate = 0; // no cache
 
 const PerfumesPage: React.FC<PerfumesPageProps> = async ({
   params: { brandId },
-  searchParams: { intensityId, ocassionId, scentClusterId },
+  searchParams: { intensityId, ocassionId, scentClusterId, order },
 }) => {
   const queryParams = {
     brandId,
     intensityId,
     ocassionId,
     scentClusterId,
+    order
   };
   const supabase = createServerActionClient({ cookies });
+
+  console.log(scentClusterId);
+  console.log(intensityId);
+  console.log(scentClusterId);
+  console.log(order)
 
   const initData = await getProducts({
     supabase,
@@ -39,6 +46,7 @@ const PerfumesPage: React.FC<PerfumesPageProps> = async ({
     ocassionId,
     scentClusterId,
     from: 0,
+    order: order
   });
 
   const { data: categoryData, error: categoryError } = await supabase

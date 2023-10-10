@@ -24,7 +24,6 @@ export default async function ShopLayout({
   const scentClusters: ScentCluster[] = await getFilterTable({supabase, table: 'product_scent_cluster'})
 
 
-  console.log(scentClusters)
 
 
 
