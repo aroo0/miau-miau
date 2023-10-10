@@ -27,8 +27,6 @@ interface ProductListProps {
 }
 
 export const revalidate = 0;
-export const dynamic = 'force-dynamic'
-
 
 
 const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
@@ -61,6 +59,7 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
       return data;
     },
     initialData: { pages: [initData], pageParams: [0] },
+    staleTime: 0,
     getNextPageParam: (lastPage, pages) => pages.length * 6,
     onError: (error: any) => {
       return toast.error("Something went wrong.");
