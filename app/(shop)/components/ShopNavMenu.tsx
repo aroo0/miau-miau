@@ -53,7 +53,7 @@ const ShopMenu: React.FC<ShopMenuProps> = ({}) => {
     <>
       {routes.map((route) => (
         <div
-          className="border-b lg:border-none w-full pb-2 lg:pb-0"
+          className="border-b lg:border-none w-full pb-3 lg:pb-0"
           key={route.name}
         >
           <Button

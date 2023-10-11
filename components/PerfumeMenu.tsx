@@ -52,7 +52,7 @@ const PerfumeMenu: React.FC<PerfumesFiltersProps> = ({
           Bestsellers
         </Button>
       </div>
-      <div className="grid grid-cols-3 gap-10 " onClick={onClose} >
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10" onClick={onClose} >
         <div className="">
           <div className="border-b text-lg lg:text-2xl  transition uppercase tracking-[0.3rem] pb-2">
             Brand
@@ -91,9 +91,9 @@ const PerfumeMenu: React.FC<PerfumesFiltersProps> = ({
             <Filter valueKey="ocassionId" data={ocassions}  sourceVariant={sourceVariant}/>
           </ul>
         </div>
-        <div className="col-span-3 text-lg lg:text-2xl  transition uppercase tracking-[0.3rem] pb-2">
+        <div className="lg:col-span-3 text-lg lg:text-2xl  transition uppercase tracking-[0.3rem] pb-2">
           <div className="border-b pb-2">Intensity</div>
-          <ul className="pt-4 flex w-full justify-between px-1">
+          <ul className="pt-4 flex flex-col lg:flex-row w-full justify-between px-1">
             <Filter valueKey="intensityId" data={intensities} sourceVariant={sourceVariant}/>
           </ul>
         </div>

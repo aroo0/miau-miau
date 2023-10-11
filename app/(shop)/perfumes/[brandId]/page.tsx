@@ -63,13 +63,13 @@ const PerfumesPage: React.FC<PerfumesPageProps> = async ({
 
   return (
     <Container>
-      <div className="flex-col  flex gap-4 items-center h-[80vh] justify-center">
-        <h1 className="text-9xl text-center">
+      <div className="flex-col  flex gap-4 items-center h-[80vh] justify-center px-6">
+        <h1 className="text-4xl md:text-9xl text-center">
           Perfumes
           <br />
           <span className="italic">{brandData ? brandData.name : "All"}</span>
         </h1>
-        <p className="text-sm">
+        <p className="text-sm text-center">
           {brandData ? brandData.description : categoryData.description}
         </p>
       </div>

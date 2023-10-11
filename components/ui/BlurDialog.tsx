@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContentPlainBlur,
+  DialogPortal,
 } from "@/components/ui/Dialog";
 import { useEffect, useState } from "react";
 
@@ -13,7 +14,6 @@ interface BlurDialogProps {
 }
 
 export const BlurDialog: React.FC<BlurDialogProps> = ({
-
   isOpen,
   onClose,
   children,
@@ -34,12 +34,11 @@ export const BlurDialog: React.FC<BlurDialogProps> = ({
     return null;
   }
 
-
   return (
-    <Dialog open={isOpen} onOpenChange={onChange}>
-      <DialogContentPlainBlur>
-       {children}
-      </DialogContentPlainBlur>
-    </Dialog>
+      <Dialog open={isOpen} onOpenChange={onChange}>
+
+        <DialogContentPlainBlur>{children}</DialogContentPlainBlur>
+
+      </Dialog>
   );
 };

@@ -72,7 +72,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
         </div>
       </div>
       {/*  Mobile Nav */}
-      <div className=" flex lg:hidden w-full py-4 gap-x-4 items-center px-4 justify-between pointer-events-auto	">
+      <div className=" flex lg:hidden w-full py-4 gap-x-4 items-center px-4 justify-between fixed z-[120] pointer-events-auto">
         <Logo />
         <div className="z-[100] flex items-center gap-x-2">
           <Button
@@ -113,7 +113,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
           </Button>
         </div>
         <BlurDialog isOpen={isOpen} onClose={onClose}>
-          <div className="flex flex-col items-start  gap-4 pl-4  pr-8 py-4 rounded-full">
+          <div className="flex flex-col items-start  gap-4 box-border w-full pt-8">
             {currentPage === "menu" && <ShopMenu />}
             {currentPage === "perfumes" && (
               <PerfumeMenu

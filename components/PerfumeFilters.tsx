@@ -36,7 +36,7 @@ const PerfumesFilters: React.FC<PerfumesFiltersProps> = ({
   return (
     <div className="w-full h-full">
       <Container>
-        <div className="grid grid-cols-3 gap-10 mt-40">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-10 lg:mt-40">
           <div>
             <div className="border-b text-lg lg:text-2xl  transition uppercase tracking-[0.3rem] pb-2">
               Scent Cluster
@@ -76,9 +76,9 @@ const PerfumesFilters: React.FC<PerfumesFiltersProps> = ({
               />
             </ul>
           </div>
-          <div className="col-span-3 text-lg lg:text-2xl  transition uppercase tracking-[0.3rem] pb-2">
+          <div className="lg:col-span-3 text-lg lg:text-2xl  transition uppercase tracking-[0.3rem] pb-2">
             <div className="border-b pb-2">Intensity</div>
-            <ul className="pt-4 flex w-full justify-between px-1">
+            <ul className="pt-4 flex flex-col lg:flex-row w-full justify-between px-1">
               <Filter
                 valueKey="intensityId"
                 data={intensities}
