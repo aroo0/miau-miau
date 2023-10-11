@@ -42,7 +42,6 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
   const supabase = createClientComponentClient();
 
   const href = typeof window !== "undefined" ? window.location.href : "";
-  console.log(href);
 
   const { data, error, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: [`${href} query`],

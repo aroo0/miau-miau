@@ -11,29 +11,48 @@ interface FilterProps {
   valueKey: string;
   data: ScentCluster[] | Intensity[] | Ocassion[] | sortBy[];
   sourceVariant: "Navigation" | "FilterTab";
+  type?: "singleSelect" | "multiSelect";
 }
 
-const Filter: React.FC<FilterProps> = ({ valueKey, data, sourceVariant }) => {
+const Filter: React.FC<FilterProps> = ({
+  valueKey,
+  data,
+  sourceVariant,
+  type,
+}) => {
   const searchParams = useSearchParams();
   const { onClose } = useMenuModal();
 
   const router = useRouter();
-  const selectedValue = searchParams.get(valueKey);
+  const currentParam = searchParams.getAll(valueKey);
 
   const onClick = (id: string) => {
+    let query;
     let url;
+    const current = qs.parse(searchParams.toString());
+
     if (sourceVariant === "Navigation") {
       url = `/perfumes/all?${valueKey}=${id}`;
     } else {
-      const current = qs.parse(searchParams.toString());
+      if (type === "singleSelect") {
+        query = {
+          ...current,
+          [valueKey]: id,
+        };
+      } else {
+        query = {
+          ...current,
+          [valueKey]: currentParam,
+        };
 
-      const query = {
-        ...current,
-        [valueKey]: id,
-      };
-
-      if (current[valueKey] === id) {
-        query[valueKey] = null;
+        const index = query[valueKey]!.indexOf(id);
+        if (index !== -1) {
+          // @ts-ignore
+          query[valueKey].splice(index, 1);
+        } else {
+          // @ts-ignore
+          query[valueKey].push(id);
+        }
       }
 
       url = qs.stringifyUrl(
@@ -44,6 +63,8 @@ const Filter: React.FC<FilterProps> = ({ valueKey, data, sourceVariant }) => {
         { skipNull: true }
       );
     }
+
+    console.log(url);
 
     router.push(url);
     router.refresh();
@@ -59,15 +80,17 @@ const Filter: React.FC<FilterProps> = ({ valueKey, data, sourceVariant }) => {
             onClick={() => onClick(filter.id)}
             className={cn(
               "flex justify-center gap-3",
-              selectedValue === filter.id && "italic"
+              currentParam.includes(filter.id) && "italic"
             )}
           >
-            <div
-              className={cn(
-                "w-4  h-4 border rounded-full transition",
-                selectedValue === filter.id && "bg-foreground"
-              )}
-            />
+            {sourceVariant === "FilterTab" && (
+              <div
+                className={cn(
+                  "w-4  h-4 border rounded-full transition",
+                  currentParam.includes(filter.id) && "bg-foreground"
+                )}
+              />
+            )}
             <span> {filter.name}</span>
           </Button>
         </li>

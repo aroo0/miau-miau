@@ -4,8 +4,9 @@ import Link from "next/link";
 import { Button } from "./ui/Button";
 import { Router } from "lucide-react";
 import useMenuModal from "@/hooks/useMenuModal";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Filter from "./Filter";
+import path from "path";
 
 interface PerfumesFiltersProps {
   brands: Brand[];
@@ -21,7 +22,9 @@ const PerfumesFilters: React.FC<PerfumesFiltersProps> = ({
   scentClusters,
   sourceVariant,
 }) => {
-  const { onClose } = useMenuModal();
+  const { onClose, currentPage } = useMenuModal();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const sortOptions: sortBy[] = [
     { name: "Price, low to high", id: "price-ascending" },
@@ -33,7 +36,7 @@ const PerfumesFilters: React.FC<PerfumesFiltersProps> = ({
   return (
     <div className="w-full h-full">
       <Container>
-        <div className="grid grid-cols-3 gap-10 mt-40 ">
+        <div className="grid grid-cols-3 gap-10 mt-40">
           <div>
             <div className="border-b text-lg lg:text-2xl  transition uppercase tracking-[0.3rem] pb-2">
               Scent Cluster
@@ -43,6 +46,7 @@ const PerfumesFilters: React.FC<PerfumesFiltersProps> = ({
                 valueKey="scentClusterId"
                 data={scentClusters}
                 sourceVariant={sourceVariant}
+                type="multiSelect"
               />
             </ul>
           </div>
@@ -55,6 +59,7 @@ const PerfumesFilters: React.FC<PerfumesFiltersProps> = ({
                 valueKey="ocassionId"
                 data={ocassions}
                 sourceVariant={sourceVariant}
+                type="multiSelect"
               />
             </ul>
           </div>
@@ -67,6 +72,7 @@ const PerfumesFilters: React.FC<PerfumesFiltersProps> = ({
                 valueKey="order"
                 data={sortOptions}
                 sourceVariant={sourceVariant}
+                type="singleSelect"
               />
             </ul>
           </div>
@@ -77,10 +83,39 @@ const PerfumesFilters: React.FC<PerfumesFiltersProps> = ({
                 valueKey="intensityId"
                 data={intensities}
                 sourceVariant={sourceVariant}
+                type="multiSelect"
               />
             </ul>
           </div>
         </div>
+        {currentPage && (
+          <div className="flex gap-4 mt-12 mr-4">
+            <Button
+              className="py-2 px-6 tracking-widest"
+              variant="outline"
+              size="mainNav"
+              onClick={() => {
+                onClose();
+                router.refresh();
+              }}
+            >
+              Apply
+            </Button>
+            <Button
+              className="py-2 px-6 tracking-widest"
+              variant="filter"
+              size="mainNav"
+              onClick={() => {
+                onClose();
+                console.log(pathname)
+                router.push(pathname)
+                router.refresh();
+              }}
+            >
+              Clear
+            </Button>
+          </div>
+        )}
       </Container>
     </div>
   );

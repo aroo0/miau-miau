@@ -77,7 +77,6 @@ export async function getProducts({
       column: order.split("-")[0] === 'date' ? 'created_at' : 'price',
       ascending: order.split("-")[1] === 'ascending'
     }
-    console.log(orderObj)
 
     const { data: products, error: supabaseError } = await query
       .order(orderObj.column, { ascending: orderObj.ascending })
