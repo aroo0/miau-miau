@@ -14,28 +14,40 @@ export default async function ShopLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createServerComponentClient<Database>({
-    cookies,
+  const supabase = createServerComponentClient<Database>({ cookies });
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const brands: Brand[] = await getFilterTable({
+    supabase,
+    table: "product_brand",
   });
-
-  const brands: Brand[] = await getFilterTable({supabase, table: 'product_brand'})
-  const intensities: Intensity[] = await getFilterTable({supabase, table: 'product_intensity'})
-  const ocassions: Ocassion[] = await getFilterTable({supabase, table: 'product_ocassion'})
-  const scentClusters: ScentCluster[] = await getFilterTable({supabase, table: 'product_scent_cluster'})
-
-
-
-
-
-
-
-
+  const intensities: Intensity[] = await getFilterTable({
+    supabase,
+    table: "product_intensity",
+  });
+  const ocassions: Ocassion[] = await getFilterTable({
+    supabase,
+    table: "product_ocassion",
+  });
+  const scentClusters: ScentCluster[] = await getFilterTable({
+    supabase,
+    table: "product_scent_cluster",
+  });
 
   return (
     <>
-      <ShopNavBar brands={brands} intensities={intensities} ocassions={ocassions} scentClusters={scentClusters} />
+      <ShopNavBar
+        brands={brands}
+        intensities={intensities}
+        ocassions={ocassions}
+        scentClusters={scentClusters}
+        session={session}
+      />
 
-      <div className="lg:px-8">{children}</div>
+      <div className="lg:px-8 h-full">{children}</div>
     </>
   );
 }

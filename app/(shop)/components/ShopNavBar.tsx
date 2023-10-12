@@ -7,15 +7,24 @@ import { Button } from "@/components/ui/Button";
 import ShopMenu from "./ShopNavMenu";
 import { BlurDialog } from "@/components/ui/BlurDialog";
 import useMenuModal from "@/hooks/useMenuModal";
-import { Brand, Intensity, ModalPageVariant, Ocassion, ScentCluster } from "@/app/global";
+import {
+  Brand,
+  Intensity,
+  ModalPageVariant,
+  Ocassion,
+  ScentCluster,
+} from "@/app/global";
 import PerfumeMenu from "@/components/PerfumeMenu";
 import PerfumesFilters from "@/components/PerfumeFilters";
+import Link from "next/link";
+import { Session } from "@supabase/supabase-js";
 
 interface ShopNavBarProps {
   brands: Brand[];
   intensities: Intensity[];
   ocassions: Ocassion[];
   scentClusters: ScentCluster[];
+  session: Session | null;
 }
 
 const ShopNavBar: React.FC<ShopNavBarProps> = ({
@@ -23,47 +32,42 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
   intensities,
   ocassions,
   scentClusters,
+  session,
 }) => {
   const { isModalOpen: isOpen, onOpen, onClose, currentPage } = useMenuModal();
 
   return (
     <>
       {/* Desktop Nav */}
-      <div className="hidden lg:flex w-full py-1 gap-x-4 items-center px-7 justify-between fixed z-[120] pointer-events-auto">
+      <div className="hidden lg:flex w-full py-1 gap-x-4 items-center px-7  fixed z-[120] pointer-events-auto">
         <Logo />
-        <div className="flex gap-x-10 px-8 py-4">
+        <div className="flex gap-x-10 px-8 py-4 mx-auto">
           <ShopMenu />
         </div>
-        <div className="flex items-center gap-2 uppercase">
-          <Button
-            variant="menu"
-            size="header"
-            onClick={() => {}}
-            title="Back to shop "
-          >
+        <div className="flex items-center gap-3 uppercase">
+          <Button variant="menu" size="header" onClick={() => {}} title="Bag">
             Bag (0)
           </Button>
+
           <Button
             variant="opacity"
             size="smallIcon"
             onClick={() => {}}
-            title="Back to shop"
+            title="Wishlist"
           >
             <Heart strokeWidth={1.48} size={12} />
           </Button>
-          <Button
-            variant="menu"
-            size="header"
-            onClick={() => {}}
-            title="Back to shop "
+          <Link
+            href="/account"
+            className="hover:italic uppercase text-xs tracking-widest mt-.5 "
           >
-            Login / Account
-          </Button>
+            {session ? "Account" : "Login"}
+          </Link>
           <Button
             variant="menu"
             size="header"
             onClick={() => {}}
-            title="Back to shop "
+            title="Search "
           >
             Search
           </Button>
@@ -79,7 +83,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
             variant="opacity"
             size="smallIcon"
             onClick={() => {}}
-            title="Back to shop"
+            title="Search"
           >
             <Search strokeWidth={1.8} size={18} />
           </Button>
@@ -87,7 +91,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
             variant="opacity"
             size="smallIcon"
             onClick={() => {}}
-            title="Back to shop"
+            title="Bagp"
           >
             <ShoppingBag strokeWidth={1.8} size={18} />
           </Button>
@@ -95,7 +99,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
             variant="opacity"
             size="smallIcon"
             onClick={() => {}}
-            title="Back to shop"
+            title="Wishlist"
           >
             <Heart strokeWidth={1.8} size={18} />
           </Button>
@@ -141,4 +145,3 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
 };
 
 export default ShopNavBar;
- 

@@ -10,6 +10,7 @@ import {
 import useMenuModal from "@/hooks/useMenuModal";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface ShopMenuProps {}
@@ -25,8 +26,6 @@ interface Route {
 const ShopMenu: React.FC<ShopMenuProps> = ({}) => {
   const pathname = usePathname();
   const { isModalOpen, onOpen, onClose, currentPage } = useMenuModal();
-
-
 
   const routes: Route[] = [
     {
@@ -49,6 +48,10 @@ const ShopMenu: React.FC<ShopMenuProps> = ({}) => {
     },
   ];
 
+  useEffect(() => {
+    console.log("useEff", isModalOpen);
+  }, [isModalOpen]);
+
   return (
     <>
       {routes.map((route) => (
@@ -59,11 +62,13 @@ const ShopMenu: React.FC<ShopMenuProps> = ({}) => {
           <Button
             variant="menu"
             size="mainNav"
-            className={twMerge(
-              route.active && "italic"
-            )}
-            onClick={() => onOpen(route.page)}
-
+            className={twMerge(route.active && "italic")}
+            onClick={() => {
+              if (isModalOpen && currentPage === route.page) {
+                return onClose();
+              }
+              onOpen(route.page);
+            }}
           >
             {route.name}
           </Button>

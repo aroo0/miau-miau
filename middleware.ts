@@ -3,15 +3,30 @@ import { NextResponse } from 'next/server'
 
 import type { NextRequest } from 'next/server'
 
-export async function middleware(req: NextRequest) {
-  const res = NextResponse.next()
+ export async function middleware(req: NextRequest) {
+    const res = NextResponse.next();
+  
+    const supabase = createMiddlewareClient({ req, res });
+  
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+  
+    // Check auth condition
+    if (session) {
+      // Authentication successful, forward request to protected route.
+      return res;
+    }
+  
+    // Auth condition not met, redirect to sign-in.
+    const redirectUrl = req.nextUrl.clone();
+    redirectUrl.pathname = "/login";
+    redirectUrl.searchParams.set(`continue`, req.nextUrl.pathname);
+    return NextResponse.redirect(redirectUrl);
+  }
 
-  // Create a Supabase client configured to use cookies
-  const supabase = createMiddlewareClient({ req, res })
 
-  // Refresh session if expired - required for Server Components
-  // https://supabase.com/docs/guides/auth/auth-helpers/nextjs#managing-session-with-middleware
-  await supabase.auth.getSession()
+export const config = {
+  matcher: "/account/:path*",
+};
 
-  return res
-}

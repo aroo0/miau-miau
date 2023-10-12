@@ -1,7 +1,7 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import LogoutButton from "@/components/LogoutButton";
+import LogoutButton from "@/app/(shop)/(auth)/account/components/LogoutButton";
 
 export const dynamic = "force-dynamic";
 
@@ -14,14 +14,6 @@ async function Page() {
 
   return (
     <div>
-      {user ? (
-        <div>
-          Hey, {user.email}!
-          <LogoutButton />
-        </div>
-      ) : (
-        <Link href="/login">Login</Link>
-      )}
     </div>
   );
 }

@@ -2,8 +2,8 @@ import { ModalPageVariant } from "@/app/global";
 import { create } from "zustand";
 
 interface MenuModalStore {
-  isModalOpen: boolean ;
-  currentPage: ModalPageVariant | undefined;
+  isModalOpen: boolean;
+  currentPage?: ModalPageVariant | undefined;
   onOpen: (page: ModalPageVariant) => void;
   onClose: () => void;
 }
