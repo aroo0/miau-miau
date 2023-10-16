@@ -35,6 +35,8 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
   session,
 }) => {
   const { isModalOpen: isOpen, onOpen, onClose, currentPage } = useMenuModal();
+  const [isInWishlist, setIsInWishlist] = useState()
+
 
   return (
     <>
@@ -48,15 +50,18 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
           <Button variant="menu" size="header" onClick={() => {}} title="Bag">
             Bag (0)
           </Button>
-
+          <Link
+            href="/account/wishlist"
+            className="hover:italic uppercase text-xs tracking-widest mt-.5 "
+          >
           <Button
             variant="opacity"
             size="smallIcon"
-            onClick={() => {}}
             title="Wishlist"
           >
-            <Heart strokeWidth={1.48} size={12} />
+            <Heart strokeWidth={1.48} size={12} fill='current' />
           </Button>
+          </Link>
           <Link
             href="/account"
             className="hover:italic uppercase text-xs tracking-widest mt-.5 "
@@ -101,7 +106,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
             onClick={() => {}}
             title="Wishlist"
           >
-            <Heart strokeWidth={1.8} size={18} />
+            <Heart strokeWidth={1.8} size={18}   fill='current'/>
           </Button>
           <ModeToggle />
           <Button

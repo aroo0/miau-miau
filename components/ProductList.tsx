@@ -67,7 +67,6 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
 
   useEffect(() => {
     if (entry?.isIntersecting) {
-      console.log("fetching");
       fetchNextPage();
     }
   }, [entry, fetchNextPage]);

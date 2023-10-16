@@ -48,10 +48,6 @@ const ShopMenu: React.FC<ShopMenuProps> = ({}) => {
     },
   ];
 
-  useEffect(() => {
-    console.log("useEff", isModalOpen);
-  }, [isModalOpen]);
-
   return (
     <>
       {routes.map((route) => (

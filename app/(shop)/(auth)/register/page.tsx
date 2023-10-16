@@ -1,7 +1,7 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import RegisterForm from "../account/components/RegisterForm";
+import RegisterForm from "../components/RegisterForm";
 
 export const dynamic = "force-dynamic";
 

@@ -18,7 +18,6 @@ interface Route {
 
 const AccountMenu: React.FC<AccountMenuProps> = ({ children, title }) => {
   const pathname = usePathname();
-  console.log("pathname", pathname);
 
   const routes: Route[] = [
     {
@@ -44,8 +43,8 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ children, title }) => {
   ];
 
   return (
-    <div className="pt-40 grid grid-cols-12 max-w-[1224px] mx-auto">
-      <div className="col-span-2 ">
+    <div className="pt-20 lg:pt-40 grid grid-cols-1 md:grid-cols-12 max-w-[1224px] mx-4 lg:mx-auto ">
+      <div className="col-span-1 md:col-span-3 lg:col-span-2 mb-4">
         <h1 className="uppercase text-xs tracking-wider pb-2 border-b">
           My Account
         </h1>
@@ -54,16 +53,18 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ children, title }) => {
             <Link
               href={route.path}
               key={route.name}
-              className={twMerge("hover:italic text-sm", route.active && "italic")}
+              className={twMerge(
+                "hover:italic text-sm",
+                route.active && "italic"
+              )}
             >
               {route.name}
             </Link>
           ))}
           <LogoutButton />
-
         </div>
       </div>
-      <div className="col-span-6 col-start-4	">
+      <div className="col-span-1 md:col-span-8 md:col-start-5 lg:col-span-7 lg:col-start-4	">
         <h2 className="uppercase text-xs tracking-wider pb-2 border-b mb-8 text-center">
           {title}
         </h2>

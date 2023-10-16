@@ -15,11 +15,13 @@ import CarouselGallery from "./CarouselGallery";
 interface ProductDisplayProps {
   product: ExtendedProduct;
   relatedProducts: ExtendedProduct[];
+  inWishlist: boolean
 }
 
 const ProductDisplay: React.FC<ProductDisplayProps> = ({
   product,
   relatedProducts,
+  inWishlist
 }) => {
   const htmlDetails = { __html: product.details || "" };
 
@@ -103,7 +105,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-        <ProductActions productId={product.id} />
+        <ProductActions product={product} inWishlist={inWishlist} />
       </div>
       <div className="col-span-3 mx-4">
         <RelatedProducts relatedProducts={relatedProducts} />

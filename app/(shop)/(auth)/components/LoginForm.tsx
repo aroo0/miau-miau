@@ -66,7 +66,9 @@ const LoginForm = () => {
         return new NextResponse("Something went wrong.", { status: 400 });
       }
 
-      router.push(`${location.origin}/${continueParam}`);
+      const path = continueParam ? `${location.origin}/${continueParam}` : `${location.origin}/`
+
+      router.push(path);
       router.refresh()
     } catch (error) {
       return new NextResponse("Something went wrong.", { status: 400 });
