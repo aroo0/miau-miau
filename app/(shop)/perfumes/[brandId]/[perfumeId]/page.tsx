@@ -18,35 +18,39 @@ const PerfumePage: React.FC<PerfumePageProps> = async ({
 }) => {
   const supabase = createServerActionClient({ cookies });
 
-
-
   const product = await getProduct({ supabase, perfumeId });
 
   const relatedProducts = await getRandomSimilarProducts({
     supabase,
     scentClusterId: product?.scentClusterId,
-    perfumeId
+    perfumeId,
   });
-  
+
   if (!product || !relatedProducts) {
-   return null;
- }
+    return null;
+  }
 
- const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
- let inWishlist = false
+  let inWishlist = false;
 
- if(user) {
-  inWishlist = await getWishlistProduct({supabase, userId: user.id, productId: perfumeId})
- }
-
-
-
-
+  if (user) {
+    inWishlist = await getWishlistProduct({
+      supabase,
+      userId: user.id,
+      productId: perfumeId,
+    });
+  }
 
   return (
     <div className="max-w-[1328px] mx-auto">
-      <ProductDisplay product={product} relatedProducts={relatedProducts} inWishlist={inWishlist}/>
+      <ProductDisplay
+        product={product}
+        relatedProducts={relatedProducts}
+        inWishlist={inWishlist}
+      />
     </div>
   );
 };

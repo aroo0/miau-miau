@@ -22,6 +22,14 @@ export type ModalPageVariant =
   | undefined;
 export type sortBy = { name: string; id: string };
 
+export interface WishListType {
+  id: string;
+  name: string;
+  brand: string;
+  price: number;
+  productImages: string[];
+}
+
 export type CamelCaseProduct = {
   brandId: string;
   categoryId: string;
