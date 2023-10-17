@@ -4,7 +4,6 @@ import {
   Brand,
   Category,
   ExtendedProduct,
-  Image,
   Intensity,
   Ocassion,
   ScentCluster,
@@ -41,7 +40,6 @@ import {
 } from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
 import ImageUpload from "@/components/ImageUpload";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -117,7 +115,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
         },
   });
 
-  const supabase = createClientComponentClient();
 
   const onSubmit = async (data: ProductFormValues) => {
     try {

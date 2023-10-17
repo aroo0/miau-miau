@@ -20,9 +20,8 @@ const CategoriesPage = async () => {
       product_scent_cluster(name)
       `);
 
-
   if (productError) {
-    console.log(productError)
+    console.log(productError);
     return null;
   }
 
@@ -38,8 +37,6 @@ const CategoriesPage = async () => {
     scentCluster: item.product_scent_cluster!.name,
     isFeatured: item.is_featured!,
     isArchived: item.is_archived,
-  
-
   }));
 
   return (

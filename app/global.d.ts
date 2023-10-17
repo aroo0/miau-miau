@@ -11,6 +11,25 @@ export type ProductInventory =
   DB["public"]["Tables"]["product_inventory"]["Row"];
 export type Image = DB["public"]["Tables"]["product_image"]["Row"];
 
+export type Address = DB["public"]["Tables"]["user_addresses"]["Row"];
+
+export type camelCaseAddress = {
+  addressLine1: string;
+  addressLine2: string | null;
+  city: string;
+  company: string | null;
+  country: string;
+  createdAt: string;
+  firstName: string;
+  id: string;
+  lastName: string;
+  postalCode: string;
+  primary: boolean;
+  telephone: string | null;
+  userId: string;
+};
+
+
 export type ModalPageVariant =
   | "menu"
   | "perfumes"
@@ -26,6 +45,7 @@ export interface WishListType {
   id: string;
   name: string;
   brand: string;
+  brandId: string;
   price: number;
   productImages: string[];
 }

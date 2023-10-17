@@ -27,6 +27,7 @@ export async function getWishlistProducts({
         return {
           id: wishlistItem.product_id,
           name: wishlistItem.product.name,
+          brandId: wishlistItem.product.brand_id,
           brand: wishlistItem.product.product_brand.name,
           price: wishlistItem.product.price,
           productImages: wishlistItem.product.product_image.map(

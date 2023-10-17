@@ -12,6 +12,7 @@ export type ProductColumn = {
   name: string;
   price: number;
   quantity: number;
+  volume: string;
   description: string;
   category: string;
   brand: string;

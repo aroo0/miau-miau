@@ -1,9 +1,8 @@
-import Container from "@/components/ui/Container";
 import AccountMenu from "../(auth)/components/AccountMenu";
 
-interface pageProps {}
 
-const page: React.FC<pageProps> = ({}) => {
+
+const AccountPage = () => {
   return (
     <AccountMenu title="Account Details">
       <p>
@@ -14,4 +13,4 @@ const page: React.FC<pageProps> = ({}) => {
   );
 };
 
-export default page;
+export default AccountPage;

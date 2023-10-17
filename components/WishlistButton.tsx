@@ -1,21 +1,21 @@
+"use client"
 import { Heart, X } from "lucide-react";
 import { Button } from "./ui/Button";
 import { useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { usePathname, useRouter } from "next/navigation";
-import toast, { Toast, Toaster } from "react-hot-toast";
+import toast, { Toast } from "react-hot-toast";
 import { ExtendedProduct } from "@/app/global";
 import Image from "next/image";
-import { Transition } from "@headlessui/react";
 import { formatPrice } from "@/lib/utils";
 import { twMerge } from "tailwind-merge";
 
-interface WishlistActionProps {
+interface WishlistButtonProps {
   product: ExtendedProduct;
   inWishlist: boolean;
 }
 
-const WishlistAction: React.FC<WishlistActionProps> = ({
+const WishlistButton: React.FC<WishlistButtonProps> = ({
   product,
   inWishlist,
 }) => {
@@ -90,53 +90,32 @@ const WishlistAction: React.FC<WishlistActionProps> = ({
     if (!user) {
       return router.push(`/login?continue=${pathname}`);
     }
+
     setDisabled(true);
     setIsInWishlist((prev) => !prev);
 
     try {
       if (!isInWishlist) {
-        const { data, error } = await supabase
+        await supabase
           .from("wishlist")
           .insert({ product_id: product.id, user_id: user.id });
-
-        if (error) {
-          setIsInWishlist((prev) => !prev);
-          console.log(error)
-
-          toast.error("Something went wrong");
-        } else {
-          toast.custom(successToast, {
-            position: "top-right",
-            duration: 4000,
-          });
-        }
-      }
-
-      if (isInWishlist) {
-        const { data, error } = await supabase
+        toast.custom(successToast, { position: "top-right", duration: 4000 });
+      } else {
+        await supabase
           .from("wishlist")
           .delete()
           .eq("product_id", product.id)
           .eq("user_id", user.id);
-
         toast.success("Product deleted from wishlist.");
-
-        if (error) {
-          console.log(error)
-
-          setIsInWishlist((prev) => !prev);
-          toast.error("Something went wrong");
-        }
       }
     } catch (error) {
       setIsInWishlist((prev) => !prev);
-      console.log(error)
-      toast.error("Something went wrong");
+      toast.error("Something went wrong.");
     } finally {
-      setDisabled(false);
+      setDisabled(false)
+
     }
   };
-
   return (
     <Button
       variant="opacity"
@@ -155,4 +134,4 @@ const WishlistAction: React.FC<WishlistActionProps> = ({
   );
 };
 
-export default WishlistAction;
+export default WishlistButton;

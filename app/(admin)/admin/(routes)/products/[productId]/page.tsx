@@ -45,7 +45,6 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
     return null;
   }
 
-  console.log(camelCaseProduct);
 
   return (
     <>

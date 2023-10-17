@@ -35,7 +35,7 @@ html, body, :root {
     --destructive-foreground: #fafafa;
 
     --border: #1e1e1e;
-    --input: #000000;
+    --input: #1e1e1e;
     --ring: #ffffff;
 
     --radius: .5rem;
