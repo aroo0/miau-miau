@@ -3,7 +3,10 @@ import { cookies } from "next/headers";
 
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function PATCH(
+  req: Request,
+  { params }: { params: { addressId: string } }
+) {
   try {
     const supabase = createRouteHandlerClient<Database>({ cookies });
 
@@ -55,8 +58,7 @@ export async function POST(req: Request) {
 
     const { data: address, error: supabaseAddressError } = await supabase
       .from("user_addresses")
-      .insert({
-        user_id: user.id,
+      .update({
         first_name: firstName,
         last_name: lastName,
         telephone: telephone,
@@ -68,33 +70,37 @@ export async function POST(req: Request) {
         postal_code: zip,
         primary: primary ? primary : false,
       })
+      .eq("id", params.addressId)
       .select("id")
       .single();
 
     if (supabaseAddressError) {
       // Handle Supabase-specific error
-      console.error("[ADDRESS_POST_SUPABASE_ERROR]", supabaseAddressError);
+      console.error("[ADDRESS_UPDATE_SUPABASE_ERROR]", supabaseAddressError);
       return new NextResponse("Supabase error", { status: 500 });
     }
 
+    // Update primary address
+
     if (primary) {
-      const { error: settingPrimaryError } = await supabase
+      const { data, error: settingPrimaryError } = await supabase
         .from("user_addresses")
         .update({ primary: false })
         .eq("user_id", user.id)
         .neq("id", address.id)
+        .select();
 
       if (settingPrimaryError) {
         // Handle Supabase-specific error
-        console.error("[ADDRESS_POST_SUPABASE_ERROR]", supabaseAddressError);
+        console.log(settingPrimaryError)
+        console.error("[ADDRESS_UPDATE_SUPABASE_ERROR]", supabaseAddressError);
         return new NextResponse("Supabase error", { status: 500 });
       }
     }
 
-
     return NextResponse.json(address);
   } catch (error) {
-    console.log("[ADDRESS_POST]", error);
+    console.log("[ADDRESS_UPDATE]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }

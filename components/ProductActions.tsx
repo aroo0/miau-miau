@@ -1,10 +1,9 @@
 "use client"
-import { Heart } from "lucide-react";
 import { Button } from "./ui/Button";
 import WishlistAction from "./WishlistButton";
-import toast from "react-hot-toast";
 import { ExtendedProduct, Product } from "@/app/global";
 import AddToCartButton from "./AddToCartButton";
+import useCart from "@/hooks/useCart";
 
 interface ProductActionsProps {
   product: ExtendedProduct;
@@ -12,11 +11,12 @@ interface ProductActionsProps {
 }
 
 const ProductActions: React.FC<ProductActionsProps> = ({ product, inWishlist }) => {
+  const { addItem } = useCart()
+
 
   return <div className="flex gap-3 items-center">
 
     <Button variant='outline' size='sm'>Add to cart</Button>
-    <AddToCartButton />
     <WishlistAction product={product} inWishlist={inWishlist} />
   </div>;
 };

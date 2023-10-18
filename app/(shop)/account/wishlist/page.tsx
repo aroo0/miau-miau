@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 import WishlistItem from "@/app/(shop)/account/wishlist/components/WishListItem";
 import NoResults from "@/components/NoResults";
 
-export const revalidate = 0;
 export const dynamic = 'force-dynamic'
 
 

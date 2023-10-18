@@ -11,6 +11,7 @@ import ProductActions from "./ProductActions";
 import Image from "next/image";
 import RelatedProducts from "./RelatedProducts";
 import CarouselGallery from "./CarouselGallery";
+import useCart from "@/hooks/useCart";
 
 interface ProductDisplayProps {
   product: ExtendedProduct;

@@ -59,6 +59,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
     defaultValues: initialData
       ? {
           ...initialData,
+          zip: initialData.postalCode,
           telephone: initialData.telephone ? initialData.telephone : undefined,
           company: initialData.company ? initialData.company : undefined,
           addressOne: initialData.addressLine1,
@@ -81,11 +82,10 @@ const AddressForm: React.FC<AddressFormProps> = ({
   });
 
   const onSubmit = async (data: AddressFormValues) => {
-    console.log("aro");
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/categories/${params.categoryId}`, data);
+        await axios.patch(`/api/account/address/${initialData.id}`, data);
       } else {
         await axios.post(`/api/account/address`, data);
       }
@@ -96,6 +96,7 @@ const AddressForm: React.FC<AddressFormProps> = ({
       toast.error("Something went wrong.");
     } finally {
       setLoading(false);
+      setIsFormOpen(false)
     }
   };
 

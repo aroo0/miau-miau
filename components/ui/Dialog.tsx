@@ -67,7 +67,7 @@ const DialogContentPlainBlur = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed left-0 top-10 z-50 grid  gap-4 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 sm:rounded-lg w-full h-full overflow-scroll px-4 sm:px-8 pb-20 sm:pb-10 md:pb-2",
+        "fixed left-0 top-0 z-50 grid  gap-4 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 sm:rounded-lg w-full h-full overflow-y-auto px-4 sm:px-8 pb-20 sm:pb-10 md:pb-2",
         className
       )}
       {...props}

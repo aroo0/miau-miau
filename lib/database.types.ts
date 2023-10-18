@@ -318,7 +318,7 @@ export interface Database {
           first_name: string
           id: string
           last_name: string
-          postcal_code: string
+          postal_code: string
           primary: boolean
           telephone: string | null
           user_id: string
@@ -333,7 +333,7 @@ export interface Database {
           first_name: string
           id?: string
           last_name: string
-          postcal_code: string
+          postal_code: string
           primary?: boolean
           telephone?: string | null
           user_id: string
@@ -348,7 +348,7 @@ export interface Database {
           first_name?: string
           id?: string
           last_name?: string
-          postcal_code?: string
+          postal_code?: string
           primary?: boolean
           telephone?: string | null
           user_id?: string

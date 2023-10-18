@@ -18,6 +18,7 @@ import PerfumeMenu from "@/components/PerfumeMenu";
 import PerfumesFilters from "@/components/PerfumeFilters";
 import Link from "next/link";
 import { Session } from "@supabase/supabase-js";
+import Cart from "@/components/cart/Cart";
 
 interface ShopNavBarProps {
   brands: Brand[];
@@ -35,8 +36,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
   session,
 }) => {
   const { isModalOpen: isOpen, onOpen, onClose, currentPage } = useMenuModal();
-  const [isInWishlist, setIsInWishlist] = useState()
-
+  const [isInWishlist, setIsInWishlist] = useState();
 
   return (
     <>
@@ -47,20 +47,21 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
           <ShopMenu />
         </div>
         <div className="flex items-center gap-3 uppercase">
-          <Button variant="menu" size="header" onClick={() => {}} title="Bag">
+          <Button
+            variant="menu"
+            size="header"
+            onClick={() => onOpen("cart")}
+            title="Bag"
+          >
             Bag (0)
           </Button>
           <Link
             href="/account/wishlist"
             className="hover:italic uppercase text-xs tracking-widest mt-.5 "
           >
-          <Button
-            variant="opacity"
-            size="smallIcon"
-            title="Wishlist"
-          >
-            <Heart strokeWidth={1.48} size={12} fill='current' />
-          </Button>
+            <Button variant="opacity" size="smallIcon" title="Wishlist">
+              <Heart strokeWidth={1.48} size={12} fill="current" />
+            </Button>
           </Link>
           <Link
             href="/account"
@@ -95,19 +96,20 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
           <Button
             variant="opacity"
             size="smallIcon"
-            onClick={() => {}}
-            title="Bagp"
+            onClick={() => onOpen("cart")}
+            title="Bag"
           >
             <ShoppingBag strokeWidth={1.8} size={18} />
           </Button>
-          <Button
-            variant="opacity"
-            size="smallIcon"
-            onClick={() => {}}
-            title="Wishlist"
+          <Link
+            href="/account/wishlist"
+            className="hover:italic uppercase text-xs tracking-widest mt-.5 "
           >
-            <Heart strokeWidth={1.8} size={18}   fill='current'/>
-          </Button>
+            <Button variant="opacity" size="smallIcon" title="Wishlist">
+              <Heart strokeWidth={1.48} size={17} fill="current" />
+            </Button>
+          </Link>
+
           <ModeToggle />
           <Button
             variant="opacity"
@@ -142,6 +144,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
                 sourceVariant="FilterTab"
               />
             )}
+            {currentPage === "cart" && <Cart />}
           </div>
         </BlurDialog>
       </div>
