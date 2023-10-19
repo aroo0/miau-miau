@@ -1,24 +1,24 @@
-"use client"
-import { Button } from "./ui/Button";
+"use client";
 import WishlistAction from "./WishlistButton";
 import { ExtendedProduct, Product } from "@/app/global";
-import AddToCartButton from "./AddToCartButton";
-import useCart from "@/hooks/useCart";
+import AddToCartButton from "@/components/AddToCartButton";
 
 interface ProductActionsProps {
   product: ExtendedProduct;
-  inWishlist: boolean
+  inWishlist: boolean;
 }
 
-const ProductActions: React.FC<ProductActionsProps> = ({ product, inWishlist }) => {
-  const { addItem } = useCart()
+const ProductActions: React.FC<ProductActionsProps> = ({
+  product,
+  inWishlist,
+}) => {
+  return (
+    <div className="flex gap-3 items-center">
+      <AddToCartButton data={product} />
 
-
-  return <div className="flex gap-3 items-center">
-
-    <Button variant='outline' size='sm'>Add to cart</Button>
-    <WishlistAction product={product} inWishlist={inWishlist} />
-  </div>;
+      <WishlistAction product={product} inWishlist={inWishlist} />
+    </div>
+  );
 };
 
 export default ProductActions;

@@ -1,12 +1,12 @@
-import { WishListType } from "@/app/global";
-import AddToCartButton from "../../../../../components/AddToCartButton";
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import DeleteWishListItemButton from "./DeleteWishlistItemButton";
+import AddToCartButton from "@/components/AddToCartButton";
+import { ShortProductType } from "@/app/global";
 
 interface WishlistItemProps {
-  product: WishListType;
+  product: ShortProductType;
 }
 
 const WishlistItem: React.FC<WishlistItemProps> = ({ product }) => {
@@ -21,7 +21,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ product }) => {
       >
         <div className="relative lg:max-w-[200px] row-span-3">
           <Image
-            src={`${process.env.NEXT_PUBLIC_PRODUCT_IMAGE_STORAGE}/${product.productImages[0]}`}
+            src={`${process.env.NEXT_PUBLIC_PRODUCT_IMAGE_STORAGE}/${product.productImage[0].url}`}
             alt={product.name}
             width={300}
             height={200}
@@ -30,13 +30,13 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ product }) => {
         </div>
         <div className="row-span-1 flex flex-col items-center text-sm ">
           <p className="text-center">
-            {product.name}, {product.brand}
+            {product.name}, {product.productBrand.name}
           </p>
           <p className="">{formatPrice(product.price)}</p>
         </div>
       </Link>
 
-      <AddToCartButton />
+      <AddToCartButton data={product} />
     </div>
   );
 };

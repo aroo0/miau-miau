@@ -1,26 +1,29 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import toast from "react-hot-toast";
-import { CamelCaseProduct } from "@/app/global";
+import { ShortProductType } from "@/app/global";
+import SuccessToast from "@/components/SuccessToast";
 
-interface CartItem {
-  product: CamelCaseProduct;
+export interface CartItem {
+  product: ShortProductType;
   quantity: number;
 }
 
 interface CartStore {
   items: CartItem[];
-  addItem: (data: CamelCaseProduct, quantity?: number) => void;
+  addItem: (data: ShortProductType, quantity?: number) => void;
   updateQuantity: (id: string, quantity: number) => void;
   removeItem: (id: string) => void;
   removeAll: () => void;
+  getSubtotal: () => number;
+
 }
 
 const useCart = create(
   persist<CartStore>(
     (set, get) => ({
       items: [],
-      addItem: (data: CamelCaseProduct, quantity = 1) => {
+      addItem: (data: ShortProductType, quantity = 1) => {
         const currentItems = get().items;
         const existingItemIndex = currentItems.findIndex(
           (item) => item.product.id === data.id
@@ -31,11 +34,11 @@ const useCart = create(
           const updatedItems = [...currentItems];
           updatedItems[existingItemIndex].quantity += quantity;
           set({ items: updatedItems });
-          toast.success("Quantity updated in the cart.");
+          toast.success("Quantity updated.");
         } else {
           // Item doesn't exist, add it to the cart
           set({ items: [...currentItems, { product: data, quantity }] });
-          toast.success("Item added to the cart.");
+          toast.custom((t) => <SuccessToast t={t} product={data} variant="Cart" />, { position: "top-right", duration: 4000 });
         }
       },
       updateQuantity: (id: string, quantity: number) => {
@@ -43,10 +46,13 @@ const useCart = create(
         const itemIndex = currentItems.findIndex((item) => item.product.id === id);
 
         if (itemIndex !== -1) {
+          if (quantity < 1) {
+            return;
+          }
           const updatedItems = [...currentItems];
           updatedItems[itemIndex].quantity = quantity;
           set({ items: updatedItems });
-          toast.success("Quantity updated in the cart.");
+          toast.success("Quantity updated.");
         }
       },
       removeItem: (id: string) => {
@@ -54,6 +60,13 @@ const useCart = create(
         toast.success("Item removed from the cart.");
       },
       removeAll: () => set({ items: [] }),
+      getSubtotal: () => {
+        const { items } = get();
+        return items.reduce((total, item) => {
+          return total + item.product.price * item.quantity;
+        }, 0);
+      },
+
     }),
     {
       name: "cart-storage",
@@ -61,5 +74,7 @@ const useCart = create(
     }
   )
 );
+
+
 
 export default useCart;

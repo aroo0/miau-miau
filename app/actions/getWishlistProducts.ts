@@ -1,5 +1,5 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { WishListType } from "../global";
+import { ShortProductType } from "../global";
 interface Query {
   supabase: SupabaseClient;
   userId: string;
@@ -8,7 +8,7 @@ interface Query {
 export async function getWishlistProducts({
   supabase,
   userId,
-}: Query): Promise<WishListType[] | []> {
+}: Query): Promise<ShortProductType[] | []> {
   try {
     const { data: wishlist, error: supabaseError } = await supabase
       .from("wishlist")
@@ -22,17 +22,15 @@ export async function getWishlistProducts({
       return [];
     }
 
-    const formattedWishlist: WishListType[] = wishlist.map(
+    const formattedWishlist: ShortProductType[] = wishlist.map(
       (wishlistItem: any) => {
         return {
           id: wishlistItem.product_id,
           name: wishlistItem.product.name,
           brandId: wishlistItem.product.brand_id,
-          brand: wishlistItem.product.product_brand.name,
+          productBrand: wishlistItem.product.product_brand,
           price: wishlistItem.product.price,
-          productImages: wishlistItem.product.product_image.map(
-            (image: any) => image.url
-          ),
+          productImage: wishlistItem.product.product_image,
         };
       }
     );

@@ -41,13 +41,13 @@ export type ModalPageVariant =
   | undefined;
 export type sortBy = { name: string; id: string };
 
-export interface WishListType {
+export interface ShortProductType {
   id: string;
   name: string;
-  brand: string;
+  productBrand: { name: string }
   brandId: string;
   price: number;
-  productImages: string[];
+  productImage: { url: string }[];
 }
 
 export type CamelCaseProduct = {
@@ -70,7 +70,7 @@ export type CamelCaseProduct = {
 export interface ExtendedProduct extends CamelCaseProduct {
   productImage: { url: string }[];
   productInventory: { id: string; quantity: number }[];
-  productBrand: { name: string } | null;
+  productBrand: { name: string };
   productScentCluster: { name: string };
 }
 
