@@ -4,8 +4,12 @@ import AddressManager from "./components/AddressManager";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { camelCaseAddress } from "@/app/global";
+import { getAddresses } from "@/app/actions/getAddresses";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
+
+
+
 
 const AddressPage = async () => {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -17,12 +21,7 @@ const AddressPage = async () => {
   let addresses: camelCaseAddress[] = [];
 
   if (user) {
-    const { data } = await supabase
-      .from("user_addresses")
-      .select("*")
-      .eq("user_id", user.id);
-
-    addresses = data ? camelcaseKeys(data) : [];
+    addresses = await getAddresses({ supabase, userId: user.id });
   }
 
   return (

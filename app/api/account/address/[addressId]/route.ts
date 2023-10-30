@@ -68,7 +68,7 @@ export async function PATCH(
         country: country,
         city: city,
         postal_code: zip,
-        primary: primary ? primary : false,
+        primary: primary,
       })
       .eq("id", params.addressId)
       .select("id")

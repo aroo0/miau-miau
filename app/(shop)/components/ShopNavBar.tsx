@@ -19,6 +19,7 @@ import PerfumesFilters from "@/components/PerfumeFilters";
 import Link from "next/link";
 import { Session } from "@supabase/supabase-js";
 import Cart from "@/components/cart/Cart";
+import PickAdress from "@/components/cart/Shipping";
 
 interface ShopNavBarProps {
   brands: Brand[];
@@ -35,7 +36,8 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
   scentClusters,
   session,
 }) => {
-  const { isModalOpen: isOpen, onOpen, onClose, currentPage } = useMenuModal();
+  const { isModalOpen: isOpen, onClose, currentPage } = useMenuModal();
+  const onOpen = useMenuModal(state => state.onOpen) //when you want to use it in useEffect
   const [isInWishlist, setIsInWishlist] = useState();
 
   return (
@@ -144,7 +146,8 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
                 sourceVariant="FilterTab"
               />
             )}
-            {currentPage === "cart" && <Cart />}
+            {currentPage === "cart" && <Cart session={session}/>}
+            {currentPage === "shipping" && <PickAdress session={session}/>}
           </div>
         </BlurDialog>
       </div>

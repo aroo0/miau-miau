@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-
-html, body, :root {
+html,
+body,
+:root {
   height: 100%;
 }
- 
- 
+
 @layer base {
   :root {
     --background: #ffffff;
@@ -38,7 +38,7 @@ html, body, :root {
     --input: #1e1e1e;
     --ring: #1c1c1c;
 
-    --radius: .5rem;
+    --radius: 0.5rem;
   }
 
   .dark {
@@ -71,12 +71,10 @@ html, body, :root {
     --ring: #d4d4d4;
   }
 }
- 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+
+* {
+  @apply border-border;
+}
+body {
+  @apply bg-background text-foreground;
 }

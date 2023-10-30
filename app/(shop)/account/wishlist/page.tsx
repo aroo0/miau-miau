@@ -22,7 +22,7 @@ const WishlistPage = async () => {
       {wishlist.length === 0 && <NoResults />}
       <section className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-10">
         {wishlist.map((wishlistItem) => (
-          <WishlistItem product={wishlistItem} />
+          <WishlistItem product={wishlistItem} key={wishlistItem.id} />
         ))}
       </section>
     </AccountMenu>

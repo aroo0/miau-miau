@@ -19,12 +19,12 @@ export type camelCaseAddress = {
   city: string;
   company: string | null;
   country: string;
-  createdAt: string;
+  createdAt?: string;
   firstName: string;
   id: string;
   lastName: string;
   postalCode: string;
-  primary: boolean;
+  primary?: boolean;
   telephone: string | null;
   userId: string;
 };
@@ -38,6 +38,7 @@ export type ModalPageVariant =
   | "cart"
   | "newsletter"
   | "filter"
+  | "shipping"
   | undefined;
 export type sortBy = { name: string; id: string };
 
