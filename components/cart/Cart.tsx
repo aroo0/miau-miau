@@ -5,46 +5,33 @@ import useCart from "@/hooks/useCart";
 import CartItem from "./CartItem";
 import { Button } from "../ui/Button";
 import { formatPrice } from "@/lib/utils";
-import axios from "axios";
-import { Session } from "@supabase/supabase-js";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
-interface CartProps {
-  session: Session | null;
-}
 
-const Cart: React.FC<CartProps> = ({ session }) => {
+
+
+const Cart: React.FC= () => {
   const { onClose } = useMenuModal();
-  const { items, getSubtotal } = useCart();
+  const { items, getSubtotal, removeAll } = useCart();
   const router = useRouter();
-  const { onOpen } = useMenuModal();
+  const searchParams = useSearchParams();
 
-  const onCheckout = async ({
-    userId,
-    addressId,
-  }: {
-    userId: string;
-    addressId: string;
-  }) => {
-    const response = await axios.post(`/api/checkout`, {
-      userId: userId,
-      addressId: addressId,
-      products: items.map((item) => ({
-        itemId: item.product.id,
-        quantity: item.quantity,
-      })),
-    });
-    window.location = response.data.url;
-  };
 
-  const pickAddress = (e: React.MouseEvent) => {
-
-    if (!session) {
-      return router.push("/login");
+  
+  useEffect(() => {
+    if(searchParams.get('success')) {
+      toast.success("Payment completed.");
+      removeAll()
     }
-    e.stopPropagation();
-    onOpen("shipping");
-  };
+
+    if(searchParams.get('canceled')) {
+      toast.error('Something went wrong.')
+    }
+
+  }, [searchParams, removeAll])
+
 
   return (
     <div
@@ -89,7 +76,9 @@ const Cart: React.FC<CartProps> = ({ session }) => {
                 <Button
                   variant="outline"
                   className="text-xl w-full"
-                  onClick={pickAddress}
+                  onClick={() => {
+                    router.push("/account/checkout");
+                  }}
                 >
                   Checkout
                 </Button>

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import { getServiceSupabase } from "@/lib/serverSupbase";
 
 interface Product {
   itemId: string;
@@ -37,6 +38,7 @@ export async function POST(req: Request) {
   products.forEach((product: Product) => {
     productTable[product.itemId] = product.quantity;
   });
+
 
   const { data: productData, error: supabaseError } = await supabase
     .from("product")
@@ -79,29 +81,32 @@ export async function POST(req: Request) {
     .insert({
       user_id: session.user.id,
       is_paid: false,
-      shipping_id: addressId,
+      address_id: addressId,
       total: total,
-    });
+    }).select().single();
 
   if (orderError) {
     // Handle Supabase-specific error
-    console.error("[ORDER_ERROR_SUPABASE_ERROR]", supabaseError);
+    console.error("[ORDER_ERROR_SUPABASE_ERROR]", orderError);
     return new NextResponse("Supabase error", { status: 500 });
   }
 
+
+  const serverSupabase = getServiceSupabase();
+
+
   productData.forEach(async (product) => {
-    const { error: orderItemError } = await supabase
+    const { error: orderItemError } = await serverSupabase
       .from("order_items")
       .insert({
         // @ts-ignore
-        order_id: order[0].id,
-        user_id: session.user.id,
+        order_id: order.id,
         product_id: product.id,
         quantity: productTable[product.id],
       });
     if (orderItemError) {
       // Handle Supabase-specific error
-      console.error("[ORDER__ITEM_ERROR_SUPABASE_ERROR]", supabaseError);
+      console.error("[ORDER__ITEM_ERROR_SUPABASE_ERROR]", orderItemError);
       return new NextResponse("Supabase error", { status: 500 });
     }
   });
@@ -114,10 +119,9 @@ export async function POST(req: Request) {
     phone_number_collection: {
       enabled: true,
     },
-    success_url: `${process.env.FRONTEND_STORE_URL}/cart?success=1`,
-    cancel_url: `${process.env.FRONTEND_STORE_URL}/cart?canceled=1`,
+    success_url: `http://localhost:3000/cart?success=1`,
+    cancel_url: `http://localhost:3000/cart?canceled=1`,
     metadata: {
-      // @ts-ignore
       orderId: order.id,
     },
   });

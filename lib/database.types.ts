@@ -11,6 +11,7 @@ export interface Database {
     Tables: {
       order: {
         Row: {
+          address_id: string
           created_at: string
           id: string
           is_paid: boolean | null
@@ -18,6 +19,7 @@ export interface Database {
           user_id: string
         }
         Insert: {
+          address_id: string
           created_at?: string
           id?: string
           is_paid?: boolean | null
@@ -25,6 +27,7 @@ export interface Database {
           user_id: string
         }
         Update: {
+          address_id?: string
           created_at?: string
           id?: string
           is_paid?: boolean | null
@@ -32,6 +35,12 @@ export interface Database {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "order_address_id_fkey"
+            columns: ["address_id"]
+            referencedRelation: "user_addresses"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "order_user_id_fkey"
             columns: ["user_id"]
@@ -47,7 +56,6 @@ export interface Database {
           order_id: string
           product_id: string
           quantity: number
-          user_id: string
         }
         Insert: {
           created_at?: string
@@ -55,7 +63,6 @@ export interface Database {
           order_id: string
           product_id: string
           quantity: number
-          user_id: string
         }
         Update: {
           created_at?: string
@@ -63,7 +70,6 @@ export interface Database {
           order_id?: string
           product_id?: string
           quantity?: number
-          user_id?: string
         }
         Relationships: [
           {
@@ -82,12 +88,6 @@ export interface Database {
             foreignKeyName: "order_items_product_id_fkey"
             columns: ["product_id"]
             referencedRelation: "random_product"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "order_items_user_id_fkey"
-            columns: ["user_id"]
-            referencedRelation: "user"
             referencedColumns: ["id"]
           }
         ]

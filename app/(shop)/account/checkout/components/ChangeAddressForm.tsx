@@ -25,9 +25,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/Select";
+} from "../../../../../components/ui/Select";
 import { Session, SupabaseClient } from "@supabase/supabase-js";
-import { Label } from "../ui/Label";
+import { Label } from "../../../../../components/ui/Label";
 
 const formSchema = z.object({
   firstName: z.string().min(1).max(18),
@@ -98,23 +98,46 @@ const ChangeAddressForm: React.FC<ChangeAddressFormProps> = ({
   });
 
   useEffect(() => {
-    form.setValue("firstName", selectedAddress ? selectedAddress.firstName || "" : "");
-    form.setValue("lastName", selectedAddress ? selectedAddress.lastName || "" : "");
-    form.setValue("company", selectedAddress ? selectedAddress.company || "" : "");
-    form.setValue("addressOne", selectedAddress ? selectedAddress.addressLine1 || "" : "");
-    form.setValue("addressTwo", selectedAddress ? selectedAddress.addressLine2 || "" : "");
-    form.setValue("country", selectedAddress ? selectedAddress.country || "" : "");
+    form.setValue(
+      "firstName",
+      selectedAddress ? selectedAddress.firstName || "" : ""
+    );
+    form.setValue(
+      "lastName",
+      selectedAddress ? selectedAddress.lastName || "" : ""
+    );
+    form.setValue(
+      "company",
+      selectedAddress ? selectedAddress.company || "" : ""
+    );
+    form.setValue(
+      "addressOne",
+      selectedAddress ? selectedAddress.addressLine1 || "" : ""
+    );
+    form.setValue(
+      "addressTwo",
+      selectedAddress ? selectedAddress.addressLine2 || "" : ""
+    );
+    form.setValue(
+      "country",
+      selectedAddress ? selectedAddress.country || "" : ""
+    );
     form.setValue("city", selectedAddress ? selectedAddress.city || "" : "");
-    form.setValue("zip", selectedAddress ? selectedAddress.postalCode || "" : "");
-    form.setValue("telephone", selectedAddress ? selectedAddress.telephone || "" : "");
+    form.setValue(
+      "zip",
+      selectedAddress ? selectedAddress.postalCode || "" : ""
+    );
+    form.setValue(
+      "telephone",
+      selectedAddress ? selectedAddress.telephone || "" : ""
+    );
   }, [selectedAddress, form]);
-
 
   const onSubmit = async (data: ChangeAddressFormValues) => {
     let id; // Declare the id variable
     try {
       setLoading(true);
-  
+
       if (selectedAddress && selectedAddress.id) {
         await axios.patch(`/api/account/address/${selectedAddress.id}`, data);
         id = selectedAddress.id; // Set id if updating an existing address
@@ -122,7 +145,7 @@ const ChangeAddressForm: React.FC<ChangeAddressFormProps> = ({
         const response = await axios.post(`/api/account/address`, data);
         id = response.data.id; // Set id if creating a new address
       }
-  
+
       const newShippingAddress = {
         addressLine1: data.addressOne,
         addressLine2: data.addressTwo || null,
@@ -137,7 +160,7 @@ const ChangeAddressForm: React.FC<ChangeAddressFormProps> = ({
         telephone: data.telephone,
         userId: session.user.id,
       };
-  
+
       // Set the shipping address
       setShippingAddress(newShippingAddress);
       toast.success("Email updated successfully");
@@ -155,7 +178,6 @@ const ChangeAddressForm: React.FC<ChangeAddressFormProps> = ({
         Change Address
       </div>
       <div className="w-full mt-4">
-        
         <Select
           onValueChange={(value) => {
             if (value === "new-address") {

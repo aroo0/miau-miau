@@ -10,7 +10,6 @@ import useMenuModal from "@/hooks/useMenuModal";
 import {
   Brand,
   Intensity,
-  ModalPageVariant,
   Ocassion,
   ScentCluster,
 } from "@/app/global";
@@ -19,7 +18,6 @@ import PerfumesFilters from "@/components/PerfumeFilters";
 import Link from "next/link";
 import { Session } from "@supabase/supabase-js";
 import Cart from "@/components/cart/Cart";
-import PickAdress from "@/components/cart/Shipping";
 
 interface ShopNavBarProps {
   brands: Brand[];
@@ -147,7 +145,6 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
               />
             )}
             {currentPage === "cart" && <Cart session={session}/>}
-            {currentPage === "shipping" && <PickAdress session={session}/>}
           </div>
         </BlurDialog>
       </div>

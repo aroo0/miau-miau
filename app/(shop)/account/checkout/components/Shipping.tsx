@@ -1,10 +1,9 @@
 "use client";
 
 import { Session } from "@supabase/supabase-js";
-import Container from "../ui/Container";
-import { Button } from "../ui/Button";
+import Container from "../../../../../components/ui/Container";
+import { Button } from "../../../../../components/ui/Button";
 import { formatPrice } from "@/lib/utils";
-import useMenuModal from "@/hooks/useMenuModal";
 import useCart from "@/hooks/useCart";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -21,15 +20,14 @@ interface ShippingProps {
 }
 
 const Shipping: React.FC<ShippingProps> = ({ session }) => {
-  const { onClose } = useMenuModal();
   const { items, getSubtotal } = useCart();
-  const { onOpen } = useMenuModal();
   const supabase = createClientComponentClient();
   const [addresses, setAddresses] = useState<camelCaseAddress[]>([]);
   const [shippingAddress, setShippingAddress] = useState<
     camelCaseAddress | undefined
   >();
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
+  const router = useRouter()
 
   const onCheckout = async () => {
     if (!session || !shippingAddress) {
@@ -80,7 +78,7 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
   return (
     <div
       className="relative w-full h-full pt-8 sm:pt-20 xl:pt-36 pb-16 bg-background"
-      onClick={() => {}}
+    
     >
       <Container>
         <div className=" grid xl:grid-cols-8  gap-6 justify-items-stretch uppercase tracking-widest text-xs mb-4 ">
@@ -129,7 +127,7 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
 
               <div className="border text-sm rounded-sm w-full mt-1 p-4 flex justify-between items-center">
                 <div>EXPRESS SHIPPING </div>
-                <div >Complimentary</div>
+                <div>Complimentary</div>
               </div>
             </div>
 
@@ -145,12 +143,14 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
             {!isFormOpen && (
               <div className="flex gap-2 pt-6 justify-between w-full">
                 <button
-                  onClick={() => onOpen("cart")}
+                  onClick={() => router.push('/cart')}
                   className="uppercase text-xs"
                 >
                   Back to Cart
                 </button>
-                <Button type="submit" onClick={onCheckout}>Continue to Payment</Button>
+                <Button type="submit" onClick={onCheckout}>
+                  Continue to Payment
+                </Button>
               </div>
             )}
           </div>
@@ -179,13 +179,6 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
               </div>
               <p className="">{formatPrice(getSubtotal())}</p>
             </div>
-            {/* <Button
-              variant="outline"
-              className="text-xl w-full"
-              onClick={onCheckout}
-            >
-              Continue to Payment
-            </Button> */}
           </div>
         </div>
       </Container>

@@ -1,8 +1,6 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { checkIfUserIsAdmin } from "@/lib/authUtils";
-import AdminNavBar from "../(admin)/admin/components/AdminNavBar";
+
 import ShopNavBar from "./components/ShopNavBar";
 import { getFilterTable } from "../actions/getFilterTable";
 import { Brand, Intensity, Ocassion, ScentCluster } from "../global";
