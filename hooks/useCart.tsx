@@ -52,7 +52,7 @@ const useCart = create(
           const updatedItems = [...currentItems];
           updatedItems[itemIndex].quantity = quantity;
           set({ items: updatedItems });
-          toast.success("Quantity updated.");
+          toast.success("Quantity updated.", {id: 'changeQuantity'});
         }
       },
       removeItem: (id: string) => {

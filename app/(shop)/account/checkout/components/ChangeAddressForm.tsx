@@ -360,13 +360,13 @@ const ChangeAddressForm: React.FC<ChangeAddressFormProps> = ({
 
           <div className="flex gap-2 pt-6 justify-between">
             <button
-              onClick={() => onOpen("cart")}
+              onClick={() => router.push("/cart")}
               className="uppercase text-xs"
             >
               Back to Cart
             </button>
             <Button type="submit" disabled={loading}>
-              Continue to Shipping
+              Save Shipping Address
             </Button>
           </div>
         </form>

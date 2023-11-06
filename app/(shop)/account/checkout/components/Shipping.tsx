@@ -27,7 +27,7 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
     camelCaseAddress | undefined
   >();
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
-  const router = useRouter()
+  const router = useRouter();
 
   const onCheckout = async () => {
     if (!session || !shippingAddress) {
@@ -76,23 +76,14 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
   }
 
   return (
-    <div
-      className="relative w-full h-full pt-8 sm:pt-20 xl:pt-36 pb-16 bg-background"
-    
-    >
+    <div className="relative w-full h-full pt-16 sm:pt-20 xl:pt-36 pb-16 bg-background">
       <Container>
-        <div className=" grid xl:grid-cols-8  gap-6 justify-items-stretch uppercase tracking-widest text-xs mb-4 ">
-          <div className="col-span-5 flex justify-center border-b pb-4 gap-2">
-            <p>Shipping</p>
-          </div>
+        <div className="w-full grid xl:grid-cols-8  gap-6 justify-items-stretch  px-4 xl:px-0 pb-8  ">
+          <div className=" flex items-center flex-col gap-7 w-full col-span-8  xl:col-span-5 place-self-start	">
+            <div className="flex justify-center border-b pb-4 gap-2 text-xs uppercase w-full  tracking-widest">
+              <p>Shipping</p>
+            </div>
 
-          <div className="col-span-3 border-b items-center justify-center  tracking-widest hidden xl:flex text-xs">
-            <p>Order</p>
-          </div>
-        </div>
-
-        <div className="w-full grid xl:grid-cols-8  gap-6 justify-items-stretch xl:static fixed bottom-0 left-0 px-8 xl:px-0 mb-8  ">
-          <div className=" flex items-center flex-col gap-7 w-full col-span-5 place-self-start	">
             <div className="border rounded-sm w-full mt-1 p-4">
               <div className="flex  border-b items-center pb-3">
                 <div className="text-xs uppercase w-[120px]">Contact</div>
@@ -140,22 +131,13 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
                 session={session}
               />
             )}
-            {!isFormOpen && (
-              <div className="flex gap-2 pt-6 justify-between w-full">
-                <button
-                  onClick={() => router.push('/cart')}
-                  className="uppercase text-xs"
-                >
-                  Back to Cart
-                </button>
-                <Button type="submit" onClick={onCheckout}>
-                  Continue to Payment
-                </Button>
-              </div>
-            )}
+          
           </div>
 
-          <div className="xl:col-start-6 xl:col-span-3  ">
+          <div className="col-span-8 col-start-1 xl:col-start-6 xl:col-span-3 gap-5 w-full ">
+            <div className="border-b items-center pb-4 justify-center uppercase tracking-widest xl:flex text-xs w-full mb-7 text-center">
+              <p>Order</p>
+            </div>
             <ShortOrder />
             <div className="mt-12">
               <div className="flex gap-2 w-full flex-col">
@@ -169,9 +151,9 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-between mb-4 mt-8 border-t pt-4">
+            <div className="flex justify-between mt-8 border-t pt-4">
               {" "}
-              <div className="uppercase text-sm flex gap-4 ">
+              <div className="uppercase text-sm flex gap-2 ">
                 Total{" "}
                 <div className="text-[10px] text-muted-foreground ">
                   (Taxes & Duties included)
@@ -180,7 +162,22 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
               <p className="">{formatPrice(getSubtotal())}</p>
             </div>
           </div>
+          {!isFormOpen && (
+              <div className="flex gap-2 pt-6 justify-between w-full xl:col-start-6 xl:col-span-3">
+                <button
+                  onClick={() => router.push("/cart")}
+                  className="uppercase text-xs"
+                >
+                  Back to Cart
+                </button>
+                <Button type="submit" onClick={onCheckout}>
+                  Continue to Payment
+                </Button>
+              </div>
+            )}
+          
         </div>
+     
       </Container>
     </div>
   );

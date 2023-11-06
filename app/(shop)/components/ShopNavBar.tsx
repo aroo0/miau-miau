@@ -1,7 +1,6 @@
 "use client";
 import Logo from "@/components/ui/Logo";
 import { ModeToggle } from "@/components/ui/ModeToggle";
-import { useState } from "react";
 import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import ShopMenu from "./ShopNavMenu";
@@ -18,6 +17,7 @@ import PerfumesFilters from "@/components/PerfumeFilters";
 import Link from "next/link";
 import { Session } from "@supabase/supabase-js";
 import Cart from "@/components/cart/Cart";
+import useCart from "@/hooks/useCart";
 
 interface ShopNavBarProps {
   brands: Brand[];
@@ -35,8 +35,8 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
   session,
 }) => {
   const { isModalOpen: isOpen, onClose, currentPage } = useMenuModal();
+  const { items } = useCart()
   const onOpen = useMenuModal(state => state.onOpen) //when you want to use it in useEffect
-  const [isInWishlist, setIsInWishlist] = useState();
 
   return (
     <>
@@ -53,7 +53,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
             onClick={() => onOpen("cart")}
             title="Bag"
           >
-            Bag (0)
+            Bag ({items.length})
           </Button>
           <Link
             href="/account/wishlist"
@@ -144,7 +144,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
                 sourceVariant="FilterTab"
               />
             )}
-            {currentPage === "cart" && <Cart session={session}/>}
+            {currentPage === "cart" && <Cart />}
           </div>
         </BlurDialog>
       </div>

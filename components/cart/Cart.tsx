@@ -5,32 +5,14 @@ import useCart from "@/hooks/useCart";
 import CartItem from "./CartItem";
 import { Button } from "../ui/Button";
 import { formatPrice } from "@/lib/utils";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 
 
-
-const Cart: React.FC= () => {
+const Cart = () => {
   const { onClose } = useMenuModal();
-  const { items, getSubtotal, removeAll } = useCart();
+  const { items, getSubtotal } = useCart();
   const router = useRouter();
-  const searchParams = useSearchParams();
-
-
-  
-  useEffect(() => {
-    if(searchParams.get('success')) {
-      toast.success("Payment completed.");
-      removeAll()
-    }
-
-    if(searchParams.get('canceled')) {
-      toast.error('Something went wrong.')
-    }
-
-  }, [searchParams, removeAll])
 
 
   return (
@@ -44,7 +26,7 @@ const Cart: React.FC= () => {
             <div className="text-xl sm:text-3xl">
               Your shopping bag is empty.
             </div>
-            <Button variant="outline" onClick={() => onClose()}>
+            <Button variant="outline" onClick={() => router.push('/perfumes/all')}>
               Continue shopping
             </Button>
           </div>

@@ -27,39 +27,36 @@ export async function POST(req: Request) {
 
   // update files in order
 
-
-
   if (event.type === "checkout.session.completed") {
-    const { error } = await supabase
+    const { error: updatedPaidError } = await supabase
       .from("order")
       .update({
         is_paid: true,
       })
-      .eq("id", session.metadata?.orderId)
+      .eq("id", session.metadata?.orderId);
 
-
-    if (error) {
+    if (updatedPaidError) {
       // Handle Supabase-specific error
-      console.error("[WEBHOOK_ERROR_ERROR]", error);
+      console.error("[WEBHOOK_SUAPBASE_ERROR]", updatedPaidError);
+      return new NextResponse("WEBHOOK error", { status: 500 });
+    }
+
+    const { error: updateInventoryError } = await supabase.rpc("subtract_quantity_from_inventory", {
+      orderid: session.metadata?.orderId,
+    });
+
+    if (updateInventoryError) {
+      // Handle Supabase-specific error
+      console.error("[WEBHOOK_SUAPBASE_ERROR]", updateInventoryError);
+      return new NextResponse("WEBHOOK error", { status: 500 });
+    }
+
+    if (updatedPaidError) {
+      // Handle Supabase-specific error
+      console.error("[WEBHOOK_SUAPBASE_ERROR]", updatedPaidError);
       return new NextResponse("WEBHOOK error", { status: 500 });
     }
   }
-
-  // const productIds = order.orderItems.map((orderItem) => orderItem.productId);
-
-  //   // changed number of objects in invetnroy
-
-  //   await prismadb.product.updateMany({
-  //     where: {
-  //       id: {
-  //         in: [...productIds],
-  //       },
-  //     },
-  //     data: {
-  //       isArchived: true
-  //     }
-  //   });
-  // }
 
   return new NextResponse(null, { status: 200 });
 }

@@ -39,7 +39,6 @@ export async function POST(req: Request) {
     productTable[product.itemId] = product.quantity;
   });
 
-
   const { data: productData, error: supabaseError } = await supabase
     .from("product")
     .select("id, name, price")
@@ -83,7 +82,9 @@ export async function POST(req: Request) {
       is_paid: false,
       address_id: addressId,
       total: total,
-    }).select().single();
+    })
+    .select()
+    .single();
 
   if (orderError) {
     // Handle Supabase-specific error
@@ -91,9 +92,7 @@ export async function POST(req: Request) {
     return new NextResponse("Supabase error", { status: 500 });
   }
 
-
   const serverSupabase = getServiceSupabase();
-
 
   productData.forEach(async (product) => {
     const { error: orderItemError } = await serverSupabase
@@ -111,7 +110,9 @@ export async function POST(req: Request) {
     }
   });
 
-  // Create session stripe
+
+
+  // // Create session stripe
 
   const stripeSession = await stripe.checkout.sessions.create({
     line_items,

@@ -7,7 +7,6 @@ export const dynamic = 'force-dynamic'
 
 
 const Checkout = async () => {
-  
 
   const supabase = createServerComponentClient<Database>({ cookies });
 

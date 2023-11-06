@@ -29,6 +29,22 @@ export type camelCaseAddress = {
   userId: string;
 };
 
+export type CustomerOrder = {
+  id: string;
+  total: number;
+  isPaid: boolean;
+  createdAt: Date;
+  orderItems: {
+    id: string;
+    quantity: number;
+    productId: string;
+    product: {
+      id: string;
+      brandId: string;
+      name: string;
+    };
+  }[];
+};
 
 export type ModalPageVariant =
   | "menu"
@@ -45,7 +61,7 @@ export type sortBy = { name: string; id: string };
 export interface ShortProductType {
   id: string;
   name: string;
-  productBrand: { name: string }
+  productBrand: { name: string };
   brandId: string;
   price: number;
   productImage: { url: string }[];
