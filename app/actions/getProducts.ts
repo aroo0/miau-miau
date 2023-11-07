@@ -8,7 +8,6 @@ interface Query {
   intensityId?: string | string[];
   ocassionId?: string | string[];
   scentClusterId?: string | string[];
-  isFeatured?: boolean;
   from: number;
   order?: string
 }
@@ -18,12 +17,12 @@ export async function getProducts({
   intensityId,
   ocassionId,
   scentClusterId,
-  isFeatured,
   from,
   order='date-ascending',
 }: Query): Promise<ExtendedProduct[] | []> {
   try {
-    const brand = brandId === "all" ? null : brandId;
+    const brand = brandId === "all" || 'bestseller' ? null : brandId;
+    const bestseller = brandId === "bestsellers" ? true : null
 
     let query = supabase
       .from("product")
@@ -63,8 +62,8 @@ export async function getProducts({
         typeof intensityId === "string" ? [intensityId] : [...intensityId]
       );
     }
-    if (isFeatured) {
-      query = query.eq("is_featured", isFeatured);
+    if (bestseller) {
+      query = query.eq("is_featured", bestseller);
     }
 
     if (brand) {

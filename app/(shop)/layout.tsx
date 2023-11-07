@@ -1,9 +1,9 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-
 import ShopNavBar from "./components/ShopNavBar";
 import { getFilterTable } from "../actions/getFilterTable";
 import { Brand, Intensity, Ocassion, ScentCluster } from "../global";
+import DialogProvider from "@/providers/DialogProvider";
 
 export const dynamic = "force-dynamic";
 
@@ -38,14 +38,15 @@ export default async function ShopLayout({
   return (
     <>
       <ShopNavBar
-        brands={brands}
-        intensities={intensities}
-        ocassions={ocassions}
-        scentClusters={scentClusters}
+
         session={session}
       />
+      <DialogProvider         brands={brands}
+        intensities={intensities}
+        ocassions={ocassions}
+        scentClusters={scentClusters} />
 
-      <div className="lg:px-8 h-full">{children}</div>
+      <div className="w-full h-full">{children}</div>
     </>
   );
 }

@@ -2,20 +2,25 @@ import { ModalPageVariant } from "@/app/global";
 import { create } from "zustand";
 
 interface MenuModalStore {
-  isModalOpen: boolean;
-  currentPage?: ModalPageVariant | undefined;
-  onOpen: (page: ModalPageVariant) => void;
+  currentPage: ModalPageVariant | undefined;
   onClose: () => void;
+  onClick: (page: ModalPageVariant) => void;
 }
 
 const useMenuModal = create<MenuModalStore>((set, get) => ({
-  isModalOpen: false,
   currentPage: undefined,
-  onOpen: (page: ModalPageVariant) => {
-    set({ currentPage: page, isModalOpen: true });
-  },
+  onClose: () => set({ currentPage: undefined }),
+  onClick: (page: ModalPageVariant) => {
+    console.log(get().currentPage)
+    if (get().currentPage === page) {
+      set({ currentPage: undefined });
+      
+    } else {
+      set({ currentPage: page });
+      console.log(get().currentPage)
 
-  onClose: () => set({ isModalOpen: false }),
+    }
+  },
 }));
 
 export default useMenuModal;

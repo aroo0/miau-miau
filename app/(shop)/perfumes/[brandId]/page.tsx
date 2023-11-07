@@ -34,10 +34,6 @@ const PerfumesPage: React.FC<PerfumesPageProps> = async ({
   };
   const supabase = createServerActionClient({ cookies });
 
-  console.log(scentClusterId);
-  console.log(intensityId);
-  console.log(scentClusterId);
-  console.log(order)
 
   const initData = await getProducts({
     supabase,
@@ -49,13 +45,15 @@ const PerfumesPage: React.FC<PerfumesPageProps> = async ({
     order: order
   });
 
-  const { data: categoryData, error: categoryError } = await supabase
+
+
+  const { data: categoryData } = await supabase
     .from("product_category")
     .select("*")
     .eq("name", "Perfumes")
     .single();
 
-  const { data: brandData, error: brandError } = await supabase
+  const { data: brandData } = await supabase
     .from("product_brand")
     .select("*")
     .eq("id", brandId)
@@ -67,7 +65,7 @@ const PerfumesPage: React.FC<PerfumesPageProps> = async ({
         <h1 className="text-4xl md:text-9xl text-center">
           Perfumes
           <br />
-          <span className="italic">{brandData ? brandData.name : "All"}</span>
+          <span className="italic">{brandData ? brandData.name : brandId.charAt(0).toUpperCase() + brandId.slice(1)}</span>
         </h1>
         <p className="text-sm text-center">
           {brandData ? brandData.description : categoryData.description}

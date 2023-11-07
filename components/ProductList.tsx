@@ -5,12 +5,10 @@ import ProductCard from "./ProductCard";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersection } from "@mantine/hooks";
 import NoResults from "./NoResults";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import { v4 as uuidv4 } from "uuid";
 import { getProducts } from "@/app/actions/getProducts";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { usePathname } from "next/navigation";
 import { Button } from "./ui/Button";
 import { SlidersHorizontal } from "lucide-react";
 import useMenuModal from "@/hooks/useMenuModal";
@@ -30,7 +28,7 @@ export const revalidate = 0;
 
 
 const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
-  const { onOpen } = useMenuModal();
+  const { onClick } = useMenuModal();
 
   const lastItem = useRef<HTMLElement>(null);
 
@@ -97,7 +95,7 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
       <Button
         className="fixed bottom-5 left-5 flex items-center justify-center"
         variant="outline"
-        onClick={() => onOpen("filter")}
+        onClick={() => onClick("filter")}
       >
         <span>Filters</span>{" "}
         <SlidersHorizontal size={13} className="ml-3 mb-[2px]" />

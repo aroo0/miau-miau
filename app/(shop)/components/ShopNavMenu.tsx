@@ -1,16 +1,8 @@
 "use client";
-
 import { ModalPageVariant } from "@/app/global";
 import { Button } from "@/components/ui/Button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/Popover";
 import useMenuModal from "@/hooks/useMenuModal";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface ShopMenuProps {}
@@ -25,7 +17,8 @@ interface Route {
 
 const ShopMenu: React.FC<ShopMenuProps> = ({}) => {
   const pathname = usePathname();
-  const { isModalOpen, onOpen, onClose, currentPage } = useMenuModal();
+  const router = useRouter()
+  const {onClose, currentPage, onClick } = useMenuModal();
 
   const routes: Route[] = [
     {
@@ -40,36 +33,41 @@ const ShopMenu: React.FC<ShopMenuProps> = ({}) => {
       active: "/about" === pathname,
       page: "about",
     },
-    {
-      href: "/newsletter",
-      name: "Newsletter",
-      active: "/newsletter" === pathname,
-      page: "newsletter",
-    },
   ];
 
   return (
     <>
-      {routes.map((route) => (
         <div
-          className="border-b lg:border-none w-full pb-3 lg:pb-0"
-          key={route.name}
+          className="border-b lg:border-none w-full pb-3 lg:pb-0  mt-8 lg:mt-0"
         >
           <Button
             variant="menu"
             size="mainNav"
-            className={twMerge(route.active && "italic")}
+            className={twMerge("/perfumes" === pathname && "italic")}
             onClick={() => {
-              if (isModalOpen && currentPage === route.page) {
-                return onClose();
-              }
-              onOpen(route.page);
+              onClick("perfumes");
             }}
           >
-            {route.name}
+            Perfumes
+          </Button>
+          </div>
+          <div
+          className="border-b lg:border-none w-full pb-3 lg:pb-0"
+        >
+
+          <Button
+            variant="menu"
+            size="mainNav"
+            className={twMerge("/about" === pathname && "italic")}
+            onClick={() => {
+              router.push('/about')
+              onClose()
+            }}
+          >
+            About
           </Button>
         </div>
-      ))}
+
     </>
   );
 };

@@ -1,47 +1,33 @@
 "use client";
 import Logo from "@/components/ui/Logo";
 import { ModeToggle } from "@/components/ui/ModeToggle";
-import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
+import { Heart, Menu, ShoppingBag, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import ShopMenu from "./ShopNavMenu";
-import { BlurDialog } from "@/components/ui/BlurDialog";
 import useMenuModal from "@/hooks/useMenuModal";
-import {
-  Brand,
-  Intensity,
-  Ocassion,
-  ScentCluster,
-} from "@/app/global";
-import PerfumeMenu from "@/components/PerfumeMenu";
-import PerfumesFilters from "@/components/PerfumeFilters";
 import Link from "next/link";
 import { Session } from "@supabase/supabase-js";
-import Cart from "@/components/cart/Cart";
 import useCart from "@/hooks/useCart";
 
 interface ShopNavBarProps {
-  brands: Brand[];
-  intensities: Intensity[];
-  ocassions: Ocassion[];
-  scentClusters: ScentCluster[];
+
   session: Session | null;
 }
 
 const ShopNavBar: React.FC<ShopNavBarProps> = ({
-  brands,
-  intensities,
-  ocassions,
-  scentClusters,
+
   session,
 }) => {
-  const { isModalOpen: isOpen, onClose, currentPage } = useMenuModal();
-  const { items } = useCart()
-  const onOpen = useMenuModal(state => state.onOpen) //when you want to use it in useEffect
+  const { items } = useCart();
+  const currentPage = useMenuModal((state) => state.currentPage);
+  const onClick = useMenuModal((state) => state.onClick);
+
+
 
   return (
     <>
       {/* Desktop Nav */}
-      <div className="hidden lg:flex w-full py-1 gap-x-4 items-center px-7  fixed z-[120] pointer-events-auto">
+      <div className="hidden lg:flex w-full py-1 gap-x-4 items-center px-7  fixed z-[120] pointer-events-auto ">
         <Logo />
         <div className="flex gap-x-10 px-8 py-4 mx-auto">
           <ShopMenu />
@@ -50,7 +36,9 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
           <Button
             variant="menu"
             size="header"
-            onClick={() => onOpen("cart")}
+            onClick={() => 
+              onClick("cart")
+            }
             title="Bag"
           >
             Bag ({items.length})
@@ -69,15 +57,6 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
           >
             {session ? "Account" : "Login"}
           </Link>
-          <Button
-            variant="menu"
-            size="header"
-            onClick={() => {}}
-            title="Search "
-          >
-            Search
-          </Button>
-
           <ModeToggle />
         </div>
       </div>
@@ -88,15 +67,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
           <Button
             variant="opacity"
             size="smallIcon"
-            onClick={() => {}}
-            title="Search"
-          >
-            <Search strokeWidth={1.8} size={18} />
-          </Button>
-          <Button
-            variant="opacity"
-            size="smallIcon"
-            onClick={() => onOpen("cart")}
+            onClick={() => onClick("cart")}
             title="Bag"
           >
             <ShoppingBag strokeWidth={1.8} size={18} />
@@ -114,39 +85,16 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
           <Button
             variant="opacity"
             size="smallIcon"
-            onClick={() => onOpen("menu")}
+            onClick={() => onClick("menu")}
           >
-            {isOpen && currentPage === "menu" ? (
+            {currentPage === "menu" ? (
               <X size={24} strokeWidth={1.6} />
             ) : (
               <Menu size={24} strokeWidth={1.4} />
             )}
           </Button>
         </div>
-        <BlurDialog isOpen={isOpen} onClose={onClose}>
-          <div className="flex flex-col items-start  gap-4 box-border w-full pt-8">
-            {currentPage === "menu" && <ShopMenu />}
-            {currentPage === "perfumes" && (
-              <PerfumeMenu
-                brands={brands}
-                intensities={intensities}
-                ocassions={ocassions}
-                scentClusters={scentClusters}
-                sourceVariant="Navigation"
-              />
-            )}
-            {currentPage === "filter" && (
-              <PerfumesFilters
-                brands={brands}
-                intensities={intensities}
-                ocassions={ocassions}
-                scentClusters={scentClusters}
-                sourceVariant="FilterTab"
-              />
-            )}
-            {currentPage === "cart" && <Cart />}
-          </div>
-        </BlurDialog>
+
       </div>
     </>
   );

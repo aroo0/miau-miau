@@ -20,13 +20,14 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         opacity: "hover:opacity-80 transition",
         menu: "hover:italic uppercase text-xs tracking-widest mt-.5 ",
-        filter: 'transition hover:italic'
+        filter: 'transition hover:italic',
+        hero: 'md:text-lg tracking-widest bg-primary-foreground uppercase  hover:bg-foreground hover:text-primary-foreground'
 
       },
       size: {
         default: "px-4 py-2",
         sm: "rounded-md px-3 py-2",
-        lg: "h-11 rounded-md px-8",
+        lg: "py-4 rounded-md px-4  lg:px-8 max-w-[300px] lg:max-w-full",
         icon: "h-10 w-10 aspect-square",
         smallIcon: "h-6 w-6 aspect-square	",
         header: "h-auto w-auto ",
