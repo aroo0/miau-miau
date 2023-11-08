@@ -1,10 +1,10 @@
 import { getProducts } from "@/app/actions/getProducts";
-import { Product } from "@/app/global";
-import PerfumesFilters from "@/components/PerfumeMenu";
+
 import ProductList from "@/components/ProductList";
 import Container from "@/components/ui/Container";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import PerfumesContent from "./components/PerfumesContent";
 
 interface PerfumesPageProps {
   params: {
@@ -34,7 +34,6 @@ const PerfumesPage: React.FC<PerfumesPageProps> = async ({
   };
   const supabase = createServerActionClient({ cookies });
 
-
   const initData = await getProducts({
     supabase,
     brandId,
@@ -44,7 +43,6 @@ const PerfumesPage: React.FC<PerfumesPageProps> = async ({
     from: 0,
     order: order
   });
-
 
 
   const { data: categoryData } = await supabase
@@ -59,19 +57,10 @@ const PerfumesPage: React.FC<PerfumesPageProps> = async ({
     .eq("id", brandId)
     .single();
 
+
   return (
     <Container>
-      <div className="flex-col  flex gap-4 items-center h-[80vh] justify-center px-6">
-        <h1 className="text-4xl md:text-9xl text-center">
-          Perfumes
-          <br />
-          <span className="italic">{brandData ? brandData.name : brandId.charAt(0).toUpperCase() + brandId.slice(1)}</span>
-        </h1>
-        <p className="text-sm text-center">
-          {brandData ? brandData.description : categoryData.description}
-        </p>
-      </div>
-      <ProductList initData={initData} queryParams={queryParams} />
+      <PerfumesContent queryParams={queryParams} initData={initData} categoryData={categoryData} brandData={brandData}/>
     </Container>
   );
 };

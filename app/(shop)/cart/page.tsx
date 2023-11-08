@@ -5,6 +5,8 @@ import useCart from "@/hooks/useCart";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
+
 
 export const dynamic = "force-dynamic";
 
@@ -37,7 +39,10 @@ const CartPage = () => {
   if (!isMounted) {
     return null;
   }
-  return <div className="mb-10 mx-4 pt-4"><Cart /></div>;
+  return <motion.div
+  initial={{ opacity: 0}}
+  animate={{ opacity: 1}}
+  transition={{ ease: "easeInOut", duration: .5 }} className="mb-10 mx-4 pt-4"><Cart /></motion.div>;
 };
 
 export default CartPage;

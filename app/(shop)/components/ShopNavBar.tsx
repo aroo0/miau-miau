@@ -8,6 +8,7 @@ import useMenuModal from "@/hooks/useMenuModal";
 import Link from "next/link";
 import { Session } from "@supabase/supabase-js";
 import useCart from "@/hooks/useCart";
+import { useEffect, useState } from "react";
 
 interface ShopNavBarProps {
 
@@ -18,20 +19,30 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
 
   session,
 }) => {
+
+  const [isMounted, setIsMounted] = useState(false);
+
+
+
   const { items } = useCart();
   const currentPage = useMenuModal((state) => state.currentPage);
   const onClick = useMenuModal((state) => state.onClick);
 
 
+  useEffect(() => setIsMounted(true), []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <>
       {/* Desktop Nav */}
       <div className="hidden lg:flex w-full py-1 gap-x-4 items-center px-7  fixed z-[120] pointer-events-auto ">
         <Logo />
-        <div className="flex gap-x-10 px-8 py-4 mx-auto">
+        <nav className="flex gap-x-10 px-8 py-4 mx-auto">
           <ShopMenu />
-        </div>
+        </nav>
         <div className="flex items-center gap-3 uppercase">
           <Button
             variant="menu"
@@ -48,7 +59,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
             className="hover:italic uppercase text-xs tracking-widest mt-.5 "
           >
             <Button variant="opacity" size="smallIcon" title="Wishlist">
-              <Heart strokeWidth={1.48} size={12} fill="current" />
+              <Heart strokeWidth={1.48} size={12} />
             </Button>
           </Link>
           <Link
@@ -61,7 +72,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
         </div>
       </div>
       {/*  Mobile Nav */}
-      <div className=" flex lg:hidden w-full py-4 gap-x-4 items-center px-4 justify-between fixed z-[120] pointer-events-auto">
+      <nav className=" flex lg:hidden w-full py-4 gap-x-4 items-center px-4 justify-between fixed z-[120] pointer-events-auto">
         <Logo />
         <div className="z-[100] flex items-center gap-x-2">
           <Button
@@ -77,7 +88,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
             className="hover:italic uppercase text-xs tracking-widest mt-.5 "
           >
             <Button variant="opacity" size="smallIcon" title="Wishlist">
-              <Heart strokeWidth={1.48} size={17} fill="current" />
+              <Heart strokeWidth={1.48} size={17}  />
             </Button>
           </Link>
 
@@ -95,7 +106,7 @@ const ShopNavBar: React.FC<ShopNavBarProps> = ({
           </Button>
         </div>
 
-      </div>
+      </nav>
     </>
   );
 };

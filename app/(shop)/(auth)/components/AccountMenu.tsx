@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
+import { motion } from "framer-motion";
+
 import LogoutButton from "./LogoutButton";
 
 interface AccountMenuProps {
@@ -43,7 +45,13 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ children, title }) => {
   ];
 
   return (
-    <div className="pt-20 lg:pt-40 grid grid-cols-1 md:grid-cols-12 max-w-[1224px] mx-4 lg:mx-auto ">
+    <motion.div
+    initial={{ opacity: 0}}
+    animate={{ opacity: 1}}
+    transition={{ ease: "easeInOut", duration: .5 }}
+    
+    
+    key="account" className="pt-20 lg:pt-40 grid grid-cols-1 md:grid-cols-12 max-w-[1224px] mx-4 lg:mx-auto ">
       <div className="col-span-1 md:col-span-3 lg:col-span-2 mb-4">
         <h1 className="uppercase text-xs tracking-wider pb-2 border-b">
           My Account
@@ -70,7 +78,7 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ children, title }) => {
         </h2>
         {children}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

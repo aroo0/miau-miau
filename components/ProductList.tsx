@@ -1,4 +1,5 @@
 "use client";
+import { motion } from "framer-motion";
 
 import { ExtendedProduct } from "@/app/global";
 import ProductCard from "./ProductCard";
@@ -26,7 +27,6 @@ interface ProductListProps {
 
 export const revalidate = 0;
 
-
 const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
   const { onClick } = useMenuModal();
 
@@ -51,7 +51,7 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
         ocassionId: queryParams.ocassionId,
         scentClusterId: queryParams.scentClusterId,
         from: pageParam,
-        order:  queryParams.order
+        order: queryParams.order,
       });
       return data;
     },
@@ -69,13 +69,22 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
     }
   }, [entry, fetchNextPage]);
 
+  const key=`${queryParams.brandId || "brandId"}-${queryParams.intensityId || "intensityId"}-${queryParams.ocassionId || "ocassionId"}-${queryParams.scentClusterId?.[0] || "scentClusterId"}-${queryParams.order || "order"}`
+
   const allData: ExtendedProduct[] =
     data?.pages.flatMap((products) => products) ?? initData;
 
   return (
-    <>
-      {allData.length === 0 && <NoResults />}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
+    <div className="pt-[30vh]">
+      {allData.length === 0 && <NoResults key={key}/>}
+      <motion.div
+        initial={{ y: 800 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 1, delay: 1 }}
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20 "
+        key={key}
+
+      >
         {allData.map((item, index) => {
           if (index === allData.length - 1) {
             return (
@@ -91,7 +100,8 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
             );
           }
         })}
-      </div>
+      </motion.div>
+
       <Button
         className="fixed bottom-5 left-5 flex items-center justify-center"
         variant="outline"
@@ -100,7 +110,7 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
         <span>Filters</span>{" "}
         <SlidersHorizontal size={13} className="ml-3 mb-[2px]" />
       </Button>
-    </>
+    </div>
   );
 };
 

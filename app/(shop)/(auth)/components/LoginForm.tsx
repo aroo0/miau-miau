@@ -1,6 +1,6 @@
 "use client";
-
-import { SubmitHandler, useForm } from "react-hook-form";
+import { motion } from "framer-motion";
+import {useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import Link from "next/link";
@@ -79,7 +79,13 @@ const LoginForm = () => {
 
   return (
     <>
-      <div
+      <motion.div
+              initial={{ opacity: 0}}
+              animate={{ opacity: 1}}
+              transition={{ ease: "easeInOut", duration: .5 }}
+              
+              
+              key="login"
         className={twMerge(
           "grid w-full place-items-center gap-4 p-4 sm:p-8 pb-12 pt-20 lg:pt-0 sm:max-w-[700px] ",
           isLoading &&
@@ -156,7 +162,7 @@ const LoginForm = () => {
             </Link>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

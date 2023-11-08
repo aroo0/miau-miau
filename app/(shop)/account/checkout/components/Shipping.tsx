@@ -1,5 +1,5 @@
 "use client";
-
+import { motion } from "framer-motion";
 import { Session } from "@supabase/supabase-js";
 import Container from "../../../../../components/ui/Container";
 import { Button } from "../../../../../components/ui/Button";
@@ -76,7 +76,11 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
   }
 
   return (
-    <div className="relative w-full h-full pt-16 sm:pt-20 xl:pt-36 pb-16 bg-background">
+<motion.div
+    initial={{ opacity: 0}}
+    animate={{ opacity: 1}}
+    transition={{ ease: "easeInOut", duration: .5 }}
+     className="relative w-full h-full pt-16 sm:pt-20 xl:pt-36 pb-16 bg-background">
       <Container>
         <div className="w-full grid xl:grid-cols-8  gap-6 justify-items-stretch  px-4 xl:px-0 pb-8  ">
           <div className=" flex items-center flex-col gap-7 w-full col-span-8  xl:col-span-5 place-self-start	">
@@ -179,7 +183,7 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
         </div>
      
       </Container>
-    </div>
+    </motion.div>
   );
 };
 

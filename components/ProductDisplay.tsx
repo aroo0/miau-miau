@@ -1,3 +1,5 @@
+"use client";
+
 import { ExtendedProduct } from "@/app/global";
 import { formatPrice } from "@/lib/utils";
 import {
@@ -11,23 +13,29 @@ import ProductActions from "./ProductActions";
 import Image from "next/image";
 import RelatedProducts from "./RelatedProducts";
 import CarouselGallery from "./CarouselGallery";
-import useCart from "@/hooks/useCart";
+import { motion } from "framer-motion";
 
 interface ProductDisplayProps {
   product: ExtendedProduct;
   relatedProducts: ExtendedProduct[];
-  inWishlist: boolean
+  inWishlist: boolean;
 }
 
 const ProductDisplay: React.FC<ProductDisplayProps> = ({
   product,
   relatedProducts,
-  inWishlist
+  inWishlist,
 }) => {
   const htmlDetails = { __html: product.details || "" };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-5 pb-20">
+    <motion.div
+      className="grid grid-cols-1 lg:grid-cols-5 pb-20"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ ease: "easeInOut", duration: 1 }}
+      key={product.id}
+    >
       <div className="hidden lg:flex col-span-3 flex-col items-center gap-20 lg:my-16 px-4 pt-8 ">
         {product.productImage.map((image, index) => (
           <Image
@@ -111,7 +119,7 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({
       <div className="col-span-3 mx-4">
         <RelatedProducts relatedProducts={relatedProducts} />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

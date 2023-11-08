@@ -45,6 +45,7 @@ export default async function ShopLayout({
         intensities={intensities}
         ocassions={ocassions}
         scentClusters={scentClusters} />
+        
 
       <div className="w-full h-full">{children}</div>
     </>

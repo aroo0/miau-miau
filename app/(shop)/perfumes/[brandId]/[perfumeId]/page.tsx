@@ -2,7 +2,6 @@ import { getProduct } from "@/app/actions/getProduct";
 import { getRandomSimilarProducts } from "@/app/actions/getRandomSimilarProducts";
 import { getWishlistProduct } from "@/app/actions/getWishlistProduct";
 import ProductDisplay from "@/components/ProductDisplay";
-import { formatPrice } from "@/lib/utils";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 

@@ -24,7 +24,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
           <h2 className="">
             <span className="italic">{data.name}</span>, {data.productBrand?.name}
           </h2>
-          <p className="text-gray-700">
+          <p className="text-muted">
             {formatPrice(data.price)}
           </p>
         </div>

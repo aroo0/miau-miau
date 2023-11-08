@@ -21,7 +21,8 @@ export async function getProducts({
   order='date-ascending',
 }: Query): Promise<ExtendedProduct[] | []> {
   try {
-    const brand = brandId === "all" || 'bestseller' ? null : brandId;
+    console.log(brandId)
+    const brand = brandId === "all" || brandId === 'bestsellers' ? null : brandId;
     const bestseller = brandId === "bestsellers" ? true : null
 
     let query = supabase
@@ -67,7 +68,7 @@ export async function getProducts({
     }
 
     if (brand) {
-      query = query.eq("brand_id", brand);
+      query = query.eq("brand_id", brandId);
     }
 
     const to = from + 5;

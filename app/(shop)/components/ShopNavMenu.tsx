@@ -1,39 +1,14 @@
 "use client";
-import { ModalPageVariant } from "@/app/global";
 import { Button } from "@/components/ui/Button";
 import useMenuModal from "@/hooks/useMenuModal";
 import { usePathname, useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 
-interface ShopMenuProps {}
-
-interface Route {
-  href: string;
-  name: string;
-  active: boolean;
-  items?: Route[];
-  page?: ModalPageVariant;
-}
-
-const ShopMenu: React.FC<ShopMenuProps> = ({}) => {
+const ShopMenu: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter()
   const {onClose, currentPage, onClick } = useMenuModal();
 
-  const routes: Route[] = [
-    {
-      href: "/perfumes",
-      name: "Perfumes",
-      active: "/perfumes" === pathname,
-      page: "perfumes",
-    },
-    {
-      href: "/about",
-      name: "About",
-      active: "/about" === pathname,
-      page: "about",
-    },
-  ];
 
   return (
     <>
