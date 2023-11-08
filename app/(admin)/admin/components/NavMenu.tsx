@@ -64,11 +64,6 @@ const NavMenu: React.FC<NavMenuProps> = ({}) => {
       name: "Orders (0)",
       active: "/admin/orders" === pathname,
     },
-    {
-      href: "/admin/customers",
-      name: "Customers",
-      active: "/admin/customers" === pathname,
-    },
   ];
 
   return (

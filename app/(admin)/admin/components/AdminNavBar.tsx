@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ArrowBigLeftDash, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { BlurDialog } from "@/components/ui/BlurDialog";
+import Link from "next/link";
 
 interface AdminNavBarProps {}
 
@@ -21,7 +22,7 @@ const AdminNavBar: React.FC<AdminNavBarProps> = ({}) => {
           <NavMenu />
         </div>
         <div className="flex items-center gap-4 text-xs text-bold uppercase">
-          Back to Shop
+          <Link href='/'>Back to Shop</Link>
           <ModeToggle />
         </div>
       </div>
