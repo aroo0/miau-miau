@@ -87,7 +87,7 @@ const OrdersPage = async () => {
             <div className="flex flex-col gap-2">
               <h2 className="uppercase tracking-wider text-xs mb-2">Order</h2>
               {order.orderItems.map((item) => (
-                <div>
+                <div key={item.id}>
                   <p>
                     {item.product.name}, {item.product.productBrand.name},{" "}
                     {item.product.volume}

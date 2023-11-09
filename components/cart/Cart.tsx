@@ -58,6 +58,7 @@ const Cart = () => {
                 <Button
                   variant="outline"
                   className="text-xl w-full"
+                  disabled={items.length === 0}
                   onClick={() => {
                     router.push("/account/checkout");
                   }}

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { useEffect } from "react";
 
-const page = () => {
+const ConfirmPage = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       window.location.href = "/login";
@@ -24,4 +24,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ConfirmPage;

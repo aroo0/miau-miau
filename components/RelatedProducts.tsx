@@ -15,8 +15,8 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
       <h2 className="uppercase text-sm tracking-wider">Related Products</h2>
       <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mt-10 lg:ml-[-20px]">
         {relatedProducts.slice(0, 4).map((product, index) => (
-          <Link href={`/perfumes/${product.brandId}/${product.id}`} className="justify-center content-center">
-            <div className="my-6 flex justify-center">
+          <Link href={`/perfumes/${product.brandId}/${product.id}`} className="justify-center content-center" key={product.id}>
+            <div className="my-6 flex justify-center" >
             <Image
               src={`${process.env.NEXT_PUBLIC_PRODUCT_IMAGE_STORAGE}/${product.productImage[0].url}`}
               alt={product.name}

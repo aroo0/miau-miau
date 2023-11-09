@@ -29,7 +29,7 @@ const UserOrders = async () => {
     <AccountMenu title="Your Orders">
       <div className="pb-8">
         {camelcaseOrders.map((order) => (
-          <div className="flex  border flex-col rounded-sm p-4 mb-4 gap-4">
+          <div className="flex  border flex-col rounded-sm p-4 mb-4 gap-4" key={order.id}>
             <div className="flex gap-4 items-center text-sm">
               <div className=""><span className="text-muted-foreground">Placed:</span> <span className="">{new Intl.DateTimeFormat("en-GB", {
                 year: "numeric",

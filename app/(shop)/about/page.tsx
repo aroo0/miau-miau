@@ -39,16 +39,16 @@ const page: React.FC<pageProps> = ({}) => {
             artist to design their boutique. Their goal was to challenge the
             traditional idea of a perfume store. Unlike the usual luxury
             fragrance retail model, Miau Miau went for an innovative and
-            ever-evolving approach. This approach aimed to reflect the brand's
+            ever-evolving approach. This approach aimed to reflect the brand&apos;s
             growth and willingness to embrace change as a fundamental element of
-            the store's identity. This venture began in September 2021, marking
+            the store&apos;s identity. This venture began in September 2021, marking
             the start of a fragrance sanctuary that was part of a larger
             project.
           </p>
           <p>
             Similar to a living organism that grows and changes over time, the
             design of the fragrance boutique is an ongoing process. While
-            keeping the original layout, they've added new elements to the
+            keeping the original layout, they&apos;ve added new elements to the
             space, emphasizing the concept of impermanence. This unique approach
             creates an intriguing connection between the fragrances of the past
             and those of the present. As the perfume artist and Miau Miau
@@ -59,12 +59,12 @@ const page: React.FC<pageProps> = ({}) => {
           </p>
           <p>
             The final version on Sesame Street in New York is a testament to
-            Miau Miau's commitment to embracing change and growing with the
+            Miau Miau&apos;s commitment to embracing change and growing with the
             brand. This aromatic oasis, born from the harmonious collaboration
             between the perfume artist and Miau Miau, serves as a symbol of
             innovation and a dynamic approach to luxury fragrance retail. With
             each stage of development, the boutique becomes a reflection of the
-            brand's growth and transformation, constantly adapting to the
+            brand&apos;s growth and transformation, constantly adapting to the
             ever-changing world of perfumery. It offers an immersive olfactory
             journey where the past and present come together, providing a unique
             and fleeting fragrance experience in the heart of the city.

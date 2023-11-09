@@ -59,7 +59,7 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
       }
     };
     fetchAddresses();
-  }, [supabase, setAddresses, shippingAddress]);
+  }, [supabase, setAddresses, shippingAddress, session, ]);
 
   useEffect(() => {
     if (addresses && !shippingAddress) {
@@ -69,7 +69,7 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
         setShippingAddress(addresses[0]);
       }
     }
-  }, [addresses]);
+  }, [addresses, shippingAddress]);
 
   if (!session) {
     return null;
@@ -174,7 +174,7 @@ const Shipping: React.FC<ShippingProps> = ({ session }) => {
                 >
                   Back to Cart
                 </button>
-                <Button type="submit" onClick={onCheckout}>
+                <Button type="submit" onClick={onCheckout} disabled={items.length === 0}>
                   Continue to Payment
                 </Button>
               </div>

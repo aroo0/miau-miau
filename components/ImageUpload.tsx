@@ -25,7 +25,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
   const supabase = createClientComponentClient();
 
-  const uploadImage = async (imageFile: File) => {
+  const uploadImage = useCallback(async (imageFile: File) => {
     const uniqueID = uniqid();
 
     const { data: photo, error } = await supabase.storage
@@ -35,12 +35,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         upsert: false,
       });
     if (error) {
-      console.log(error)
+      console.log(error);
       return toast.error("Something went wrong.");
     }
 
     return `${uniqueID}_${imageFile.name}`;
-  };
+  }, [supabase.storage]);
 
   const deleteImage = async (url: string) => {
     const { error: storageError } = await supabase.storage
@@ -70,18 +70,18 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         setUrls((prevUrls) => [...prevUrls, { url }]);
       })
     );
-  }, []);
+  }, [uploadImage]);
 
   useEffect(() => {
     if (shouldCallOnChangeFlag) {
       onChange(urls);
     }
     setShouldCallOnChangeFlag(true); // Enable calling onChange after initial setUrls
-  }, [urls]);
+  }, [urls, onChange, shouldCallOnChangeFlag]);
 
   useEffect(() => {
     setUrls(value);
-  }, []);
+  }, [value]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -128,7 +128,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           {isDragActive ? (
             <p>Drop the images here ...</p>
           ) : (
-            <p>Drag 'n' drop some images here, or click to select files</p>
+            <p>Drag &apos;n&apos; drop some images here, or click to select files</p>
           )}
         </div>
       </div>
