@@ -3,12 +3,12 @@ import { Heart, X } from "lucide-react";
 import { useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { usePathname, useRouter } from "next/navigation";
-import toast, { Toast, Toaster } from "react-hot-toast";
-import { ExtendedProduct, WishListType } from "@/app/global";
+import toast from "react-hot-toast";
+import { ShortProductType } from "@/app/global";
 import { Button } from "@/components/ui/Button";
 
 interface DeleteWishListItemButtonProps {
-  product: WishListType;
+  product: ShortProductType;
 }
 
 const DeleteWishListItemButton: React.FC<DeleteWishListItemButtonProps> = ({
