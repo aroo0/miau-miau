@@ -19,7 +19,7 @@ interface SuccessToastProps {
 
 const SuccessToast: React.FC<SuccessToastProps> = ({ product, t, variant }) => {
   const router = useRouter();
-  const { onOpen } = useMenuModal();
+  const { onClick } = useMenuModal();
 
   const message =
     variant === "Wishlist" ? "Added to your wishlist" : "Added to your cart";
@@ -71,7 +71,7 @@ const SuccessToast: React.FC<SuccessToastProps> = ({ product, t, variant }) => {
             if (variant === "Wishlist") {
               router.push("/account/wishlist");
             } else {
-              onOpen("cart");
+              onClick("cart");
             }
             toast.dismiss(t.id);
           }}
