@@ -120,8 +120,8 @@ export async function POST(req: Request) {
     phone_number_collection: {
       enabled: true,
     },
-    success_url: `http://localhost:3000/cart?success=1`,
-    cancel_url: `http://localhost:3000/cart?canceled=1`,
+    success_url: `${process.env.NEXT_PUBLIC_PAGE_URL}/cart?success=1`,
+    cancel_url: `${process.env.NEXT_PUBLIC_PAGE_URL}/cart?canceled=1`,
     metadata: {
       orderId: order.id,
     },

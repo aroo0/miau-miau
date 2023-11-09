@@ -14,7 +14,13 @@ export const getOrdersAdmin = async ({
     return null;
   }
 
-  const { data, error } = await supabase.from("order").select("*, order_items(id, quantity, product_id, product(id, brand_id, name, volume, product_brand(name))), address_id(*)")
+  const { data, error } = await supabase.from("order").select("*, order_items(id, quantity, product_id, product(id, brand_id, name, volume, product_brand(name))), address_id(*)").order('created_at', { ascending: false })
+
+
+
+
+
+
 
   if (error) {
     console.log(error)
