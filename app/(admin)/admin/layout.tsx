@@ -20,11 +20,17 @@ export default async function AdminLayout({
     return redirect("/");
   }
 
+  const {count: unseendOrders} = await supabase.from("order") .select('*', { count: 'exact', head: true }).eq("seen", false)
+
+
+
+
+
   return (
     <>
-      <AdminNavBar />
+      <AdminNavBar unseendOrders={unseendOrders}/>
 
-      <div className="px-4 lg:px-8">{children}</div>
+      <div className="px-4 max-w-[1200px] mx-auto">{children}</div>
     </>
   );
 }

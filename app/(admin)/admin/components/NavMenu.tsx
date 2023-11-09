@@ -9,7 +9,9 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 
-interface NavMenuProps {}
+interface NavMenuProps {
+  unseendOrders: number | null
+}
 
 interface Route {
   href: string;
@@ -18,7 +20,7 @@ interface Route {
   items?: Route[];
 }
 
-const NavMenu: React.FC<NavMenuProps> = ({}) => {
+const NavMenu: React.FC<NavMenuProps> = ({unseendOrders}) => {
   const pathname = usePathname();
 
   const routes: Route[] = [
@@ -61,7 +63,7 @@ const NavMenu: React.FC<NavMenuProps> = ({}) => {
     },
     {
       href: "/admin/orders",
-      name: "Orders (0)",
+      name: `Orders (${unseendOrders})`,
       active: "/admin/orders" === pathname,
     },
   ];

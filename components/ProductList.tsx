@@ -69,38 +69,44 @@ const ProductList: React.FC<ProductListProps> = ({ initData, queryParams }) => {
     }
   }, [entry, fetchNextPage]);
 
-  const key=`${queryParams.brandId || "brandId"}-${queryParams.intensityId || "intensityId"}-${queryParams.ocassionId || "ocassionId"}-${queryParams.scentClusterId?.[0] || "scentClusterId"}-${queryParams.order || "order"}`
+  const key = `${queryParams.brandId || "brandId"}-${
+    queryParams.intensityId || "intensityId"
+  }-${queryParams.ocassionId || "ocassionId"}-${
+    queryParams.scentClusterId?.[0] || "scentClusterId"
+  }-${queryParams.order || "order"}`;
 
   const allData: ExtendedProduct[] =
     data?.pages.flatMap((products) => products) ?? initData;
 
   return (
     <div className="pt-[30vh]">
-      {allData.length === 0 && <NoResults key={key}/>}
-      <motion.div
-        initial={{ y: 800 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 1, delay: 1 }}
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20 "
-        key={key}
-
-      >
-        {allData.map((item, index) => {
-          if (index === allData.length - 1) {
-            return (
-              <div ref={ref} key={item.id}>
-                <ProductCard data={item} />
-              </div>
-            );
-          } else {
-            return (
-              <div key={item.id}>
-                <ProductCard data={item} />
-              </div>
-            );
-          }
-        })}
-      </motion.div>
+      {allData.length === 0 ? (
+        <NoResults />
+      ) : (
+        <motion.div
+          initial={{ y: 800 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 1, delay: 1 }}
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20 "
+          key={key}
+        >
+          {allData.map((item, index) => {
+            if (index === allData.length - 1) {
+              return (
+                <div ref={ref} key={item.id}>
+                  <ProductCard data={item} />
+                </div>
+              );
+            } else {
+              return (
+                <div key={item.id}>
+                  <ProductCard data={item} />
+                </div>
+              );
+            }
+          })}
+        </motion.div>
+      )}
 
       <Button
         className="fixed bottom-5 left-5 flex items-center justify-center"

@@ -13,6 +13,7 @@ export type Image = DB["public"]["Tables"]["product_image"]["Row"];
 
 export type Address = DB["public"]["Tables"]["user_addresses"]["Row"];
 
+
 export type camelCaseAddress = {
   addressLine1: string;
   addressLine2: string | null;
@@ -46,6 +47,24 @@ export type CustomerOrder = {
   }[];
 };
 
+export type AdminOrder = Omit<CustomerOrder, 'orderItems'> & {
+  seen: boolean;
+  addressId: camelCaseAddress;
+  orderItems: {
+    id: string;
+    quantity: number;
+    productId: string;
+    product: {
+      id: string;
+      brandId: string;
+      name: string;
+      volume: string;
+      productBrand: {
+        name: string;
+      };
+    };
+  }[];
+};
 export type ModalPageVariant =
   | "menu"
   | "perfumes"

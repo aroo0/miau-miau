@@ -65,7 +65,6 @@ const ChangeAddressForm: React.FC<ChangeAddressFormProps> = ({
   const [selectedAddress, setSelectedAddress] = useState<
     camelCaseAddress | undefined
   >(shippingAddress);
-  const onOpen = useMenuModal((state) => state.onOpen);
 
   const form = useForm<ChangeAddressFormValues>({
     resolver: zodResolver(formSchema),

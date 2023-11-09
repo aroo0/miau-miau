@@ -51,9 +51,9 @@ const PerfumesContent: React.FC<PerfumesContentProps> = ({
                 queryParams.brandId.slice(1)}
           </span>
         </h1>
-        <p className="text-sm text-center ">
+        {/* <p className="text-sm text-center ">
           {brandData ? brandData.description : categoryData.description}
-        </p>
+        </p> */}
       </motion.div>
         <ProductList initData={initData} queryParams={queryParams} />
     </>

@@ -8,9 +8,13 @@ import { Button } from "@/components/ui/Button";
 import { BlurDialog } from "@/components/ui/BlurDialog";
 import Link from "next/link";
 
-interface AdminNavBarProps {}
 
-const AdminNavBar: React.FC<AdminNavBarProps> = ({}) => {
+
+interface AdminNavBarProps {
+  unseendOrders: number | null
+}
+
+const AdminNavBar: React.FC<AdminNavBarProps> = ({unseendOrders}) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -19,7 +23,7 @@ const AdminNavBar: React.FC<AdminNavBarProps> = ({}) => {
       <div className="hidden lg:flex w-full py-3 gap-x-4 items-center px-7 justify-between">
         <Logo />
         <div className="flex gap-x-10 border px-8 py-4 rounded-full">
-          <NavMenu />
+          <NavMenu unseendOrders={unseendOrders}/>
         </div>
         <div className="flex items-center gap-4 text-xs text-bold uppercase">
           <Link href='/'>Back to Shop</Link>
@@ -53,7 +57,7 @@ const AdminNavBar: React.FC<AdminNavBarProps> = ({}) => {
         </div>
         <BlurDialog isOpen={open} onClose={() => setOpen(false)}>
           <div className="flex flex-col items-start  gap-4 pl-4  pr-8 py-4 rounded-full ">
-            <NavMenu />
+            <NavMenu unseendOrders={unseendOrders}/>
           </div>
         </BlurDialog>
       </div>
