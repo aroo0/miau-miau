@@ -36,6 +36,8 @@ const Hero = () => {
           height={1106}
           alt="perfume poster"
           className="w-full h-[100vh] object-cover border-t-[70px] border-hero"
+          priority={true}
+
         />
         <Link
           href={entry?.isIntersecting ? "about" : "perfumes/all"}
@@ -55,6 +57,8 @@ const Hero = () => {
           alt="perfume poster"
           className="w-full h-[100vh] object-cover"
           ref={ref}
+          priority={true}
+
         />
       </motion.div>
   );

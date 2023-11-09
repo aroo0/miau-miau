@@ -23,6 +23,8 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
               width={200}
               height={500}
               className="object-cover"
+              priority={true}
+
             />
             </div>
             <div className="flex flex-col items-center text-sm">

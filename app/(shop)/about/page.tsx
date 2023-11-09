@@ -23,6 +23,7 @@ const page: React.FC<pageProps> = ({}) => {
             alt="perfumes"
             width={600}
             height={600}
+            priority={true}
 
           />
           <h1 className="md:text-lg tracking-widest uppercase text-center">

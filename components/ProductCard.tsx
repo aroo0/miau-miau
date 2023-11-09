@@ -18,6 +18,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
             width={400}
             height={500}
             className="object-cover"
+            priority={true}
+
           />
         </div>
         <div className="flex-col flex items-center">

@@ -109,6 +109,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               className="object-cover"
               alt="image"
               src={`${process.env.NEXT_PUBLIC_PRODUCT_IMAGE_STORAGE}/${url.url}`}
+              priority={true}
+
             />
           </div>
         ))}

@@ -38,6 +38,8 @@ const CartItem: React.FC<CartItemProps> = ({ data }) => {
             width={300}
             height={200}
             className="object-cover"
+            priority={true}
+
           />
         </div>
         <div className="flex flex-col gap-2 w-full text-2xl mt-4 ">

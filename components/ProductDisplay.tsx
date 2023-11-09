@@ -45,10 +45,12 @@ const ProductDisplay: React.FC<ProductDisplayProps> = ({
             width={700}
             height={800}
             className="object-cover"
+            priority={true}
+
           />
         ))}
       </div>
-      <div className="lg:hidden w-full col-span-3 mt-2 mb-4">
+      <div className="lg:hidden flex items-center col-span-3 mt-2 mb-4">
         <CarouselGallery images={product.productImage} />
       </div>
       <div className="lg:h-[110vh] flex flex-col lg:sticky top-0 justify-center gap-4 col-span-2 lg:ml-10 pb-20 px-4 ">

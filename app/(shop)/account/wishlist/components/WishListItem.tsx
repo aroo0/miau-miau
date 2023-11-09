@@ -26,6 +26,9 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ product }) => {
             width={300}
             height={200}
             className="object-cover"
+            priority={true}
+
+            
           />
         </div>
         <div className="row-span-1 flex flex-col items-center text-sm ">

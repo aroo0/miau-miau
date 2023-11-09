@@ -50,6 +50,8 @@ const SuccessToast: React.FC<SuccessToastProps> = ({ product, t, variant }) => {
             width={200}
             height={100}
             className="object-cover h-full"
+            priority={true}
+
           />
         </div>
         <div className="col-span-2 text-sm">

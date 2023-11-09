@@ -2,7 +2,6 @@
 import BearCarousel, {
   TBearSlideItemDataList,
   BearSlideImage,
-  elClassName,
 } from "bear-react-carousel";
 import "bear-react-carousel/dist/index.css";
 import styled from 'styled-components'
@@ -19,21 +18,21 @@ const CarouselGallery: React.FC<CarouselGalleryProps> = ({ images }) => {
       children: (
         <BearSlideImage
           imageUrl={`${process.env.NEXT_PUBLIC_PRODUCT_IMAGE_STORAGE}/${image.url}`}
+          className="m-auto"
         />
       ),
     };
   });
 
   return (
-    <div className="w-full h-full">
       <GalleryStyles>
         <BearCarousel
           data={bearSlideItemData}
           height="auto"
+        
           isEnablePagination
         />
       </GalleryStyles>
-    </div>
   );
 };
 
