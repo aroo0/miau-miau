@@ -27,8 +27,6 @@ export default function RootLayout({
           <ToasterProvider />
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem
             disableTransitionOnChange
           >
             <main className="h-full">{children}</main>
